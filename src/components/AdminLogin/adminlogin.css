@@ -1,0 +1,107 @@
+.setBackground{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background-color: black;
+	height: 100vh;
+}
+
+.signinName {
+	font-weight: bold;
+	margin: 0;
+    margin-top: 10%;
+    margin-left: 36%;
+}
+
+.signButton {
+  position: absolute;
+  top: 80%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  background-color: #5963f1;
+  color: rgb(248, 244, 244);
+  font-size: 15px;
+  padding: 10px 30px;
+  border: none;
+  cursor: pointer;
+  border-radius: 20px;
+  text-align: center;
+}
+
+.signButton:hover {
+    background-color: black;
+    color: white;
+  }
+
+
+.loginForm {
+	background-color: #FFFFFF;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+	padding: 0 50px;
+	height: 100%;
+	text-align: center;
+    margin-top: -20%;
+}
+
+.loginInput {
+	background-color: #eee;
+	border: none;
+	padding: 12px 15px;
+	margin: 8px 0;
+	width: 100%;
+}
+
+.loginContainer {
+	background-color: #fff;
+	border-radius: 10px;
+  	box-shadow: 0 14px 28px rgba(0,0,0,0.25), 
+			0 10px 10px rgba(0,0,0,0.22);
+	position: relative;
+	overflow: hidden;
+	width: 600px;
+	max-width: 100%;
+	min-height: 370px;
+}
+
+.form-loginContainer {
+	position: absolute;
+	top: 0;
+	height: 100%;
+	transition: all 0.6s ease-in-out;
+}
+
+.sign-in-loginContainer {
+	left: 0;
+	width: 50%;
+	z-index: 2;
+}
+
+.overlay-panel {
+	position: absolute;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+	padding: 0 40px;
+	text-align: center;
+	top: 0;
+	height: 70%;
+	width: 50%;
+	transform: translateX(0);
+	transition: transform 0.6s ease-in-out;
+}
+
+.overlay-left {
+	transform: translateX(-20%);
+}
+
+.overlay-right {
+	right: 0;
+	transform: translateX(0);
+    height: 20%;
+}
+
