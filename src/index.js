@@ -2,6 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 
+axios.defaults.baseURL = 'http://localhost:8000/api/admin';
+axios.defaults.headers.common['Authorization'] = localStorage.getItem('token');
 
 ReactDOM.render(
   <React.StrictMode>
