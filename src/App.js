@@ -4,14 +4,20 @@ import Layout from './components/layout/Layout';
 import Home from './pages/home/Home';
 import ViewSupplier from './pages/supplier/ViewSupplier';
 import AddSupplyItem from './pages/supplyItem/AddSupplyItem';
+
+import AdminLoginPage from './pages/AdminLoginPage/Adminloginpage';
+
 function App() {
   return (
     <div className="App">
       <BrowserRouter>
         <section>
           <Switch>
+
+            <Route exact path="/" component={AdminLoginPage} />
+
             <Layout>
-              <Route exact path="/" component={Home} />
+              <Route path="/home" component={Home} />
               <Route path="/supplier" component={ViewSupplier} />
               <Route path="/addsupplyItem" component={AddSupplyItem} />
             </Layout>
