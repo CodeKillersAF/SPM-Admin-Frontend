@@ -6,6 +6,7 @@ import ViewSupplier from './pages/supplier/ViewSupplier';
 import AddSupplyItem from './pages/supplyItem/AddSupplyItem';
 
 import AdminLoginPage from './pages/AdminLoginPage/Adminloginpage';
+import AddSupplier from './pages/supplier/AddSupplier';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
               <Route path="/home" component={Home} />
               <Route path="/supplier" component={ViewSupplier} />
               <Route path="/addsupplyItem" component={AddSupplyItem} />
+              <Route path="/addsupplier" component={AddSupplier} />
             </Layout>
           </Switch>
         </section>
