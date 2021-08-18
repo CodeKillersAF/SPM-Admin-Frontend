@@ -4,6 +4,7 @@ import Layout from './components/layout/Layout';
 import Home from './pages/home/Home';
 
 import AdminLoginPage from './pages/AdminLoginPage/Adminloginpage';
+import AddNewTable from './pages/addNewTable/AddNewTable';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
 
             <Layout>
               <Route exact path="/home" component={Home} />
+              <Route path="/addNewTable" component={AddNewTable} />
             </Layout>
           </Switch>
         </section>
