@@ -1,5 +1,6 @@
-import React from 'react';;
-import Select from 'react-select'
+import React, { useEffect, useState } from 'react';
+import Select from 'react-select';
+import axios from 'axios';
 
 export default function AddSupplier() {
 
@@ -8,8 +9,31 @@ export default function AddSupplier() {
     const [contact, setcontact] = useState("");
     const [address, setaddress] = useState("");
     const [supplyItems, setsupplyItems] = useState([]);
-    const [selectedItem, setSelectedItem] = useState([]);
 
+    const getAllSupplyItem = async () => {
+        const data = await axios.get("http://localhost:8000/api/admin/supply-item")
+        console.log(data.data.data);
+        setsupplyItems(data.data.data);
+    }
+
+    useEffect(() => {
+        getAllSupplyItem();
+    }, []);
+
+    let allSupplyItemArray = [];
+    supplyItems.map((i, index) => {
+        let allSupplyItem = {
+            value: i._id,
+            label: i.item_name
+        }
+        allSupplyItemArray.push(allSupplyItem);
+    });
+
+    const [supplyItemValue, setSupplyItemValue] = useState();
+
+    const selectedSupplyItem = (e) => {
+        setSupplyItemValue(Array.isArray(e) ? e.map(item => item.value) : []);
+    }
 
     async function addItem(e) {
         e.preventDefault();
@@ -19,12 +43,12 @@ export default function AddSupplier() {
             email: email,
             contact: contact,
             address: address,
-            supplyItems: supplyItems
+            supplyItems: supplyItemValue
         };
         console.log(supplier);
 
         await axios
-            .post("http://localhost:8000/api/admin/supply-item", supplier)
+            .post("http://localhost:8000/api/admin/supplier", supplier)
             .then((response) => {
                 console.log(response.data);
             })
@@ -34,45 +58,68 @@ export default function AddSupplier() {
 
     }
 
-    function handleSelectChange(event) {
-        setSelectedItem(event.target.value);
-    }
-
     return (
         <div className="container">
             <form onSubmit={addItem}>
 
                 <div className="mb-3">
-                    <label htmlFor="item_name" className="form-label">Item Name</label>
+                    <label htmlFor="supplier_name" className="form-label">Supplier Name</label>
                     <input
                         type="text"
                         className="form-control"
-                        id="item_name"
-                        name="item_name"
-                        value={item_name}
-                        onChange={(e) => setitem_name(e.target.value)}
+                        id="supplier_name"
+                        name="supplier_name"
+                        value={supplier_name}
+                        onChange={(e) => setsupplier_name(e.target.value)}
                         required
                     />
                 </div>
 
                 <div className="mb-3">
-                    <label htmlFor="unit_price" className="form-label">Unit Price</label>
+                    <label htmlFor="email" className="form-label">Email</label>
                     <input
                         type="text"
                         className="form-control"
-                        id="unit_price"
-                        name="unit_price"
-                        value={unit_price}
-                        onChange={(e) => setunit_price(e.target.value)}
+                        id="email"
+                        name="email"
+                        value={email}
+                        onChange={(e) => setemail(e.target.value)}
+                        required
+                    />
+                </div>
+
+                <div className="mb-3">
+                    <label htmlFor="contact" className="form-label">contact</label>
+                    <input
+                        type="text"
+                        className="form-control"
+                        id="contact"
+                        name="contact"
+                        value={contact}
+                        onChange={(e) => setcontact(e.target.value)}
+                        required
+                    />
+                </div>
+                <div className="mb-3">
+                    <label htmlFor="address" className="form-label">address</label>
+                    <input
+                        type="text"
+                        className="form-control"
+                        id="address"
+                        name="address"
+                        value={address}
+                        onChange={(e) => setaddress(e.target.value)}
                         required
                     />
                 </div>
                 <br />
-                <Select value={selectedItem} onChange={handleSelectChange}>
-                    <option value="one">One</option>
-                    <option value="two">Two</option>
-                    <option value="three">Three</option>
-                </Select>
+                <Select
+                    className="basic-single"
+                    options={allSupplyItemArray}
+                    onChange={selectedSupplyItem}
+                    isMulti
+                    required
+                />
                 <br />
                 <button type="submit" className="btn btn-primary">Submit</button>
 
