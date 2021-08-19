@@ -6,21 +6,26 @@
    
 }
 .addNewTable-wrapper{
+  
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     margin-top: 10px;
+    color: var(--main-color);
+}
+.addNewTable-wrapper h1{
+    font-size: 2.5rem;
 }
 .addTableForm{
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-    margin-top: 50px;
+    margin-top: 30px;
 }
 .addTableItem{
-    width: 500px;
+    width: 600px;
     display: flex;
     flex-direction: column;
     margin-top: 40px;
@@ -30,7 +35,7 @@
     margin-bottom: 10px;
     font-size: 20px;
     font-weight: 600;
-    color: black;
+    color: darkgray;
 }
 .addTableItem input{
     height: 50px;
@@ -43,16 +48,18 @@
     border-radius: 5px;
 }
 .addTableButton{
-    width: 350px;
+    
     border: none;
     background-color: var(--main-color);
     color: white;
     border-radius: 10px;
     font-weight: 600;
-    padding: 15px 10px;
+    padding: 15px 30px;
     margin-top: 30px;
     font-size: 20px;
+    margin-right: 1150px;
 }
 .addTableImage input{
     border: none;
+    width: 600px;
 }
