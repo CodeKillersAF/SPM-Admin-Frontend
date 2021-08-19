@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Select from 'react-select';
 import axios from 'axios';
+import "./supplier.css";
 
 export default function AddSupplier() {
 
@@ -51,6 +52,7 @@ export default function AddSupplier() {
             .post("http://localhost:8000/api/admin/supplier", supplier)
             .then((response) => {
                 console.log(response.data);
+                alert("Supplier detail added successfully")
             })
             .catch((error) => {
                 console.log(error);
@@ -59,72 +61,78 @@ export default function AddSupplier() {
     }
 
     return (
-        <div className="container">
-            <form onSubmit={addItem}>
+        <div className="addNewTable">
+            <div className="addNewTable-wrapper">
+                <h1>Add New Supplier</h1>
+                <form onSubmit={addItem} className="addTableForm">
 
-                <div className="mb-3">
-                    <label htmlFor="supplier_name" className="form-label">Supplier Name</label>
-                    <input
-                        type="text"
-                        className="form-control"
-                        id="supplier_name"
-                        name="supplier_name"
-                        value={supplier_name}
-                        onChange={(e) => setsupplier_name(e.target.value)}
+                    <div className="addTableItem">
+                        <label htmlFor="supplier_name" className="form-label">Supplier Name</label>
+                        <input
+                            type="text"
+                            className="form-control"
+                            id="supplier_name"
+                            name="supplier_name"
+                            value={supplier_name}
+                            onChange={(e) => setsupplier_name(e.target.value)}
+                            required
+                        />
+                    </div>
+
+                    <div className="addTableItem">
+                        <label htmlFor="email" className="form-label">Email</label>
+                        <input
+                            type="text"
+                            className="form-control"
+                            id="email"
+                            name="email"
+                            value={email}
+                            onChange={(e) => setemail(e.target.value)}
+                            required
+                        />
+                    </div>
+
+                    <div className="addTableItem">
+                        <label htmlFor="contact" className="form-label">contact</label>
+                        <input
+                            type="text"
+                            className="form-control"
+                            id="contact"
+                            name="contact"
+                            value={contact}
+                            onChange={(e) => setcontact(e.target.value)}
+                            required
+                        />
+                    </div>
+                    <div className="addTableItem">
+                        <label htmlFor="address" className="form-label">address</label>
+                        <input
+                            type="text"
+                            className="form-control"
+                            id="address"
+                            name="address"
+                            value={address}
+                            onChange={(e) => setaddress(e.target.value)}
+                            required
+                        />
+                    </div>
+                    <br />
+                    <div className="addTableItem">
+                    <Select
+                        className="basic-single"
+                        options={allSupplyItemArray}
+                        onChange={selectedSupplyItem}
+                        isMulti
                         required
                     />
-                </div>
+                    </div>
+                    <br />
+                    <div className="addTableItem">
+                    <button type="submit" className="addTableButton">Submit</button>
+                    </div>
 
-                <div className="mb-3">
-                    <label htmlFor="email" className="form-label">Email</label>
-                    <input
-                        type="text"
-                        className="form-control"
-                        id="email"
-                        name="email"
-                        value={email}
-                        onChange={(e) => setemail(e.target.value)}
-                        required
-                    />
-                </div>
-
-                <div className="mb-3">
-                    <label htmlFor="contact" className="form-label">contact</label>
-                    <input
-                        type="text"
-                        className="form-control"
-                        id="contact"
-                        name="contact"
-                        value={contact}
-                        onChange={(e) => setcontact(e.target.value)}
-                        required
-                    />
-                </div>
-                <div className="mb-3">
-                    <label htmlFor="address" className="form-label">address</label>
-                    <input
-                        type="text"
-                        className="form-control"
-                        id="address"
-                        name="address"
-                        value={address}
-                        onChange={(e) => setaddress(e.target.value)}
-                        required
-                    />
-                </div>
-                <br />
-                <Select
-                    className="basic-single"
-                    options={allSupplyItemArray}
-                    onChange={selectedSupplyItem}
-                    isMulti
-                    required
-                />
-                <br />
-                <button type="submit" className="btn btn-primary">Submit</button>
-
-            </form>
-
+                </form>
+            </div>
         </div>
 
     )
