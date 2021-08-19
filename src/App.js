@@ -7,6 +7,7 @@ import AddSupplyItem from './pages/supplyItem/AddSupplyItem';
 
 import AdminLoginPage from './pages/AdminLoginPage/Adminloginpage';
 import AddSupplier from './pages/supplier/AddSupplier';
+import AddNewTable from './pages/addNewTable/AddNewTable';
 
 function App() {
   return (
@@ -18,10 +19,11 @@ function App() {
             <Route exact path="/" component={AdminLoginPage} />
 
             <Layout>
-              <Route path="/home" component={Home} />
+              <Route exact path="/home" component={Home} />
               <Route path="/supplier" component={ViewSupplier} />
               <Route path="/addsupplyItem" component={AddSupplyItem} />
               <Route path="/addsupplier" component={AddSupplier} />
+              <Route path="/addNewTable" component={AddNewTable} />
             </Layout>
           </Switch>
         </section>
