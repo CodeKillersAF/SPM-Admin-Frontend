@@ -68,57 +68,60 @@ function Addcategory() {
     }
 
     return (
-    //     <form className="container">
-    //     <div className="mb-3">
-    //       <label htmlFor="exampleInputEmail1" className="form-label">Category Name</label>
-    //       <input type="text"
-    //         value={category}
-    //         onChange={(e) => setCategory(e.target.value)} 
-    //         className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" required />
-    //     </div>
-    //     <div className="mb-3">
-    //       <label htmlFor="exampleInputPassword1" className="form-label">Foods</label>
-    //       <Select
-    //           //options={this.state.options}
-    //           options={allFoodsArray}
-    //           onChange={selectedFood}
-    //           className="basic-multi-select"
-    //           isMulti
-    //         />
 
-    //     </div>
+//  <div className = "addFoodManage" >
+//      <div className="FoodcardView">
+//             <div class="addFood">
+//             <h1>Add Category</h1>
+//             <form>
+//                 <div class="addFoodBox">
+//                 <input type="text"
+//                      value={category}
+//                      onChange={(e) => setCategory(e.target.value)} 
+//                      required />
+//                 <span>Category Name</span>
+//                 </div>
+//                 <div class="addFoodSelect">
+//                 <Select
+//                     //options={this.state.options}
+//                     options={allFoodsArray}
+//                     onChange={selectedFood}
+//                     className="basic-multi-select"
+//                     isMulti
+//                 />
+//                 {/* <span>Select Food Items</span> */}
+//                 </div>
+//                 <div class="addFoodBox">
+//                 <input type="button" value="Add Category" onClick={addCategoryClick} />
+//                 </div>
+//             </form>
+//             </div>
+//         </div>
+//      </div>
 
-    //     <button onClick={addCategoryClick} className="btn btn-primary">Add Category</button>
-    //   </form>
- <div className = "addFoodManage" >
-     <div className="FoodcardView">
-            <div class="addFood">
-            <h1>Add Category</h1>
-            <form>
-                <div class="addFoodBox">
-                <input type="text"
-                     value={category}
-                     onChange={(e) => setCategory(e.target.value)} 
-                     required />
-                <span>Category Name</span>
+    <div>
+        <div className="addFood-box">
+            <h2>Add Category</h2>
+            <div className="formDesign">
+                <div className="food-box">
+                    <input type="text"
+                        value={category}
+                        onChange={(e) => setCategory(e.target.value)} 
+                        required />
+                    <label>Category Name</label>
                 </div>
-                <div class="addFoodSelect">
-                <Select
+
+                 <Select
                     //options={this.state.options}
                     options={allFoodsArray}
                     onChange={selectedFood}
                     className="basic-multi-select"
                     isMulti
                 />
-                {/* <span>Select Food Items</span> */}
-                </div>
-                <div class="addFoodBox">
-                <input type="button" value="Add Category" onClick={addCategoryClick} />
-                </div>
-            </form>
+
             </div>
         </div>
-     </div>
+    </div>
 
     )
 }

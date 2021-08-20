@@ -6,6 +6,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import Backdrop from '@material-ui/core/Backdrop';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { useHistory } from 'react-router-dom';
+import { Label } from '@material-ui/icons';
+import './addItem.css';
 
 const useStyles = makeStyles((theme) => ({
     backdrop: {
@@ -154,54 +156,66 @@ function Addfood() {
                     {" "}Uploading....
             </Backdrop>
 
-        <form className="container">
-            <div className="mb-3">
-            <label htmlFor="exampleInputEmail1" className="form-label">Food Name</label>
-            <input type="text"
-                 value={foodname}
-                 onChange={(e) => setFoodname(e.target.value)} 
-                className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" required />
+      <div className="addFood-box">
+            <h2>Add Food</h2>
+            <div className="formDesign">
+                <div className="food-box">
+                    <input type="text"
+                    value={foodname}
+                    onChange={(e) => setFoodname(e.target.value)} 
+                    required />
+                    <label>Food Name</label>
+                </div>
+
+                <div className="food-box">
+                    <input type="text"
+                    value={aboutfood}
+                    onChange={(e) => setAboutfood(e.target.value)} 
+                    required />
+                    <label>Food Description</label>
+                </div>
+
+                <div className="food-box">
+                    <input type="number"
+                    value={foodprice}
+                    onChange={(e) => setFoodprice(e.target.value)} 
+                    required />
+                    <label>Food Price</label>
+                </div>
+
+                {/* <div className="food-box"> */}
+                    <Select 
+                        className="basic-single"
+                        options={allCategoryArray}
+                        onChange={selectedCategory}
+                        //  isMulti
+                        required
+                    />
+                    {/* <label>Select Foods</label> */}
+                {/* </div> */}
+
+                <div className="food-box">
+                    <input type="file" id="formFile" onChange={onFileSelect} /> 
+                </div>
+
+                <button onClick={uploadfile} className="food-box-button">
+                    {/* Upload Image */}
+                    <span className="button-text">Upload Image</span>
+                    <span className="button-icon">
+                        <ion-icon name="cloud-upload-outline"></ion-icon>
+                    </span>      
+                </button> 
+
+                <button onClick={addFoodsToCategory} className="food-box-button">
+                    <span className="button-text">Add Food</span>
+                    <span className="button-icon">
+                            <ion-icon name="add-outline"></ion-icon>
+                    </span>  
+                </button>
+
+
             </div>
-
-            <div className="mb-3">
-            <label htmlFor="exampleInputEmail1" className="form-label">About Food</label>
-            <input type="text"
-                 value={aboutfood}
-                 onChange={(e) => setAboutfood(e.target.value)} 
-                className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" required />
-            </div>
-
-            <div className="mb-3">
-            <label htmlFor="exampleInputEmail1" className="form-label">Food Price</label>
-            <input type="number"
-                 value={foodprice}
-                 onChange={(e) => setFoodprice(e.target.value)} 
-                className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" required />
-            </div>
-
-            <div className="mb-3">
-          <label htmlFor="exampleInputPassword1" className="form-label">Category</label>
-            <Select 
-                 className="basic-single"
-                options={allCategoryArray}
-                onChange={selectedCategory}
-                //  isMulti
-                required
-            />
-            </div> 
-
-            <div className="mb-3">
-            <label htmlFor="formFile" className="form-label">Upload food image</label>
-            <input className="form-control" type="file" id="formFile" onChange={onFileSelect} /> 
-            </div>
-
-        <button onClick={uploadfile} className="btn btn-warning">Upload Image</button> <br /><br />
-
-        <button onClick={addFoodsToCategory} className="btn btn-primary">Add Food</button>
-
-      </form>
-
-
+      </div>
 
 
       </div> 

@@ -97,6 +97,8 @@ function Viewcategory() {
         </DialogActions>
       </Dialog>
 
+
+
       <table className="table">
         <thead>
           <tr>

@@ -63,11 +63,6 @@ function Viewfood() {
         history.push(path);
     }
 
-    // const updateFoodCategory = (id) => {
-    //     let path = `/didula/update-food-category/${id}`;
-    //     history.push(path);
-    // }
-
 
     return (
         <div>
@@ -119,7 +114,6 @@ function Viewfood() {
                         <td>{af.foodPrice}</td>
                         <td><button onClick={() => updateFood(af._id)}>Update</button></td>
                         <td><button onClick={(e) => handleClickOpen(e, af._id)} >Delete</button></td>
-                        {/* <td><button onClick={() => updateFoodCategory(af._id)}>Update Category</button></td> */}
                     </tr>
                 ))}
             </tbody>
