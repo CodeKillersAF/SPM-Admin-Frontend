@@ -9,6 +9,8 @@ import AddCategoryPage from './pages/FoodManagePages/Category/Addcategorypage';
 import AddFoodPage from './pages/FoodManagePages/Food/Addfoodpage';
 import ViewCategoryPage from './pages/FoodManagePages/Category/Viewcategorypage';
 import ViewFoodPage from './pages/FoodManagePages/Food/Viewfoodpage';
+import ViewTable from './pages/viewTable/ViewTable';
+import ViewTableCategory from './pages/viewTableCategory/ViewTableCategory';
 
 function App() {
   return (
@@ -25,6 +27,9 @@ function App() {
               <Route path="/didula/add-food" component={AddFoodPage} />
               <Route path="/didula/view-category" component={ViewCategoryPage} />
               <Route path="/didula/view-food" component={ViewFoodPage} />
+              <Route path="/table" component={ViewTable}/>
+              <Route path="/tableCategory" component={ViewTableCategory}/>
+
             </Layout>
           </Switch>
         </section>
