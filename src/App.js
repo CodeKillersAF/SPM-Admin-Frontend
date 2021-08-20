@@ -7,7 +7,6 @@ import AddSupplyItem from './pages/supplyItem/AddSupplyItem';
 
 import AdminLoginPage from './pages/AdminLoginPage/Adminloginpage';
 import AddSupplier from './pages/supplier/AddSupplier';
-import AddNewTable from './pages/addNewTable/AddNewTable';
 import ViewTable from './pages/viewTable/ViewTable';
 import ViewTableCategory from './pages/viewTableCategory/ViewTableCategory';
 
@@ -25,7 +24,6 @@ function App() {
               <Route path="/supplier" component={ViewSupplier} />
               <Route path="/addsupplyItem" component={AddSupplyItem} />
               <Route path="/addsupplier" component={AddSupplier} />
-              <Route path="/addNewTable" component={AddNewTable} />
               <Route path="/table" component={ViewTable}/>
               <Route path="/tableCategory" component={ViewTableCategory}/>
             </Layout>
