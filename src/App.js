@@ -9,6 +9,7 @@ import AdminLoginPage from './pages/AdminLoginPage/Adminloginpage';
 import AddSupplier from './pages/supplier/AddSupplier';
 import ViewTable from './pages/viewTable/ViewTable';
 import ViewTableCategory from './pages/viewTableCategory/ViewTableCategory';
+import ViewSupplyItem from './pages/supplyItem/ViewSupplyItem';
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
             <Layout>
               <Route exact path="/home" component={Home} />
               <Route path="/supplier" component={ViewSupplier} />
+              <Route path="/supplyItem" component={ViewSupplyItem} />
               <Route path="/addsupplyItem" component={AddSupplyItem} />
               <Route path="/addsupplier" component={AddSupplier} />
               <Route path="/table" component={ViewTable}/>
