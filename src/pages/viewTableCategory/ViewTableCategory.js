@@ -1,6 +1,11 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import Popup from "../../components/popup/Popup";
+import TableCategoryForm from "../../components/tableCategoryForm/TableCategoryForm";
 import ViewDetailsBody from "../../components/viewDetailsBody/ViewDetailsBody";
+import DeleteIcon from "@material-ui/icons/Delete";
+import { Edit } from "@material-ui/icons";
+import Button from "@material-ui/core/Button";
 
 const columns = [
   { field: "_id", headerName: "ID", width: 90 },
@@ -10,10 +15,14 @@ const columns = [
     width: 150,
     editable: true,
     renderCell: (params) => {
-        return(
-            <img src={params.row.image} alt="image" style={{width: "80px", height: "40px"}}/>
-        )
-    }
+      return (
+        <img
+          src={params.row.image}
+          alt="image"
+          style={{ width: "80px", height: "40px" }}
+        />
+      );
+    },
   },
   {
     field: "name",
@@ -31,25 +40,20 @@ const columns = [
   {
     field: "action",
     headerName: "Action",
-    width: 150,
+    width: 200,
     editable: true,
     renderCell: (params) => {
       return (
         <>
-          <button
-            onClick={() => {
-              console.log(params.data);
-            }}
-          >
-            Delete
-          </button>
-          <button
-            onClick={() => {
-              console.log(params.data);
-            }}
+          <Button
+            variant="contained"
+            color="primary"
+            startIcon={<Edit />}
+            style={{ marginLeft: "20px", marginRight: "30px" }}
           >
             Edit
-          </button>
+          </Button>
+          <DeleteIcon color="secondary" />
         </>
       );
     },
@@ -72,6 +76,11 @@ export default function ViewTableCategory() {
   return (
     <div>
       <ViewDetailsBody columns={columns} rows={tableCatgories} />
+      <Popup
+        openPopup={true}
+        title="Add new table Category"
+        form={<TableCategoryForm />}
+      />
     </div>
   );
 }

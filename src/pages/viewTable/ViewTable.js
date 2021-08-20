@@ -1,6 +1,11 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import Popup from "../../components/popup/Popup";
+import TableForm from "../../components/tableForm/TableForm";
 import ViewDetailsBody from "../../components/viewDetailsBody/ViewDetailsBody";
+import DeleteIcon from "@material-ui/icons/Delete";
+import { Edit } from "@material-ui/icons";
+import Button from "@material-ui/core/Button";
 
 const columns = [
   { field: "_id", headerName: "ID", width: 160 },
@@ -40,13 +45,13 @@ const columns = [
   {
     field: "height",
     headerName: "Height",
-    width: 150,
+    width: 130,
     editable: true,
   },
   {
     field: "width",
     headerName: "Width",
-    width: 150,
+    width: 130,
     editable: true,
   },
   {
@@ -58,41 +63,24 @@ const columns = [
   {
     field: "action",
     headerName: "Action",
-    width: 150,
+    width: 200,
     editable: true,
     renderCell: (params) => {
       return (
         <>
-          <button
-            onClick={() => {
-              console.log(params.data);
-            }}
-          >
-            Delete
-          </button>
-          <button
-            onClick={() => {
-              console.log(params.data);
-            }}
+          <Button
+            variant="contained"
+            color="primary"
+            startIcon={<Edit />}
+            style={{ marginLeft: "20px", marginRight: "30px" }}
           >
             Edit
-          </button>
+          </Button>
+          <DeleteIcon color="secondary" />
         </>
       );
     },
   },
-];
-
-const rows = [
-  { id: 1, lastName: "Snow", firstName: "Jon", age: 35 },
-  { id: 2, lastName: "Lannister", firstName: "Cersei", age: 42 },
-  { id: 3, lastName: "Lannister", firstName: "Jaime", age: 45 },
-  { id: 4, lastName: "Stark", firstName: "Arya", age: 16 },
-  { id: 5, lastName: "Targaryen", firstName: "Daenerys", age: null },
-  { id: 6, lastName: "Melisandre", firstName: null, age: 150 },
-  { id: 7, lastName: "Clifford", firstName: "Ferrara", age: 44 },
-  { id: 8, lastName: "Frances", firstName: "Rossini", age: 36 },
-  { id: 9, lastName: "Roxie", firstName: "Harvey", age: 65 },
 ];
 
 export default function ViewTable() {
@@ -111,6 +99,7 @@ export default function ViewTable() {
   return (
     <div className="viewTable">
       <ViewDetailsBody columns={columns} rows={movies} />
+      <Popup openPopup={true} title="Add new table" form={<TableForm />} />
     </div>
   );
 }
