@@ -21,6 +21,12 @@ const columns = [
         width: 150,
         editable: true,
     },
+    {
+        field: "desc",
+        headerName: "Description",
+        width: 150,
+        editable: true,
+    },
     // {
     //     field: "action",
     //     headerName: "Action",

@@ -8,18 +8,21 @@ export default function AddSupplyItem() {
     const history = useHistory();
     const [item_name, setitem_name] = useState("");
     const [unit_price, setunit_price] = useState("");
+    const [desc, setdesc] = useState("");
+
 
     async function addItem(e) {
         e.preventDefault();
-
-        let keynote = {
+        
+        let suupplyItem = {
             item_name: item_name,
-            unit_price: unit_price
+            unit_price: unit_price,
+            desc: desc
         };
-        console.log(keynote);
+        console.log(suupplyItem);
 
         await axios
-            .post("http://localhost:8000/api/admin/supply-item", keynote)
+            .post("http://localhost:8000/api/admin/supply-item", suupplyItem)
             .then((response) => {
                 console.log(response.data);
                 alert("Supply item added successfully")
@@ -56,6 +59,19 @@ export default function AddSupplyItem() {
                             name="unit_price"
                             value={unit_price}
                             onChange={(e) => setunit_price(e.target.value)}
+                            required
+                        />
+                    </div>
+
+                    <div className="addTableItem">
+                        <label htmlFor="desc" className="form-label">Description</label>
+                        <input
+                            type="text"
+                            className="form-control"
+                            id="desc"
+                            name="desc"
+                            value={desc}
+                            onChange={(e) => setdesc(e.target.value)}
                             required
                         />
                     </div>
