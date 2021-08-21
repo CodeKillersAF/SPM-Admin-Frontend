@@ -13,32 +13,47 @@ const columns = [
         field: "supplier_name",
         headerName: "Name",
         width: 150,
-        editable: true,
+        editable: false,
     },
     {
         field: "email",
         headerName: "Email",
         width: 150,
-        editable: true,
+        editable: false,
     },
     {
         field: "contact",
         headerName: "Contact",
         width: 150,
-        editable: true,
+        editable: false,
     },
     {
         field: "address",
         headerName: "Address",
         width: 150,
-        editable: true,
+        editable: false,
     },
-    // {
-    //     field: "supplyItems:{item_name}",
-    //     headerName: "Items",
-    //     width: 150,
-    //     editable: true,
-    // },
+    {
+        field: "action",
+        headerName: "Action",
+        width: 200,
+        editable: true,
+        renderCell: (params) => {
+            return (
+                <>
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        startIcon={<Edit />}
+                        style={{ marginLeft: "20px", marginRight: "30px" }}
+                    >
+                        Edit
+                    </Button>
+                    <DeleteIcon color="secondary" />
+                </>
+            );
+        },
+    },
 ];
 
 export default function ViewSupplier() {
