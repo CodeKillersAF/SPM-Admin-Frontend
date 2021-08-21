@@ -1,12 +1,36 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-// import './addcategory.css';
 import axios from 'axios';
 import Select from 'react-select';
+import {
+    Grid,
+    TextField,
+    makeStyles,
+    FormControl,
+    InputLabel,
+    Select as MuiSelect,
+    Button,
+    MenuItem,
+  } from "@material-ui/core";
+  
+
+const useStyles = makeStyles((theme) => ({
+    backdrop: {
+      zIndex: theme.zIndex.drawer + 1,
+      color: '#fff',
+    },
+    root: {
+        "& .MuiFormControl-root": {
+          width: "90%",
+          margin: theme.spacing(2),
+        },
+      },
+  }))
 
 function Addcategory() {
 
     const history = useHistory();
+    const classes = useStyles();
 
     const [category, setCategory] = useState('');
 
@@ -69,38 +93,8 @@ function Addcategory() {
 
     return (
 
-//  <div className = "addFoodManage" >
-//      <div className="FoodcardView">
-//             <div class="addFood">
-//             <h1>Add Category</h1>
-//             <form>
-//                 <div class="addFoodBox">
-//                 <input type="text"
-//                      value={category}
-//                      onChange={(e) => setCategory(e.target.value)} 
-//                      required />
-//                 <span>Category Name</span>
-//                 </div>
-//                 <div class="addFoodSelect">
-//                 <Select
-//                     //options={this.state.options}
-//                     options={allFoodsArray}
-//                     onChange={selectedFood}
-//                     className="basic-multi-select"
-//                     isMulti
-//                 />
-//                 {/* <span>Select Food Items</span> */}
-//                 </div>
-//                 <div class="addFoodBox">
-//                 <input type="button" value="Add Category" onClick={addCategoryClick} />
-//                 </div>
-//             </form>
-//             </div>
-//         </div>
-//      </div>
-
     <div>
-        <div className="addFood-box">
+        {/* <div className="addFood-box">
             <h2>Add Category</h2>
             <div className="formDesign">
                 <div className="food-box">
@@ -120,7 +114,43 @@ function Addcategory() {
                 />
 
             </div>
-        </div>
+        </div> */}
+
+        <form className={classes.root}>
+      <Grid container>
+
+        <Grid item xs={12}>
+        <TextField variant="outlined" name="name" label="Name"
+                value={category} onChange={(e) => setCategory(e.target.value)} />
+          <FormControl variant="outlined">
+          <Select
+                //options={this.state.options}
+                options={allFoodsArray}
+                onChange={selectedFood}
+                className="basic-multi-select"
+                isMulti
+            />
+          </FormControl>
+          <div
+            style={{ display: "flex", alignItems: "center", marginTop: "10px" }}
+          >
+            <Button
+              variant="contained"
+              color="primary"
+              style={{ marginRight: "20px", marginLeft: "20px" }}
+              onClick={addCategoryClick}
+            >
+              Create
+            </Button>
+            <Button variant="contained" color="secondary">
+              Reset
+            </Button>
+          </div>
+        </Grid>
+      </Grid>
+    </form>
+
+
     </div>
 
     )

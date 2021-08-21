@@ -1,20 +1,35 @@
 import React, { useEffect, useState } from 'react';
-import Select from 'react-select';
 import axios from 'axios';
 import { storage } from '../../../firebase';
-import { makeStyles } from '@material-ui/core/styles';
 import Backdrop from '@material-ui/core/Backdrop';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { useHistory } from 'react-router-dom';
-import { Label } from '@material-ui/icons';
-import './addItem.css';
+import {
+    Grid,
+    TextField,
+    makeStyles,
+    FormControl,
+    InputLabel,
+    Select as MuiSelect,
+    Button,
+    MenuItem,
+  } from "@material-ui/core";
+  
+  import Publish from "@material-ui/icons/Publish";
 
 const useStyles = makeStyles((theme) => ({
     backdrop: {
       zIndex: theme.zIndex.drawer + 1,
       color: '#fff',
     },
+    root: {
+        "& .MuiFormControl-root": {
+          width: "90%",
+          margin: theme.spacing(2),
+        },
+      },
   }))
+
 
 function Addfood() {
 
@@ -45,21 +60,11 @@ function Addfood() {
         getAllCategory();
     }, []);
 
-    let allCategoryArray = [];
-    foodcategory.map((fc, index) => {
-        let allCategory = {
-            value: fc._id,
-            label: fc.categoryName
-        }
-
-        allCategoryArray.push(allCategory);
-
-    });
-
     const [categoryValue, setCategoryValue] = useState('');
 
     const selectedCategory = (e) => {
-       setCategoryValue(e.value);
+       setCategoryValue(e.target.value);
+    //    console.log(e.target.value);
     }
 
     async function addFoodsToCategory(e) {
@@ -150,73 +155,89 @@ function Addfood() {
 
     return (
         
-<div>
+        <div>
             <Backdrop className={classes.backdrop} open={open}>
                     <CircularProgress color="inherit" />
                     {" "}Uploading....
             </Backdrop>
 
-      <div className="addFood-box">
-            <h2>Add Food</h2>
-            <div className="formDesign">
-                <div className="food-box">
-                    <input type="text"
-                    value={foodname}
-                    onChange={(e) => setFoodname(e.target.value)} 
-                    required />
-                    <label>Food Name</label>
-                </div>
+    <form className={classes.root}>
+      <Grid container>
+        <Grid item xs={6}>
+          <div
+            style={{ position: "relative", width: "200px", height: "200px" }}
+          >
+            <input type="file" id="formFile" onChange={onFileSelect} /> 
+            <img
+              style={{ marginLeft: "100px", borderRadius: "10px" }}
+              width="200px"
+              height="200px"
+              src={url}
+            />
+            <Publish
+              style={{ position: "absolute", top: "100px", left: "320px" }}
+              fontSize="large"
+              onClick={uploadfile}
+            />
+          </div>
 
-                <div className="food-box">
-                    <input type="text"
-                    value={aboutfood}
-                    onChange={(e) => setAboutfood(e.target.value)} 
-                    required />
-                    <label>Food Description</label>
-                </div>
+          <TextField variant="outlined" name="name" label="Name"
+                value={foodname} onChange={(e) => setFoodname(e.target.value)} />
 
-                <div className="food-box">
-                    <input type="number"
-                    value={foodprice}
-                    onChange={(e) => setFoodprice(e.target.value)} 
-                    required />
-                    <label>Food Price</label>
-                </div>
+          <TextField variant="outlined" name="price" label="Price" 
+                value={foodprice} onChange={(e) => setFoodprice(e.target.value)} />
 
-                {/* <div className="food-box"> */}
-                    <Select 
-                        className="basic-single"
-                        options={allCategoryArray}
-                        onChange={selectedCategory}
-                        //  isMulti
-                        required
-                    />
-                    {/* <label>Select Foods</label> */}
-                {/* </div> */}
+        </Grid>
+        <Grid item xs={6}>
+          <FormControl variant="outlined">
+            <InputLabel>Category</InputLabel>
+            <MuiSelect
+              name="name"
+              label="Category"
+              value={categoryValue}
+              onChange={selectedCategory}
+            >
+              <MenuItem value="">None</MenuItem>
+              {foodcategory.map((category) => (
+                <MenuItem key={category.id} value={category._id}>
+                  {category.categoryName}
+                </MenuItem>
+              ))}
+            </MuiSelect>
 
-                <div className="food-box">
-                    <input type="file" id="formFile" onChange={onFileSelect} /> 
-                </div>
+          </FormControl>
 
-                <button onClick={uploadfile} className="food-box-button">
-                    {/* Upload Image */}
-                    <span className="button-text">Upload Image</span>
-                    <span className="button-icon">
-                        <ion-icon name="cloud-upload-outline"></ion-icon>
-                    </span>      
-                </button> 
-
-                <button onClick={addFoodsToCategory} className="food-box-button">
-                    <span className="button-text">Add Food</span>
-                    <span className="button-icon">
-                            <ion-icon name="add-outline"></ion-icon>
-                    </span>  
-                </button>
-
-
-            </div>
-      </div>
-
+          <TextField
+            id="outlined-textarea"
+            label="About Food"
+            placeholder="About Food"
+            multiline
+            variant="outlined"
+            maxRows={8}
+            minRows={8}
+            value={aboutfood} 
+            onChange={(e) => setAboutfood(e.target.value)}
+            name="description"
+          />
+          
+          <div
+            style={{ display: "flex", alignItems: "center", marginTop: "10px" }}
+          >
+            <Button
+              variant="contained"
+              color="primary"
+              style={{ marginRight: "20px", marginLeft: "20px" }}
+              onClick={addFoodsToCategory}
+            >
+              Create
+            </Button>
+            <Button variant="contained" color="secondary">
+              Reset
+            </Button>
+          </div>
+        </Grid>
+      </Grid>
+    </form>
 
       </div> 
 
