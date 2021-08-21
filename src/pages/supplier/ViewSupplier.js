@@ -6,6 +6,7 @@ import ViewDetailsBody from "../../components/viewDetailsBody/ViewDetailsBody";
 import DeleteIcon from "@material-ui/icons/Delete";
 import { Edit } from "@material-ui/icons";
 import Button from "@material-ui/core/Button";
+import { useHistory } from "react-router-dom";
 
 const columns = [
     // { field: "_id", headerName: "ID", width: 160 },
@@ -69,9 +70,15 @@ export default function ViewSupplier() {
             console.log(res.data.data);
         });
     };
+
+    const history = useHistory()
+    const onClickCreate = () => {
+        history.push("/addsupplier")
+    }
+
     return (
         <div className="viewTable">
-            <ViewDetailsBody columns={columns} rows={supplier} />
+            <ViewDetailsBody columns={columns} rows={supplier} onClickCreate={onClickCreate}/>
         </div>
     );
 }

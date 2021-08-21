@@ -6,6 +6,7 @@ import ViewDetailsBody from "../../components/viewDetailsBody/ViewDetailsBody";
 import DeleteIcon from "@material-ui/icons/Delete";
 import { Edit } from "@material-ui/icons";
 import Button from "@material-ui/core/Button";
+import { useHistory } from "react-router-dom";
 
 const columns = [
     // { field: "_id", headerName: "ID", width: 160 },
@@ -27,27 +28,27 @@ const columns = [
         width: 150,
         editable: true,
     },
-    // {
-    //     field: "action",
-    //     headerName: "Action",
-    //     width: 200,
-    //     editable: true,
-    //     renderCell: (params) => {
-    //         return (
-    //             <>
-    //                 <Button
-    //                     variant="contained"
-    //                     color="primary"
-    //                     startIcon={<Edit />}
-    //                     style={{ marginLeft: "20px", marginRight: "30px" }}
-    //                 >
-    //                     Edit
-    //                 </Button>
-    //                 <DeleteIcon color="secondary" />
-    //             </>
-    //         );
-    //     },
-    // },
+    {
+        field: "action",
+        headerName: "Action",
+        width: 200,
+        editable: true,
+        renderCell: (params) => {
+            return (
+                <>
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        startIcon={<Edit />}
+                        style={{ marginLeft: "20px", marginRight: "30px" }}
+                    >
+                        Edit
+                    </Button>
+                    <DeleteIcon color="secondary" />
+                </>
+            );
+        },
+    },
 ];
 
 export default function ViewSupplyItem() {
@@ -63,11 +64,17 @@ export default function ViewSupplyItem() {
             console.log(res.data.data);
         });
     };
-    return (
-        <div className="viewTable">
-            <ViewDetailsBody columns={columns} rows={supplyItem} />
-            {/* <Popup openPopup={true} title="Add new table" form={<TableForm />} /> */}
-        </div>
-    );
-}
+
+    const history = useHistory()
+    const onClickCreate = () => {
+        history.push("/addsupplyItem")
+    }
+
+return (
+    <div className="viewTable">
+        <ViewDetailsBody columns={columns} rows={supplyItem} onClickCreate={onClickCreate} />
+        {/* <Popup openPopup={true} title="Add new table" form={<TableForm />} /> */}
+    </div>
+);
+    }
 

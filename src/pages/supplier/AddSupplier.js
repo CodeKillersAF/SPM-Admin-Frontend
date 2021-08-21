@@ -63,7 +63,7 @@ export default function AddSupplier() {
     return (
         <div className="addNewTable">
             <div className="addNewTable-wrapper">
-                <h1>Add New Supplier</h1>
+                <h1>New Supplier</h1>
                 <form onSubmit={addItem} className="addTableForm">
 
                     <div className="addTableItem">

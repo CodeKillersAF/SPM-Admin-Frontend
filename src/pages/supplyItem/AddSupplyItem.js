@@ -10,10 +10,13 @@ export default function AddSupplyItem() {
     const [unit_price, setunit_price] = useState("");
     const [desc, setdesc] = useState("");
 
+    const onClickBack = () => {
+        history.push("/supplyItem")
+    }
 
     async function addItem(e) {
         e.preventDefault();
-        
+
         let suupplyItem = {
             item_name: item_name,
             unit_price: unit_price,
@@ -26,6 +29,7 @@ export default function AddSupplyItem() {
             .then((response) => {
                 console.log(response.data);
                 alert("Supply item added successfully")
+                onClickBack();
             })
             .catch((error) => {
                 console.log(error);
@@ -35,6 +39,7 @@ export default function AddSupplyItem() {
     return (
         <div className="addNewTable">
             <div className="addNewTable-wrapper">
+                <h1>New Supply Item</h1>
                 <form onSubmit={addItem} className="addTableForm">
 
                     <div className="addTableItem">
