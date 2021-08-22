@@ -17,10 +17,7 @@ export default function ViewSupplyItem() {
     const [open, setOpen] = React.useState(false);
     const [tableID, setTableID] = useState("");
 
-    // const [editFormOpen, setEditFormOpen] = useState(false);
-    // const [table, setTable] = useState(supplyItem);
-
-    const [openPopup, setOpenPopup] = useState(false);
+    // const [openPopup, setOpenPopup] = useState(false);
 
     const openEditPopup = () => {
         setopenForm(false);
@@ -41,12 +38,6 @@ export default function ViewSupplyItem() {
     const onClickCreate = () => {
         history.push("/addsupplyItem")
     }
-
-    // const onClickEdit = (table) => {
-    //     setEditFormOpen(true);
-    //     console.log(table);
-    //     setTable(table);
-    // };
 
     const handleClose = () => {
         setOpen(false);
@@ -71,7 +62,6 @@ export default function ViewSupplyItem() {
             .then((res) => {
                 console.log("deleted");
                 setOpen(false);
-                // setsupplyItem(supplyItem => [...supplyItem, supplyItem]);
             });
     };
 
@@ -126,7 +116,6 @@ export default function ViewSupplyItem() {
     return (
         <div className="viewTable">
             <ViewDetailsBody columns={columns} rows={supplyItem} onClickCreate={onClickCreate} />
-            {/* <Popup openPopup={true} title="Add new table" form={<TableForm />} /> */}
             <DialogBoxConfirm
                 open={open}
                 handleClose={handleClose}
@@ -137,7 +126,7 @@ export default function ViewSupplyItem() {
                 openPopup={openForm}
                 title="Update Supply Item"
                 form={
-                    <SupplyItemForm supply={selectSupplyItem} buttonTitle="Update" openEditPopup={openEditPopup}/>
+                    <SupplyItemForm supply={selectSupplyItem} buttonTitle="Update" openEditPopup={openEditPopup} />
                 }
             />
         </div>

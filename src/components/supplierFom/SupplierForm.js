@@ -26,7 +26,7 @@ export default function SupplierForm({
     const onUpdate = (e) => {
         e.preventDefault();
         axios
-            .put("http://localhost:8000/api/admin/supplier/" + values._id,values)
+            .put("http://localhost:8000/api/admin/supplier/" + values._id, values)
             .then((res) => {
                 openEditPopup();
             });
@@ -52,14 +52,14 @@ export default function SupplierForm({
                         value={values.email}
                         onChange={handleInputChnage}
                     />
-                     <TextField
+                    <TextField
                         variant="outlined"
                         name="contact"
                         label="Contact"
                         value={values.contact}
                         onChange={handleInputChnage}
                     />
-                     <TextField
+                    <TextField
                         variant="outlined"
                         name="address"
                         label="Address"
