@@ -13,9 +13,9 @@ const initialState = {
   name: "",
   description: "",
   image: "",
-  width: 0,
-  height: 0,
-  chairs: 0,
+  width: null,
+  height: null,
+  chairs: null,
   category: "",
 };
 
@@ -26,6 +26,7 @@ export default function ViewTable() {
   const [editFormOpen, setEditFormOpen] = useState(false);
   const [table, setTable] = useState(initialState);
   const [openPopup, setOpenPopup] = useState(false);
+  const [tableCategories, setTableCategories] = useState([])
 
   const onClickCreate = (e) => {
     setOpenPopup(true);
@@ -51,7 +52,6 @@ export default function ViewTable() {
 
   const onClickEdit = (table) => {
     setEditFormOpen(true);
-    console.log(table);
     setTable(table);
   };
 
@@ -64,7 +64,6 @@ export default function ViewTable() {
   };
 
   const onClickDelete = () => {
-    console.log(tableID);
     axios
       .delete("http://localhost:8000/api/table/removeTable/" + tableID)
       .then((res) => {
@@ -75,14 +74,20 @@ export default function ViewTable() {
 
   useEffect(() => {
     getTableDetails();
+    getAllTableCategory();
   }, [setOpen,setEditFormOpen,setOpenPopup]);
 
   const getTableDetails = () => {
     axios.get("http://localhost:8000/api/table/allTable").then((res) => {
       setTables(res.data);
+      console.log(res.data);
     });
   };
 
+  const getAllTableCategory = async () => {
+    axios.get("http://localhost:8000/api/tableCategory").then((res) => {
+      setTableCategories(res.data);
+    });}
   const columns = [
     { field: "_id", headerName: "ID", width: 160 },
     {
@@ -115,7 +120,7 @@ export default function ViewTable() {
     {
       field: "chairs",
       headerName: "Chairs",
-      width: 150,
+      width: 130,
       editable: true,
     },
     {
@@ -133,7 +138,7 @@ export default function ViewTable() {
     {
       field: "description",
       headerName: "Description",
-      width: 160,
+      width: 200,
       editable: true,
     },
     {
@@ -172,7 +177,7 @@ export default function ViewTable() {
       <Popup
         openPopup={openPopup}
         title="Add new table"
-        form={<TableForm buttonTitle="Add" table={table} onSubmit={addTable} />}
+        form={<TableForm buttonTitle="Add" table={table} onSubmit={addTable} tableCategories={tableCategories}  />}
       />
       <DialogBoxConfirm
         open={open}
@@ -185,7 +190,7 @@ export default function ViewTable() {
           openPopup={true}
           title="Add new table"
           form={
-            <TableForm table={table} buttonTitle="Update" onSubmit={onUpdate} />
+            <TableForm table={table} tableCategories={tableCategories} buttonTitle="Update" onSubmit={onUpdate} />
           }
         />
       )}
