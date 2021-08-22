@@ -9,12 +9,17 @@ import Button from "@material-ui/core/Button";
 import { useHistory } from "react-router-dom";
 import IconButton from "@material-ui/core/IconButton";
 import DialogBoxConfirm from "../../components/dialogBoxConfirm/DialogBoxConfirm";
+import SupplierForm from "../../components/supplierFom/SupplierForm";
 
 export default function ViewSupplier() {
 
     const [supplier, setsupplier] = useState([]);
     const [open, setOpen] = React.useState(false);
     const [tableID, setTableID] = useState("");
+
+    const openEditPopup = () => {
+        setopenForm(false);
+    }
 
     useEffect(() => {
         getSupplier();
@@ -49,6 +54,14 @@ export default function ViewSupplier() {
                 setOpen(false);
             });
     };
+
+    const [openForm, setopenForm] = useState(false);
+    const [selectSupplyItem, setselectSupplyItem] = useState([]);
+
+    const handleOpenEditForm = (supplyItem) => {
+        setopenForm(true);
+        setselectSupplyItem(supplyItem);
+    }
 
     const columns = [
         // { field: "_id", headerName: "ID", width: 160 },
@@ -89,7 +102,7 @@ export default function ViewSupplier() {
                             color="primary"
                             startIcon={<Edit />}
                             style={{ marginLeft: "20px", marginRight: "30px" }}
-                        // onClick={() => onClickEdit(params.row)}
+                            onClick={() => handleOpenEditForm(params.row)}
                         >
                             Edit
                         </Button>
@@ -110,6 +123,13 @@ export default function ViewSupplier() {
                 handleClose={handleClose}
                 handleClickOpen={handleClickOpen}
                 onClickDelete={onClickDelete}
+            />
+            <Popup
+                openPopup={openForm}
+                title="Update Supply Item"
+                form={
+                    <SupplierForm supply={selectSupplyItem} buttonTitle="Update" openEditPopup={openEditPopup} />
+                }
             />
         </div>
     );

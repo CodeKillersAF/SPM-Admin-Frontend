@@ -17,23 +17,18 @@ export default function ViewSupplyItem() {
     const [open, setOpen] = React.useState(false);
     const [tableID, setTableID] = useState("");
 
-    const [editFormOpen, setEditFormOpen] = useState(false);
-    const [table, setTable] = useState(supplyItem);
+    // const [editFormOpen, setEditFormOpen] = useState(false);
+    // const [table, setTable] = useState(supplyItem);
 
+    const [openPopup, setOpenPopup] = useState(false);
 
-    const onUpdate = (e, values) => {
-        e.preventDefault();
-        axios
-            .put("http://localhost:8000/api/admin/supply-item/" + values._id, values)
-            .then((res) => {
-                setEditFormOpen(false);
-            });
-    };
-
+    const openEditPopup = () => {
+        setopenForm(false);
+    }
 
     useEffect(() => {
         getSupplyDetails();
-    }, [setOpen, setEditFormOpen]);
+    }, [setOpen]);
 
     const getSupplyDetails = () => {
         axios.get("http://localhost:8000/api/admin/supply-item").then((res) => {
@@ -47,11 +42,11 @@ export default function ViewSupplyItem() {
         history.push("/addsupplyItem")
     }
 
-    const onClickEdit = (table) => {
-        setEditFormOpen(true);
-        console.log(table);
-        setTable(table);
-    };
+    // const onClickEdit = (table) => {
+    //     setEditFormOpen(true);
+    //     console.log(table);
+    //     setTable(table);
+    // };
 
     const handleClose = () => {
         setOpen(false);
@@ -61,6 +56,14 @@ export default function ViewSupplyItem() {
         setOpen(true);
     };
 
+    const [openForm, setopenForm] = useState(false);
+    const [selectSupplyItem, setselectSupplyItem] = useState([]);
+
+    const handleOpenEditForm = (supplyItem) => {
+        setopenForm(true);
+        setselectSupplyItem(supplyItem);
+    }
+
     const onClickDelete = () => {
         console.log(tableID);
         axios
@@ -68,6 +71,7 @@ export default function ViewSupplyItem() {
             .then((res) => {
                 console.log("deleted");
                 setOpen(false);
+                // setsupplyItem(supplyItem => [...supplyItem, supplyItem]);
             });
     };
 
@@ -104,7 +108,7 @@ export default function ViewSupplyItem() {
                             color="primary"
                             startIcon={<Edit />}
                             style={{ marginLeft: "20px", marginRight: "30px" }}
-                            onClick={() => onClickEdit(params.row)}
+                            onClick={() => handleOpenEditForm(params.row)}
                         >
                             Edit
                         </Button>
@@ -129,15 +133,13 @@ export default function ViewSupplyItem() {
                 handleClickOpen={handleClickOpen}
                 onClickDelete={onClickDelete}
             />
-            {editFormOpen && (
-                <Popup
-                    openPopup={true}
-                    title="Update Supply Item"
-                    form={
-                        <SupplyItemForm table={table} buttonTitle="Update" onSubmit={onUpdate} />
-                    }
-                />
-            )}
+            <Popup
+                openPopup={openForm}
+                title="Update Supply Item"
+                form={
+                    <SupplyItemForm supply={selectSupplyItem} buttonTitle="Update" openEditPopup={openEditPopup}/>
+                }
+            />
         </div>
     );
 

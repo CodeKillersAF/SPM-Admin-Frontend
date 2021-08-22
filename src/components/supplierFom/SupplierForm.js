@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function SupplyItemForm({
+export default function SupplierForm({
     supply,
     openEditPopup
 }) {
@@ -26,7 +26,7 @@ export default function SupplyItemForm({
     const onUpdate = (e) => {
         e.preventDefault();
         axios
-            .put("http://localhost:8000/api/admin/supply-item/" + values._id,values)
+            .put("http://localhost:8000/api/admin/supplier/" + values._id,values)
             .then((res) => {
                 openEditPopup();
             });
@@ -40,28 +40,42 @@ export default function SupplyItemForm({
                 <Grid item xs={12}>
                     <TextField
                         variant="outlined"
-                        name="item_name"
+                        name="supplier_name"
                         label="Name"
-                        value={values.item_name}
+                        value={values.supplier_name}
                         onChange={handleInputChnage}
                     />
                     <TextField
                         variant="outlined"
-                        name="unit_price"
-                        label="Unit Price"
-                        value={values.unit_price}
+                        name="email"
+                        label="Email"
+                        value={values.email}
+                        onChange={handleInputChnage}
+                    />
+                     <TextField
+                        variant="outlined"
+                        name="contact"
+                        label="Contact"
+                        value={values.contact}
+                        onChange={handleInputChnage}
+                    />
+                     <TextField
+                        variant="outlined"
+                        name="address"
+                        label="Address"
+                        value={values.address}
                         onChange={handleInputChnage}
                     />
                     <TextField
                         id="outlined-textarea"
-                        label="Description"
-                        placeholder="Description"
+                        label="Items"
+                        placeholder="Items"
                         multiline
                         variant="outlined"
                         maxRows={8}
                         minRows={8}
-                        name="desc"
-                        value={values.desc}
+                        name="supplyItems"
+                        value={values.supplyItems}
                         onChange={handleInputChnage}
                     />
                     <div
