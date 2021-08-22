@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import Select from 'react-select';
 import axios from 'axios';
 import "./supplier.css";
+import { useHistory } from "react-router-dom";
+
 
 export default function AddSupplier() {
 
@@ -10,6 +12,12 @@ export default function AddSupplier() {
     const [contact, setcontact] = useState("");
     const [address, setaddress] = useState("");
     const [supplyItems, setsupplyItems] = useState([]);
+
+    const history = useHistory();
+    const onClickBack = () => {
+        history.push("/supplier")
+    }
+
 
     const getAllSupplyItem = async () => {
         const data = await axios.get("http://localhost:8000/api/admin/supply-item")
@@ -52,7 +60,9 @@ export default function AddSupplier() {
             .post("http://localhost:8000/api/admin/supplier", supplier)
             .then((response) => {
                 console.log(response.data);
-                alert("Supplier detail added successfully")
+                alert("Supplier detail added successfully");
+                onClickBack();
+
             })
             .catch((error) => {
                 console.log(error);

@@ -1,7 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import Popup from "../../components/popup/Popup";
-import TableForm from "../../components/tableForm/TableForm";
 import ViewDetailsBody from "../../components/viewDetailsBody/ViewDetailsBody";
 import DeleteIcon from "@material-ui/icons/Delete";
 import { Edit } from "@material-ui/icons";
@@ -9,6 +8,7 @@ import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
 import { useHistory } from "react-router-dom";
 import DialogBoxConfirm from "../../components/dialogBoxConfirm/DialogBoxConfirm";
+import SupplyItemForm from "../../components/supplyItemForm/SupplyItemForm";
 
 
 export default function ViewSupplyItem() {
@@ -20,9 +20,20 @@ export default function ViewSupplyItem() {
     const [editFormOpen, setEditFormOpen] = useState(false);
     const [table, setTable] = useState(supplyItem);
 
+
+    const onUpdate = (e, values) => {
+        e.preventDefault();
+        axios
+            .put("http://localhost:8000/api/admin/supply-item/" + values._id, values)
+            .then((res) => {
+                setEditFormOpen(false);
+            });
+    };
+
+
     useEffect(() => {
         getSupplyDetails();
-    }, [setOpen,setEditFormOpen]);
+    }, [setOpen, setEditFormOpen]);
 
     const getSupplyDetails = () => {
         axios.get("http://localhost:8000/api/admin/supply-item").then((res) => {
@@ -106,6 +117,8 @@ export default function ViewSupplyItem() {
         },
     ];
 
+
+
     return (
         <div className="viewTable">
             <ViewDetailsBody columns={columns} rows={supplyItem} onClickCreate={onClickCreate} />
@@ -119,13 +132,16 @@ export default function ViewSupplyItem() {
             {editFormOpen && (
                 <Popup
                     openPopup={true}
-                    title="Add new table"
+                    title="Update Supply Item"
                     form={
-                        <TableForm table={table} buttonTitle="Update"/>
+                        <SupplyItemForm table={table} buttonTitle="Update" onSubmit={onUpdate} />
                     }
                 />
             )}
         </div>
     );
+
+
+
 }
 
