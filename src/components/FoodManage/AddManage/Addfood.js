@@ -31,7 +31,10 @@ const useStyles = makeStyles((theme) => ({
   }))
 
 
-function Addfood() {
+function Addfood({ openPopupClick }) {
+
+  const [popupOpen, setpopupOpen] = useState(false);
+
 
     const history = useHistory();
     const [open, setOpen] = React.useState(false);
@@ -85,8 +88,6 @@ function Addfood() {
             .then((response) => {
                 console.log(response.data.data);
                 setfileUploaded(false);
-                let path = '/didula/view-food';
-                history.push(path);
 
                 const getId = response.data.data._id;
 
@@ -100,6 +101,7 @@ function Addfood() {
                     .then((response) => {
                         console.log(response.data.data);
                         console.log('Updated Successfully');
+                        openPopupClick();
                     })
                     .catch((error) => {
                         console.log(error);

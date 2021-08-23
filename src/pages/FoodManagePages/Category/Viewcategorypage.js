@@ -1,10 +1,221 @@
-import React from 'react';
-import './viewcategory.css';
-import ViewCategory from '../../../components/FoodManage/ViewManage/Viewcategory';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import ViewDetailsBody from "../../../components/viewDetailsBody/ViewDetailsBody";
+import DeleteIcon from "@material-ui/icons/Delete";
+import { Edit } from "@material-ui/icons";
+import Button from "@material-ui/core/Button";
+import { useHistory } from 'react-router-dom';
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogTitle from "@material-ui/core/DialogTitle";
+
+import { makeStyles } from '@material-ui/core/styles';
+
+import Popup from '../../../components/popup/Popup';
+import AddCategory from '../../../components/FoodManage/AddManage/Addcategory';
+import Updatecategory from '../../../components/FoodManage/EditManage/Updatecategory';
+
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    width: '100%',
+    '& > * + *': {
+      marginTop: theme.spacing(2),
+    },
+  },
+}));
 
 function Viewcategorypage() {
+
+  const classes = useStyles();
+
+    const history = useHistory();
+
+    const [openPopup, setOpenPopup] = useState(false);
+
+    const [open, setOpen] = React.useState(false);
+
+    const [reload, setReload] = useState(false);
+
+    const [categoryid, setCategoryid] = useState('');
+
+    const [viewCategory, setViewCategory] = useState([]);
+
+    //delete handle functions
+    const handleClickOpen = (e,categoryId) => {
+      setCategoryid(categoryId);
+      setOpen(true);
+    }
+
+    const openPopupClick = () => {
+        setOpenPopup(false);
+      }
+
+    const onClickCreate = (e) => {
+        setOpenPopup(true);
+      };
+
+    const handleClose = () => {
+      setOpen(false);
+    }
+
+    const getAllCategories = async () => {
+        try {
+            const details = await axios.get("/category/all-category");
+
+            console.log(details.data.data);
+            setViewCategory(details.data.data);
+            
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    useEffect(() => {
+        getAllCategories();
+    }, [reload]);
+
+
+
+    const deleteCategory = () => {
+        try {
+          setOpen(false);
+            axios.delete(`/category/delete-category/${categoryid}`)
+              .then((response) => {
+                console.log('Deleted Successfully');
+                setReload(!reload);
+              })
+              .catch((error) => {
+                console.log(error);
+              })
+
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    const columns = [
+        // { field: "_id", headerName: "ID", width: 160 },
+        {
+          field: "categoryName",
+          headerName: "Category Name",
+          width: 150,
+          editable: true,
+        },
+        {
+          field: "action",
+          headerName: "Action",
+          width: 200,
+          editable: true,
+          renderCell: (params) => {
+            return (
+              <>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  startIcon={<Edit />}
+                  style={{ marginLeft: "20px", marginRight: "30px" }}
+                  onClick={() => handleEditCategorySelect(params.row)}
+                >
+                  Edit
+                </Button>
+                <DeleteIcon
+                onClick = {(e) => handleClickOpen(e, params.row._id)}
+                color="secondary" />
+              </>
+            );
+          },
+        },
+        {
+          field: "Views",
+          headerName: "Views",
+          width: 200,
+          editable: true,
+          renderCell: (params) => {
+            return (
+              <>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  startIcon={<Edit />}
+                  style={{ marginLeft: "20px", marginRight: "30px" }}
+                  onClick={() => passSelectCategoryId(params.row._id)}
+                >
+                  View Food
+                </Button>
+              </>
+            );
+          },
+        },
+      ];
+
+    const passSelectCategoryId = (id) => {
+      console.log(id);
+      let path = `/didula/view-food/${id}`;
+      history.push(path);
+    } 
+
+    const [openEditForm, setOpenEditForm] = useState(false);
+    const [categorySelected, setCategorySelected] = useState([]);
+
+    const openEditPopup = () => {
+      setOpenEditForm(false);
+    }
+
+    // update category name
+    const handleEditCategorySelect = (category) => {
+        setOpenEditForm(true);
+        setCategorySelected(category);
+        console.log(category);
+    }
+
     return (
-        <ViewCategory />
+        <div>
+
+        <Dialog
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle id="alert-dialog-title">{"Are you sure?"}</DialogTitle>
+  
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              This will delete Category permanently..!
+            </DialogContentText>
+          </DialogContent>
+  
+          <DialogActions>
+            <Button onClick={handleClose} color="primary">
+              Cancel
+            </Button>
+            <Button onClick={deleteCategory} color="primary" autoFocus>
+              Delete
+            </Button>
+          </DialogActions>
+        </Dialog>
+  
+        <div className="viewTable">
+        <ViewDetailsBody columns={columns} rows={viewCategory}
+          onClickCreate={onClickCreate}
+        />
+        {/* <Popup openPopup={true} title="Add new table" form={<AddFood />} /> */}
+        <Popup
+        openPopup={openPopup}
+        title="Add new Category"
+        form={<AddCategory title="Add Food" openPopupClick={openPopupClick} />}
+      />
+      <Popup
+        openPopup={openEditForm}
+        title="Update Category Name"
+        form={<Updatecategory category={categorySelected} title="Update Food" openEditPopup={openEditPopup} />}
+      />
+      </div>
+
+      </div>
     )
 }
 

@@ -4,7 +4,6 @@ import ViewDetailsBody from "../../../components/viewDetailsBody/ViewDetailsBody
 import DeleteIcon from "@material-ui/icons/Delete";
 import { Edit } from "@material-ui/icons";
 import Button from "@material-ui/core/Button";
-import { useHistory } from 'react-router-dom';
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
@@ -13,10 +12,28 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 
 import Popup from '../../../components/popup/Popup';
 import AddFood from '../../../components/FoodManage/AddManage/Addfood';
+import Updatefood from '../../../components/FoodManage/EditManage/Updatefood';
+import { useParams } from 'react-router-dom';
 
 
 function Viewfoodpage() {
+
+    const paramsId = useParams();
+
     const [foods, setFoods] = useState([]);
+    const [openPopup, setOpenPopup] = useState(false);
+
+    const openPopupClick = () => {
+      setOpenPopup(false);
+    }
+
+    const openEditPopup = () => {
+      setOpenEditForm(false);
+    }
+
+    const onClickCreate = (e) => {
+      setOpenPopup(true);
+    };
 
     const columns = [
       // { field: "_id", headerName: "ID", width: 160 },
@@ -66,11 +83,13 @@ function Viewfoodpage() {
                 color="primary"
                 startIcon={<Edit />}
                 style={{ marginLeft: "20px", marginRight: "30px" }}
+                onClick={() => handleEditOpen(params.row)}
               >
                 Edit
+                
               </Button>
               <DeleteIcon
-              onClick = {(e) => handleClickOpen(e, params.row._id)}
+              onClick = {() => handleClickOpen(params.row._id)}
               color="secondary" />
             </>
           );
@@ -78,17 +97,26 @@ function Viewfoodpage() {
       },
     ];
 
-    const history = useHistory();
+    const [openEditForm, setOpenEditForm] = useState(false);
+    const [foodSelected, setFoodSelected] = useState([]);
+    // Edit function
+    const handleEditOpen = (food) => {
+        setOpenEditForm(true);
+        setFoodSelected(food);
+    }
+
+    // const history = useHistory();
     const [open, setOpen] = React.useState(false);
 
     const [reload, setReload] = useState(false);
 
-    const [foodid, setFoodid] = useState('');
+    const [IdFood, setIdFood] = useState('');
 
       //delete handle functions
-  const handleClickOpen = (e,foodId) => {
-    setFoodid(foodId);
+  const handleClickOpen = (id) => {
     setOpen(true);
+    setIdFood(id);
+    console.log(id);
   }
 
   const handleClose = () => {
@@ -96,10 +124,11 @@ function Viewfoodpage() {
   }
   
     const getAllFoods = async() => {
-        await axios.get("/food/all-food")
+        await axios.get(`/category/own-category/${paramsId.id}`)
          .then((response) => {
-            //  console.log(response.data.data);
-             setFoods(response.data.data);
+              // console.log(response.data.foodItems);
+             setFoods(response.data.foodItems);
+            //  console.log(paramsId.id);
          })
          .catch((error) => {
              console.log(error);
@@ -108,16 +137,17 @@ function Viewfoodpage() {
 
     useEffect(() => {
         getAllFoods();
-    }, []);
+    }, [reload]);
 
 
     async function deleteFood() {
 
         setOpen(false);
-        await axios.delete(`/food/delete-food/${foodid}`)
+        // console.log(IdFood);
+        await axios.delete(`/food/delete-food/${IdFood}`)
             .then((response) => {
                 console.log('Deleted Successfully');
-                console.log(foodid);
+                console.log(IdFood);
                 setReload(!reload);
             })
             .catch((error) => {
@@ -125,15 +155,10 @@ function Viewfoodpage() {
             })
     }
 
-    const updateFood = (id) => {
-        let path = `didula/update-food/${id}`;
-        history.push(path);
-    }
-
     return (
         <div>
 
-    <Dialog
+        <Dialog
             open={open}
             onClose={handleClose}
             aria-labelledby="alert-dialog-title"
@@ -158,8 +183,21 @@ function Viewfoodpage() {
           </Dialog>
 
         <div className="viewTable">
-        <ViewDetailsBody columns={columns} rows={foods} />
-        <Popup openPopup={true} title="Add new table" form={<AddFood />} />
+        <ViewDetailsBody columns={columns} rows={foods}
+          onClickCreate={onClickCreate}
+        />
+
+        <Popup
+        openPopup={openPopup}
+        title="Add new food"
+        form={<AddFood title="Add Food" openPopupClick={openPopupClick} />}
+      />
+
+      <Popup
+        openPopup={openEditForm}
+        title="Update food"
+        form={<Updatefood food={foodSelected} title="Update Food" openEditPopup={openEditPopup} />}
+      />
       </div>
 
       </div>

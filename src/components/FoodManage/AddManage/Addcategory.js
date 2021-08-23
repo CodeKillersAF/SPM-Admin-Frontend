@@ -27,8 +27,8 @@ const useStyles = makeStyles((theme) => ({
       },
   }))
 
-function Addcategory() {
-
+function Addcategory({ openPopupClick }) {
+  const [popupOpen, setpopupOpen] = useState(false);
     const history = useHistory();
     const classes = useStyles();
 
@@ -81,8 +81,7 @@ function Addcategory() {
         await axios.post("/category/add-category", categoryDetails)
             .then((response) => {
                 console.log(response.data);
-                let path = '/view-c';
-                history.push(path);
+                openPopupClick();
 
                 console.log(categoryDetails);
             })
@@ -94,27 +93,6 @@ function Addcategory() {
     return (
 
     <div>
-        {/* <div className="addFood-box">
-            <h2>Add Category</h2>
-            <div className="formDesign">
-                <div className="food-box">
-                    <input type="text"
-                        value={category}
-                        onChange={(e) => setCategory(e.target.value)} 
-                        required />
-                    <label>Category Name</label>
-                </div>
-
-                 <Select
-                    //options={this.state.options}
-                    options={allFoodsArray}
-                    onChange={selectedFood}
-                    className="basic-multi-select"
-                    isMulti
-                />
-
-            </div>
-        </div> */}
 
         <form className={classes.root}>
       <Grid container>
@@ -124,7 +102,6 @@ function Addcategory() {
                 value={category} onChange={(e) => setCategory(e.target.value)} />
           <FormControl variant="outlined">
           <Select
-                //options={this.state.options}
                 options={allFoodsArray}
                 onChange={selectedFood}
                 className="basic-multi-select"
