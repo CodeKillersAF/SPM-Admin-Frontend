@@ -18,18 +18,7 @@ import AddCategory from '../../../components/FoodManage/AddManage/Addcategory';
 import Updatecategory from '../../../components/FoodManage/EditManage/Updatecategory';
 
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    width: '100%',
-    '& > * + *': {
-      marginTop: theme.spacing(2),
-    },
-  },
-}));
-
 function Viewcategorypage() {
-
-  const classes = useStyles();
 
     const history = useHistory();
 
@@ -49,6 +38,10 @@ function Viewcategorypage() {
       setOpen(true);
     }
 
+    const reloadForForms = () => {
+      setReload(!reload);
+    }
+
     const openPopupClick = () => {
         setOpenPopup(false);
       }
@@ -62,6 +55,7 @@ function Viewcategorypage() {
     }
 
     const getAllCategories = async () => {
+      setReload(!reload);
         try {
             const details = await axios.get("/category/all-category");
 
@@ -153,7 +147,7 @@ function Viewcategorypage() {
 
     const passSelectCategoryId = (id) => {
       console.log(id);
-      let path = `/didula/view-food/${id}`;
+      let path = `/foodCategory/view-food/${id}`;
       history.push(path);
     } 
 
@@ -206,12 +200,17 @@ function Viewcategorypage() {
         <Popup
         openPopup={openPopup}
         title="Add new Category"
-        form={<AddCategory title="Add Food" openPopupClick={openPopupClick} />}
+        form={<AddCategory title="Add Food" 
+            openPopupClick={openPopupClick}
+            reloadForForms={reloadForForms} 
+        />}
       />
       <Popup
         openPopup={openEditForm}
         title="Update Category Name"
-        form={<Updatecategory category={categorySelected} title="Update Food" openEditPopup={openEditPopup} />}
+        form={<Updatecategory category={categorySelected} title="Update Food"
+           openEditPopup={openEditPopup}
+           reloadForForms={reloadForForms} />}
       />
       </div>
 

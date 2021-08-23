@@ -90,6 +90,7 @@ function Viewfoodpage() {
               </Button>
               <DeleteIcon
               onClick = {() => handleClickOpen(params.row._id)}
+              // onClick={getOneCate}
               color="secondary" />
             </>
           );
@@ -119,11 +120,17 @@ function Viewfoodpage() {
     console.log(id);
   }
 
+  const reloadForForms = () => {
+    setReload(!reload);
+  }
+
   const handleClose = () => {
     setOpen(false);
   }
-  
+
+
     const getAllFoods = async() => {
+        setReload(!reload);
         await axios.get(`/category/own-category/${paramsId.id}`)
          .then((response) => {
               // console.log(response.data.foodItems);
@@ -190,13 +197,16 @@ function Viewfoodpage() {
         <Popup
         openPopup={openPopup}
         title="Add new food"
-        form={<AddFood title="Add Food" openPopupClick={openPopupClick} />}
+        form={<AddFood title="Add Food" openPopupClick={openPopupClick} reloadForForms={reloadForForms} />}
       />
 
       <Popup
         openPopup={openEditForm}
         title="Update food"
-        form={<Updatefood food={foodSelected} title="Update Food" openEditPopup={openEditPopup} />}
+        form={<Updatefood food={foodSelected} title="Update Food"
+          openEditPopup={openEditPopup}
+          reloadForForms={reloadForForms}
+         />}
       />
       </div>
 

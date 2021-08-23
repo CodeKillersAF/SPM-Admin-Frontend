@@ -27,15 +27,13 @@ const useStyles = makeStyles((theme) => ({
       },
   }))
 
-function Addcategory({ openPopupClick }) {
-  const [popupOpen, setpopupOpen] = useState(false);
-    const history = useHistory();
+function Addcategory({ openPopupClick, reloadForForms }) {
+
     const classes = useStyles();
 
     const [category, setCategory] = useState('');
 
     const [food, setFood] = useState([]);
-
 
     const getAllData = async() => {
         const data = await axios.get("/food/all-food");
@@ -82,6 +80,7 @@ function Addcategory({ openPopupClick }) {
             .then((response) => {
                 console.log(response.data);
                 openPopupClick();
+                reloadForForms();
 
                 console.log(categoryDetails);
             })

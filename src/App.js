@@ -21,8 +21,8 @@ function App() {
 
             <Layout>
               <Route path="/home" component={Home} />
-              <Route path="/didula/view-category" component={ViewCategoryPage} />
-              <Route path="/didula/view-food/:id" component={ViewFoodPage} />
+              <Route path="/foodCategory/view-category" component={ViewCategoryPage} />
+              <Route path="/foodCategory/view-food/:id" component={ViewFoodPage} />
               <Route path="/table" component={ViewTable}/>
               <Route path="/tableCategory" component={ViewTableCategory}/>
             </Layout>

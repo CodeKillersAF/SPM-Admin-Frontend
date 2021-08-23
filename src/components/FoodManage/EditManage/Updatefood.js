@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
       },
   }))
 
-function Updatefood({ food, openEditPopup }) {
+function Updatefood({ food, openEditPopup, reloadForForms }) {
 
     const classes = useStyles();
 
@@ -36,6 +36,7 @@ function Updatefood({ food, openEditPopup }) {
             .then((response) => {
                 console.log('Updated successfully');
                 openEditPopup();
+                reloadForForms();
 
             })
             .catch((error) => {

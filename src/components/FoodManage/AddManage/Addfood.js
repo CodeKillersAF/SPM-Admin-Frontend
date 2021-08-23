@@ -3,7 +3,6 @@ import axios from 'axios';
 import { storage } from '../../../firebase';
 import Backdrop from '@material-ui/core/Backdrop';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import { useHistory } from 'react-router-dom';
 import {
     Grid,
     TextField,
@@ -31,12 +30,9 @@ const useStyles = makeStyles((theme) => ({
   }))
 
 
-function Addfood({ openPopupClick }) {
-
-  const [popupOpen, setpopupOpen] = useState(false);
+function Addfood({ openPopupClick, reloadForForms }) {
 
 
-    const history = useHistory();
     const [open, setOpen] = React.useState(false);
     const classes = useStyles();
 
@@ -102,6 +98,7 @@ function Addfood({ openPopupClick }) {
                         console.log(response.data.data);
                         console.log('Updated Successfully');
                         openPopupClick();
+                        reloadForForms();
                     })
                     .catch((error) => {
                         console.log(error);
