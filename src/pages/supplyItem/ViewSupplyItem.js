@@ -17,6 +17,7 @@ export default function ViewSupplyItem() {
     const [open, setOpen] = React.useState(false);
     const [tableID, setTableID] = useState("");
 
+    const [reload, setReload] = useState(false)
     // const [openPopup, setOpenPopup] = useState(false);
 
     const openEditPopup = () => {
@@ -25,7 +26,7 @@ export default function ViewSupplyItem() {
 
     useEffect(() => {
         getSupplyDetails();
-    }, [setOpen]);
+    }, [setOpen, reload]);
 
     const getSupplyDetails = () => {
         axios.get("http://localhost:8000/api/admin/supply-item").then((res) => {
@@ -62,6 +63,7 @@ export default function ViewSupplyItem() {
             .then((res) => {
                 console.log("deleted");
                 setOpen(false);
+                setReload(!reload)
             });
     };
 
