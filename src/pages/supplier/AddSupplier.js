@@ -92,7 +92,7 @@ export default function AddSupplier() {
                     <div className="addTableItem">
                         <label htmlFor="email" className="form-label">Email</label>
                         <input
-                            type="text"
+                            type="email"
                             className="form-control"
                             id="email"
                             name="email"
@@ -128,17 +128,17 @@ export default function AddSupplier() {
                     </div>
                     <br />
                     <div className="addTableItem">
-                    <Select
-                        className="basic-single"
-                        options={allSupplyItemArray}
-                        onChange={selectedSupplyItem}
-                        isMulti
-                        required
-                    />
+                        <Select
+                            className="basic-single"
+                            options={allSupplyItemArray}
+                            onChange={selectedSupplyItem}
+                            isMulti
+                            required
+                        />
                     </div>
                     <br />
                     <div className="addTableItem">
-                    <button type="submit" className="addTableButton">Submit</button>
+                        <button type="submit" className="addTableButton">Submit</button>
                     </div>
 
                 </form>

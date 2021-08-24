@@ -70,7 +70,7 @@ export default function AddSupplyItem() {
 
                     <div className="addTableItem">
                         <label htmlFor="desc" className="form-label">Description</label>
-                        <input
+                        {/* <input
                             type="text"
                             className="form-control"
                             id="desc"
@@ -78,7 +78,15 @@ export default function AddSupplyItem() {
                             value={desc}
                             onChange={(e) => setdesc(e.target.value)}
                             required
-                        />
+                        /> */}
+                        <textarea
+                            className="form-control"
+                            name="desc"
+                            cols="40"
+                            rows="5"
+                            value={desc}
+                            onChange={(e) => setdesc(e.target.value)}>
+                        </textarea>
                     </div>
                     <br />
                     <div className="addTableItem">

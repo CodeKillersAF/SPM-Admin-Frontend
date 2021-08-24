@@ -1,7 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import Popup from "../../components/popup/Popup";
-import TableForm from "../../components/tableForm/TableForm";
 import ViewDetailsBody from "../../components/viewDetailsBody/ViewDetailsBody";
 import DeleteIcon from "@material-ui/icons/Delete";
 import { Edit } from "@material-ui/icons";
@@ -17,13 +16,15 @@ export default function ViewSupplier() {
     const [open, setOpen] = React.useState(false);
     const [tableID, setTableID] = useState("");
 
+    const [reload, setReload] = useState(false)
+
     const openEditPopup = () => {
         setopenForm(false);
     }
 
     useEffect(() => {
         getSupplier();
-    }, [setOpen]);
+    }, [setOpen, reload]);
 
     const getSupplier = () => {
         axios.get("http://localhost:8000/api/admin/supplier").then((res) => {
@@ -52,6 +53,7 @@ export default function ViewSupplier() {
             .then((res) => {
                 console.log("deleted");
                 setOpen(false);
+                setReload(!reload)
             });
     };
 

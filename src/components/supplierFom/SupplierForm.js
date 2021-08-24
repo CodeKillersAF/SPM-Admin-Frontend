@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Grid, TextField, makeStyles, Button, IconButton, } from "@material-ui/core";
 import axios from "axios";
+import Select from 'react-select';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -22,6 +23,15 @@ export default function SupplierForm({
         const { name, value } = e.target;
         setValues({ ...values, [name]: value });
     };
+
+    let allSupplyItemArray = [];
+    supply.supplyItems.map((i, index) => {
+        let allSupplyItem = {
+            value: i._id,
+            label: i.item_name
+        }
+        allSupplyItemArray.push(allSupplyItem);
+    });
 
     const onUpdate = (e) => {
         e.preventDefault();
@@ -66,7 +76,7 @@ export default function SupplierForm({
                         value={values.address}
                         onChange={handleInputChnage}
                     />
-                    <TextField
+                    {/* <TextField
                         id="outlined-textarea"
                         label="Items"
                         placeholder="Items"
@@ -77,6 +87,14 @@ export default function SupplierForm({
                         name="supplyItems"
                         value={values.supplyItems}
                         onChange={handleInputChnage}
+                    /> */}
+                    <Select
+                        className="basic-single"
+                        // options={allSupplyItemArray}
+                        // onChange={selectedSupplyItem}
+                        defaultValue={allSupplyItemArray}
+                        isMulti
+                        required
                     />
                     <div
                         style={{ display: "flex", alignItems: "center", marginTop: "10px" }}
