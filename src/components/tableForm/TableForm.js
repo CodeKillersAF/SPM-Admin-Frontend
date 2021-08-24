@@ -82,6 +82,7 @@ export default function TableForm({
               <div className="preview-image">
                 <img
                   width="200px"
+                  style={{borderRadius:"10px"}}
                   height="180px"
                   src={
                     values.image

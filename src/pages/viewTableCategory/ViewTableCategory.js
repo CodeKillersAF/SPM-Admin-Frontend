@@ -23,6 +23,7 @@ export default function ViewTableCategory() {
   const [updatedCategory, setupdatedCategory] = useState({});
   const [newTable, setnewTable] = useState({});
   const [deletedCategory, setdeletedCategory] = useState({});
+  const [editCategory, seteditCategory] = useState(initialState)
 
   const onUpdate = (e, values) => {
     e.preventDefault();
@@ -37,7 +38,7 @@ export default function ViewTableCategory() {
   const onClickEdit = (tableCategory) => {
     setEditFormOpen(true);
     console.log(tableCategory);
-    setTableCategory(tableCategory);
+    seteditCategory(tableCategory);
   };
 
   const handleClose = () => {
@@ -170,7 +171,7 @@ export default function ViewTableCategory() {
           title="Add new category table"
           form={
             <TableCategoryForm
-              tableCategory={tableCategory}
+              tableCategory={editCategory}
               buttonTitle="Update"
               onSubmit={onUpdate}
             />
