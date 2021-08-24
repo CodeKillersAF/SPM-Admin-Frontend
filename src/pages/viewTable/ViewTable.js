@@ -30,6 +30,7 @@ export default function ViewTable() {
   const [updatedTable, setupdatedTable] = useState({});
   const [newTable, setnewTable] = useState({});
   const [deletedTable, setdeletedTable] = useState({});
+  const [editTable, seteditTable] = useState({});
 
   const onClickCreate = (e) => {
     setOpenPopup(true);
@@ -40,8 +41,21 @@ export default function ViewTable() {
     axios
       .post("http://localhost:8000/api/table/createTable/", values)
       .then((res) => {
+        console.log(res.data._id);
         setOpenPopup(false);
         setnewTable(values);
+        let movie = {
+          movies: res.data._id,
+        };
+
+        axios
+          .put(
+            "http://localhost:8000/api/tableCategory/updateMovie/" + res.data.category,
+            movie
+          )
+          .then((res) => {
+            console.log(res.data);
+          });
       });
   };
 
@@ -57,7 +71,7 @@ export default function ViewTable() {
 
   const onClickEdit = (table) => {
     setEditFormOpen(true);
-    setTable(table);
+    seteditTable(table);
   };
 
   const handleClose = () => {
@@ -72,7 +86,6 @@ export default function ViewTable() {
     axios
       .delete("http://localhost:8000/api/table/removeTable/" + tableID)
       .then((res) => {
-        console.log("deleted");
         setOpen(false);
         setdeletedTable(tableID);
       });
@@ -82,7 +95,6 @@ export default function ViewTable() {
     const getTableDetails = () => {
       axios.get("http://localhost:8000/api/table/allTable").then((res) => {
         setTables(res.data);
-        console.log(res.data);
       });
     };
     const getAllTableCategory = async () => {
@@ -204,7 +216,7 @@ export default function ViewTable() {
           title="Add new table"
           form={
             <TableForm
-              table={table}
+              table={editTable}
               tableCategories={tableCategories}
               buttonTitle="Update"
               onSubmit={onUpdate}
