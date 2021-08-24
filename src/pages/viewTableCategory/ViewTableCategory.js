@@ -9,19 +9,20 @@ import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
 import DialogBoxConfirm from "../../components/dialogBoxConfirm/DialogBoxConfirm";
 
-const initialState ={
-  name:"",
-  description:"",
-  image :"",
+const initialState = {
+  name: "",
+  description: "",
+  image: "",
 };
 
 export default function ViewTableCategory() {
-
   const [tableCategoryID, setTableCategoryID] = useState("");
   const [editFormOpen, setEditFormOpen] = useState(false);
   const [open, setOpen] = React.useState(false);
   const [tableCategory, setTableCategory] = useState(initialState);
-
+  const [updatedCategory, setupdatedCategory] = useState({});
+  const [newTable, setnewTable] = useState({});
+  const [deletedCategory, setdeletedCategory] = useState({});
 
   const onUpdate = (e, values) => {
     e.preventDefault();
@@ -29,6 +30,7 @@ export default function ViewTableCategory() {
       .put("http://localhost:8000/api/tableCategory/" + values._id, values)
       .then((res) => {
         setEditFormOpen(false);
+        setupdatedCategory(values);
       });
   };
 
@@ -53,17 +55,15 @@ export default function ViewTableCategory() {
       .then((res) => {
         console.log("deleted");
         setOpen(false);
+        setdeletedCategory(tableCategoryID);
       });
   };
-
-
 
   const [tableCategories, setTableCategories] = useState([]);
   const [openPopup, setOpenPopup] = useState(false);
   useEffect(() => {
-    console.log("useEffect");
     getAllTableCategory();
-  }, []);
+  }, [updatedCategory, newTable,deletedCategory]);
   const onClickCreate = () => {
     setOpenPopup(true);
   };
@@ -74,6 +74,7 @@ export default function ViewTableCategory() {
       .post("http://localhost:8000/api/tableCategory/", values)
       .then((res) => {
         setOpenPopup(false);
+        setnewTable(values);
       });
   };
 
@@ -85,7 +86,7 @@ export default function ViewTableCategory() {
   };
 
   const columns = [
-    { field: "_id", headerName: "ID",minWidth:300 },
+    { field: "_id", headerName: "ID", minWidth: 300 },
     {
       field: "image",
       headerName: "Image",
@@ -110,15 +111,15 @@ export default function ViewTableCategory() {
     {
       field: "description",
       headerName: "Description",
-      minWidth:400,
+      minWidth: 400,
       editable: true,
     },
 
     {
       field: "action",
       headerName: "Action",
-      minWidth:300,
-      resizeble:true,
+      minWidth: 300,
+      resizeble: true,
       renderCell: (params) => {
         return (
           <>
@@ -168,7 +169,11 @@ export default function ViewTableCategory() {
           openPopup={true}
           title="Add new category table"
           form={
-            <TableCategoryForm tableCategory={tableCategory} buttonTitle="Update" onSubmit={onUpdate} />
+            <TableCategoryForm
+              tableCategory={tableCategory}
+              buttonTitle="Update"
+              onSubmit={onUpdate}
+            />
           }
         />
       )}
