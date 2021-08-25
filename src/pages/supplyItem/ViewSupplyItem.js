@@ -7,8 +7,9 @@ import { Edit } from "@material-ui/icons";
 import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
 import { useHistory } from "react-router-dom";
-import DialogBoxConfirm from "../../components/dialogBoxConfirm/DialogBoxConfirm";
 import SupplyItemForm from "../../components/supplyItemForm/SupplyItemForm";
+import SnackbarFeddback from "../../components/snackbarFeedback/SnackbarFeedback";
+import DialogBoxSupply from "../../components/dialogBoxSupply/DialogBoxSupply";
 
 
 export default function ViewSupplyItem() {
@@ -19,6 +20,9 @@ export default function ViewSupplyItem() {
 
     const [reload, setReload] = useState(false)
     // const [openPopup, setOpenPopup] = useState(false);
+
+    // For alert box
+    const [addedSuccess, setaddedSuccess] = useState(false);
 
     const openEditPopup = () => {
         setopenForm(false);
@@ -48,6 +52,13 @@ export default function ViewSupplyItem() {
         setOpen(true);
     };
 
+    // For alert box
+    const handleEditClose = (event, reason) => {
+        if (reason === "clickaway") {
+            return;
+        }
+        setaddedSuccess(false);
+    };
     const [openForm, setopenForm] = useState(false);
     const [selectSupplyItem, setselectSupplyItem] = useState([]);
 
@@ -64,6 +75,7 @@ export default function ViewSupplyItem() {
                 console.log("deleted");
                 setOpen(false);
                 setReload(!reload)
+                setaddedSuccess(true); // For alert box
             });
     };
 
@@ -118,7 +130,7 @@ export default function ViewSupplyItem() {
     return (
         <div className="viewTable">
             <ViewDetailsBody columns={columns} rows={supplyItem} onClickCreate={onClickCreate} />
-            <DialogBoxConfirm
+            <DialogBoxSupply
                 open={open}
                 handleClose={handleClose}
                 handleClickOpen={handleClickOpen}
@@ -130,6 +142,12 @@ export default function ViewSupplyItem() {
                 form={
                     <SupplyItemForm supply={selectSupplyItem} buttonTitle="Update" openEditPopup={openEditPopup} />
                 }
+            />
+            {/* For alert box */}
+            <SnackbarFeddback
+                open={addedSuccess}
+                message="Item successfully deleted!"
+                onClose={handleEditClose}
             />
         </div>
     );

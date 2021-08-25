@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { useHistory } from "react-router-dom";
 import axios from 'axios';
 import "./supplyItem.css";
+import SnackbarFeddback from '../../components/snackbarFeedback/SnackbarFeedback';
 
 export default function AddSupplyItem() {
 
@@ -9,10 +10,23 @@ export default function AddSupplyItem() {
     const [item_name, setitem_name] = useState("");
     const [unit_price, setunit_price] = useState("");
     const [desc, setdesc] = useState("");
+    // For alert box
+    const [addedSuccess, setaddedSuccess] = useState(false);
 
+    function delay() {
+        setTimeout(onClickBack, 2000);
+    }
     const onClickBack = () => {
         history.push("/supplyItem")
     }
+
+    // For alert box
+    const handleEditClose = (event, reason) => {
+        if (reason === "clickaway") {
+            return;
+        }
+        setaddedSuccess(false);
+    };
 
     async function addItem(e) {
         e.preventDefault();
@@ -28,8 +42,9 @@ export default function AddSupplyItem() {
             .post("http://localhost:8000/api/admin/supply-item", suupplyItem)
             .then((response) => {
                 console.log(response.data);
-                alert("Supply item added successfully")
-                onClickBack();
+                // alert("Supply item added successfully")
+                setaddedSuccess(true);//For alert
+                delay();
             })
             .catch((error) => {
                 console.log(error);
@@ -59,10 +74,11 @@ export default function AddSupplyItem() {
                     <div className="addTableItem">
                         <label htmlFor="unit_price" className="form-label">Price</label>
                         <input
-                            type="text"
+                            type="number"
                             className="form-control"
                             id="unit_price"
                             name="unit_price"
+                            pattern='[0-9]+(\\.[0-9][0-9]?)?'
                             placeholder="Unit price"
                             value={unit_price}
                             onChange={(e) => setunit_price(e.target.value)}
@@ -95,7 +111,14 @@ export default function AddSupplyItem() {
                     <div className="addTableItem">
                         <button type="submit" className="addTableButton">Submit</button>
                     </div>
-
+                    {/* For alert  */}
+                    <div className="addTableItem">
+                        <SnackbarFeddback
+                            open={addedSuccess}
+                            message="Supply Item successfully added!"
+                            onClose={handleEditClose}
+                        />
+                    </div>
                 </form>
             </div>
         </div>

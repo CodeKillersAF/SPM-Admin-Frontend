@@ -3,6 +3,7 @@ import Select from 'react-select';
 import axios from 'axios';
 import "./supplier.css";
 import { useHistory } from "react-router-dom";
+import SnackbarFeddback from '../../components/snackbarFeedback/SnackbarFeedback';
 
 
 export default function AddSupplier() {
@@ -14,10 +15,24 @@ export default function AddSupplier() {
     const [supplyItems, setsupplyItems] = useState([]);
 
     const history = useHistory();
+
+    // For alert box
+    const [addedSuccess, setaddedSuccess] = useState(false);
+
+    function delay() {
+        setTimeout(onClickBack, 1000);
+    }
     const onClickBack = () => {
         history.push("/supplier")
     }
 
+    // For alert box
+    const handleEditClose = (event, reason) => {
+        if (reason === "clickaway") {
+            return;
+        }
+        setaddedSuccess(false);
+    };
 
     const getAllSupplyItem = async () => {
         const data = await axios.get("http://localhost:8000/api/admin/supply-item")
@@ -60,9 +75,9 @@ export default function AddSupplier() {
             .post("http://localhost:8000/api/admin/supplier", supplier)
             .then((response) => {
                 console.log(response.data);
-                alert("Supplier detail added successfully");
-                onClickBack();
-
+                // alert("Supplier detail added successfully");
+                setaddedSuccess(true);//For alert
+                delay();
             })
             .catch((error) => {
                 console.log(error);
@@ -145,6 +160,14 @@ export default function AddSupplier() {
                     <br />
                     <div className="addTableItem">
                         <button type="submit" className="addTableButton">Submit</button>
+                    </div>
+                    {/* For alert  */}
+                    <div className="addTableItem">
+                        <SnackbarFeddback
+                            open={addedSuccess}
+                            message="Supply Item successfully added!"
+                            onClose={handleEditClose}
+                        />
                     </div>
 
                 </form>

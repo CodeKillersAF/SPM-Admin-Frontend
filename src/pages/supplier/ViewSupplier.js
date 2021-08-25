@@ -7,8 +7,9 @@ import { Edit } from "@material-ui/icons";
 import Button from "@material-ui/core/Button";
 import { useHistory } from "react-router-dom";
 import IconButton from "@material-ui/core/IconButton";
-import DialogBoxConfirm from "../../components/dialogBoxConfirm/DialogBoxConfirm";
 import SupplierForm from "../../components/supplierFom/SupplierForm";
+import DialogBoxSupply from "../../components/dialogBoxSupply/DialogBoxSupply";
+import SnackbarFeddback from "../../components/snackbarFeedback/SnackbarFeedback";
 
 export default function ViewSupplier() {
 
@@ -18,9 +19,20 @@ export default function ViewSupplier() {
 
     const [reload, setReload] = useState(false)
 
+    // For alert box
+    const [addedSuccess, setaddedSuccess] = useState(false);
+
     const openEditPopup = () => {
         setopenForm(false);
     }
+
+    // For alert box
+    const handleEditClose = (event, reason) => {
+        if (reason === "clickaway") {
+            return;
+        }
+        setaddedSuccess(false);
+    };
 
     useEffect(() => {
         getSupplier();
@@ -54,6 +66,7 @@ export default function ViewSupplier() {
                 console.log("deleted");
                 setOpen(false);
                 setReload(!reload)
+                setaddedSuccess(true); // For alert box
             });
     };
 
@@ -120,7 +133,7 @@ export default function ViewSupplier() {
     return (
         <div className="viewTable">
             <ViewDetailsBody columns={columns} rows={supplier} onClickCreate={onClickCreate} />
-            <DialogBoxConfirm
+            <DialogBoxSupply
                 open={open}
                 handleClose={handleClose}
                 handleClickOpen={handleClickOpen}
@@ -132,6 +145,12 @@ export default function ViewSupplier() {
                 form={
                     <SupplierForm supply={selectSupplyItem} buttonTitle="Update" openEditPopup={openEditPopup} />
                 }
+            />
+            {/* For alert box */}
+            <SnackbarFeddback
+                open={addedSuccess}
+                message="Supplier successfully deleted!"
+                onClose={handleEditClose}
             />
         </div>
     );
