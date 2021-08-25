@@ -24,14 +24,14 @@ export default function Layout({children}) {
               <a href="">
                 {" "}
                 <span class="las la-users"></span>
-                <span>Customers</span>
+                <span>Orders</span>
               </a>
             </li>
             <li>
               <a href="">
                 {" "}
                 <span class="las la-clipboard-list"></span>
-                <span>Projects</span>
+                <span>Foods</span>
               </a>
             </li>
             <li>
@@ -45,14 +45,14 @@ export default function Layout({children}) {
               <a href="">
                 {" "}
                 <span class="las la-receipt"></span>
-                <span>Inventory</span>
+                <span>Tables</span>
               </a>
             </li>
             <li>
               <a href="">
                 {" "}
                 <span class="las la-user-circle"></span>
-                <span>Accounts</span>
+                <span>Table Categories</span>
               </a>
             </li>
             <li>

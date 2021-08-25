@@ -8,6 +8,7 @@ import { Edit } from "@material-ui/icons";
 import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
 import DialogBoxConfirm from "../../components/dialogBoxConfirm/DialogBoxConfirm";
+import SnackbarFeddback from "../../components/snackbarFeedback/SnackbarFeedback";
 
 const initialState = {
   name: "",
@@ -31,6 +32,32 @@ export default function ViewTable() {
   const [newTable, setnewTable] = useState({});
   const [deletedTable, setdeletedTable] = useState({});
   const [editTable, seteditTable] = useState({});
+  const [addedSuccess, setaddedSuccess] = useState(false);
+  const [editSuccess, seteditSuccess] = useState(false);
+  const [deleteSuccess, setdeleteSuccess] = useState(false);
+
+
+  const handleAddClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setaddedSuccess(false);
+  };
+  const handleEditClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    seteditSuccess(false);
+  };
+  const handleDeleteClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setdeleteSuccess(false);
+  };
 
   const onClickCreate = (e) => {
     setOpenPopup(true);
@@ -50,11 +77,12 @@ export default function ViewTable() {
 
         axios
           .put(
-            "http://localhost:8000/api/tableCategory/updateMovie/" + res.data.category,
+            "http://localhost:8000/api/tableCategory/updateMovie/" +
+              res.data.category,
             movie
           )
           .then((res) => {
-            console.log(res.data);
+            setaddedSuccess(true);
           });
       });
   };
@@ -66,6 +94,7 @@ export default function ViewTable() {
       .then((res) => {
         setEditFormOpen(false);
         setupdatedTable(values);
+        seteditSuccess(true);
       });
   };
 
@@ -88,6 +117,7 @@ export default function ViewTable() {
       .then((res) => {
         setOpen(false);
         setdeletedTable(tableID);
+        setdeleteSuccess(true);
       });
   };
 
@@ -224,6 +254,22 @@ export default function ViewTable() {
           }
         />
       )}
+
+      <SnackbarFeddback
+        open={addedSuccess}
+        message="Table successfully added!"
+        onClose={handleAddClose}
+      />
+      <SnackbarFeddback
+        open={editSuccess}
+        message="Table successfully updated!"
+        onClose={handleEditClose}
+      />
+      <SnackbarFeddback
+      open={deleteSuccess}
+      message="Table successfully deleted!"
+      onClose={handleDeleteClose}
+      />
     </div>
   );
 }
