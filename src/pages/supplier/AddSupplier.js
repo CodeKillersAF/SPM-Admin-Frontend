@@ -83,6 +83,7 @@ export default function AddSupplier() {
                             className="form-control"
                             id="supplier_name"
                             name="supplier_name"
+                            placeholder="Enter the name of the supplier"
                             value={supplier_name}
                             onChange={(e) => setsupplier_name(e.target.value)}
                             required
@@ -96,6 +97,7 @@ export default function AddSupplier() {
                             className="form-control"
                             id="email"
                             name="email"
+                            placeholder="Enter a valid email address"
                             value={email}
                             onChange={(e) => setemail(e.target.value)}
                             required
@@ -103,24 +105,27 @@ export default function AddSupplier() {
                     </div>
 
                     <div className="addTableItem">
-                        <label htmlFor="contact" className="form-label">contact</label>
+                        <label htmlFor="contact" className="form-label">Contact</label>
                         <input
                             type="text"
                             className="form-control"
                             id="contact"
                             name="contact"
+                            pattern="[0-9]{3}[0-9]{3}[0-9]{4}"
+                            placeholder="Enter a valid phone number"
                             value={contact}
                             onChange={(e) => setcontact(e.target.value)}
                             required
                         />
                     </div>
                     <div className="addTableItem">
-                        <label htmlFor="address" className="form-label">address</label>
+                        <label htmlFor="address" className="form-label">Address</label>
                         <input
                             type="text"
                             className="form-control"
                             id="address"
                             name="address"
+                            placeholder="Permanent address of the supplier"
                             value={address}
                             onChange={(e) => setaddress(e.target.value)}
                             required
@@ -128,6 +133,7 @@ export default function AddSupplier() {
                     </div>
                     <br />
                     <div className="addTableItem">
+                        <label htmlFor="item" className="form-label">Item</label>
                         <Select
                             className="basic-single"
                             options={allSupplyItemArray}

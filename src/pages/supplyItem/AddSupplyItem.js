@@ -43,12 +43,13 @@ export default function AddSupplyItem() {
                 <form onSubmit={addItem} className="addTableForm">
 
                     <div className="addTableItem">
-                        <label htmlFor="item_name" className="form-label">Item Name</label>
+                        <label htmlFor="item_name" className="form-label">Name</label>
                         <input
                             type="text"
                             className="form-control"
                             id="item_name"
                             name="item_name"
+                            placeholder="Name of item"
                             value={item_name}
                             onChange={(e) => setitem_name(e.target.value)}
                             required
@@ -56,12 +57,13 @@ export default function AddSupplyItem() {
                     </div>
 
                     <div className="addTableItem">
-                        <label htmlFor="unit_price" className="form-label">Unit Price</label>
+                        <label htmlFor="unit_price" className="form-label">Price</label>
                         <input
                             type="text"
                             className="form-control"
                             id="unit_price"
                             name="unit_price"
+                            placeholder="Unit price"
                             value={unit_price}
                             onChange={(e) => setunit_price(e.target.value)}
                             required
@@ -84,6 +86,7 @@ export default function AddSupplyItem() {
                             name="desc"
                             cols="40"
                             rows="5"
+                            placeholder="Description of supply item "
                             value={desc}
                             onChange={(e) => setdesc(e.target.value)}>
                         </textarea>
