@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
       },
   }))
 
-function Updatecategory({ category, openEditPopup }) {
+function Updatecategory({ category, openEditPopup, handleAlertCreate }) {
 
     const classes = useStyles();
 
@@ -44,6 +44,7 @@ function Updatecategory({ category, openEditPopup }) {
           //  setAlertOpen(true);
           // console.log(response.data.data);
            openEditPopup();
+           handleAlertCreate();
           //  reloadForForms();
         })
         .catch((error) => {

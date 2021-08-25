@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
   }))
 
 
-function Addfood({ openPopupClick }) {
+function Addfood({ openPopupClick, handleAlertCreate }) {
 
 
     const [open, setOpen] = React.useState(false);
@@ -99,6 +99,7 @@ function Addfood({ openPopupClick }) {
                         console.log('Updated Successfully');
                         openPopupClick();
                         // reloadForForms();
+                        handleAlertCreate();
                     })
                     .catch((error) => {
                         console.log(error);

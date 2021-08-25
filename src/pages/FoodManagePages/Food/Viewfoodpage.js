@@ -14,11 +14,22 @@ import Popup from '../../../components/popup/Popup';
 import AddFood from '../../../components/FoodManage/AddManage/Addfood';
 import Updatefood from '../../../components/FoodManage/EditManage/Updatefood';
 import { useParams } from 'react-router-dom';
+import SnackbarFeddback from '../../../components/snackbarFeedback/SnackbarFeedback';
 
 
 function Viewfoodpage() {
 
     const paramsId = useParams();
+
+    const [addedSuccess, setaddedSuccess] = useState(false);
+
+    const handleAlertCreate = () => {
+      setaddedSuccess(true);
+    }
+
+    const handleEditClose = () => {
+      setaddedSuccess(false);
+    };
 
     const [foods, setFoods] = useState([]);
     const [openPopup, setOpenPopup] = useState(false);
@@ -197,6 +208,7 @@ function Viewfoodpage() {
         title="Add new food"
         form={<AddFood title="Add Food" openPopupClick={openPopupClick}
         // reloadForForms={reloadForForms}
+      handleAlertCreate={handleAlertCreate}
           />}
       />
 
@@ -206,8 +218,15 @@ function Viewfoodpage() {
         form={<Updatefood food={foodSelected} title="Update Food"
           openEditPopup={openEditPopup}
           id={paramsId}
+          handleAlertCreate={handleAlertCreate}
           // reloadForForms={reloadForForms}
          />}
+      />
+
+    <SnackbarFeddback
+      open={addedSuccess}
+      message="Food menu successfully updated!"
+      onClose={handleEditClose}
       />
       </div>
 

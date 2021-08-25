@@ -14,11 +14,22 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import Popup from '../../../components/popup/Popup';
 import AddCategory from '../../../components/FoodManage/AddManage/Addcategory';
 import Updatecategory from '../../../components/FoodManage/EditManage/Updatecategory';
+import SnackbarFeddback from '../../../components/snackbarFeedback/SnackbarFeedback';
 
 
 function Viewcategorypage() {
 
     const history = useHistory();
+
+    const [addedSuccess, setaddedSuccess] = useState(false);
+
+    const handleAlertCreate = () => {
+      setaddedSuccess(true);
+    }
+
+    const handleEditClose = () => {
+      setaddedSuccess(false);
+    };
 
     const [openPopup, setOpenPopup] = useState(false);
 
@@ -196,7 +207,7 @@ function Viewcategorypage() {
         title="Add new Category"
         form={<AddCategory title="Add Food" 
             openPopupClick={openPopupClick}
-           
+            handleAlertCreate={handleAlertCreate}
         />}
       />
       <Popup
@@ -204,8 +215,14 @@ function Viewcategorypage() {
         title="Update Category Name"
         form={<Updatecategory category={categorySelected} title="Update Food"
            openEditPopup={openEditPopup}
-         
+           handleAlertCreate={handleAlertCreate}
           />}
+      />
+
+    <SnackbarFeddback
+      open={addedSuccess}
+      message="Category list successfully updated!"
+      onClose={handleEditClose}
       />
       </div>
 

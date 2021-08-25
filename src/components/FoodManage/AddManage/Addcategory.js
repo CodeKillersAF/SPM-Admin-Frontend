@@ -27,12 +27,11 @@ const useStyles = makeStyles((theme) => ({
       },
   }))
 
-function Addcategory({ openPopupClick }) {
+function Addcategory({ openPopupClick, handleAlertCreate }) {
 
     const classes = useStyles();
 
     const [category, setCategory] = useState('');
-
 
     const [food, setFood] = useState([]);
 
@@ -82,6 +81,7 @@ function Addcategory({ openPopupClick }) {
                 // console.log(response.data);
                 openPopupClick();
                 // reloadForForms();
+                handleAlertCreate();
 
                 // console.log(categoryDetails);
             })
@@ -127,7 +127,7 @@ function Addcategory({ openPopupClick }) {
         </Grid>
       </Grid>
     </form>
-
+    
 
     </div>
 
