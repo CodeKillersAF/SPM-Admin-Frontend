@@ -8,6 +8,8 @@ import { Edit } from "@material-ui/icons";
 import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
 import DialogBoxConfirm from "../../components/dialogBoxConfirm/DialogBoxConfirm";
+import SnackbarFeddback from "../../components/snackbarFeedback/SnackbarFeedback";
+
 
 const initialState = {
   name: "",
@@ -23,7 +25,8 @@ export default function ViewTableCategory() {
   const [updatedCategory, setupdatedCategory] = useState({});
   const [newTable, setnewTable] = useState({});
   const [deletedCategory, setdeletedCategory] = useState({});
-  const [editCategory, seteditCategory] = useState(initialState)
+  const [editCategory, seteditCategory] = useState(initialState);
+  const [addedSuccess, setaddedSuccess] = useState(false);
 
   const onUpdate = (e, values) => {
     e.preventDefault();
@@ -43,6 +46,13 @@ export default function ViewTableCategory() {
 
   const handleClose = () => {
     setOpen(false);
+  };
+  const handleEditClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setaddedSuccess(false);
   };
   const handleClickOpen = (tableCategoryID) => {
     setTableCategoryID(tableCategoryID);
@@ -64,7 +74,7 @@ export default function ViewTableCategory() {
   const [openPopup, setOpenPopup] = useState(false);
   useEffect(() => {
     getAllTableCategory();
-  }, [updatedCategory, newTable,deletedCategory]);
+  }, [updatedCategory, newTable, deletedCategory]);
   const onClickCreate = () => {
     setOpenPopup(true);
   };
@@ -76,6 +86,7 @@ export default function ViewTableCategory() {
       .then((res) => {
         setOpenPopup(false);
         setnewTable(values);
+        setaddedSuccess(true);
       });
   };
 
@@ -178,6 +189,12 @@ export default function ViewTableCategory() {
           }
         />
       )}
+      <SnackbarFeddback
+      open={addedSuccess}
+      message="Category successfully added!"
+      onClose={handleEditClose}
+      />
+     
     </div>
   );
 }
