@@ -27,11 +27,12 @@ const useStyles = makeStyles((theme) => ({
       },
   }))
 
-function Addcategory({ openPopupClick, reloadForForms }) {
+function Addcategory({ openPopupClick }) {
 
     const classes = useStyles();
 
     const [category, setCategory] = useState('');
+
 
     const [food, setFood] = useState([]);
 
@@ -78,14 +79,15 @@ function Addcategory({ openPopupClick, reloadForForms }) {
 
         await axios.post("/category/add-category", categoryDetails)
             .then((response) => {
-                console.log(response.data);
+                // console.log(response.data);
                 openPopupClick();
-                reloadForForms();
+                // reloadForForms();
 
-                console.log(categoryDetails);
+                // console.log(categoryDetails);
             })
             .catch((error) => {
-                console.log(error);
+                // console.log(error.message);
+                alert('Please fill category name');
             })
     }
 
@@ -118,8 +120,8 @@ function Addcategory({ openPopupClick, reloadForForms }) {
             >
               Create
             </Button>
-            <Button variant="contained" color="secondary">
-              Reset
+            <Button variant="contained" onClick={openPopupClick} color="secondary">
+              Cancle
             </Button>
           </div>
         </Grid>

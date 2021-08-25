@@ -109,7 +109,7 @@ function Viewfoodpage() {
     // const history = useHistory();
     const [open, setOpen] = React.useState(false);
 
-    const [reload, setReload] = useState(false);
+    const [reload, setReload] = useState();
 
     const [IdFood, setIdFood] = useState('');
 
@@ -120,9 +120,6 @@ function Viewfoodpage() {
     console.log(id);
   }
 
-  const reloadForForms = () => {
-    setReload(!reload);
-  }
 
   const handleClose = () => {
     setOpen(false);
@@ -130,11 +127,12 @@ function Viewfoodpage() {
 
 
     const getAllFoods = async() => {
-        setReload(!reload);
+        // setReload(!reload);
         await axios.get(`/category/own-category/${paramsId.id}`)
          .then((response) => {
               // console.log(response.data.foodItems);
              setFoods(response.data.foodItems);
+             setReload(response.data.foodItems);
             //  console.log(paramsId.id);
          })
          .catch((error) => {
@@ -154,8 +152,8 @@ function Viewfoodpage() {
         await axios.delete(`/food/delete-food/${IdFood}`)
             .then((response) => {
                 console.log('Deleted Successfully');
-                console.log(IdFood);
-                setReload(!reload);
+                // console.log(IdFood);
+                alert('Deleted successfully');
             })
             .catch((error) => {
                 console.log(error);
@@ -197,7 +195,9 @@ function Viewfoodpage() {
         <Popup
         openPopup={openPopup}
         title="Add new food"
-        form={<AddFood title="Add Food" openPopupClick={openPopupClick} reloadForForms={reloadForForms} />}
+        form={<AddFood title="Add Food" openPopupClick={openPopupClick}
+        // reloadForForms={reloadForForms}
+          />}
       />
 
       <Popup
@@ -205,7 +205,8 @@ function Viewfoodpage() {
         title="Update food"
         form={<Updatefood food={foodSelected} title="Update Food"
           openEditPopup={openEditPopup}
-          reloadForForms={reloadForForms}
+          id={paramsId}
+          // reloadForForms={reloadForForms}
          />}
       />
       </div>

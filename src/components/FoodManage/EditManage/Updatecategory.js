@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import axios from 'axios';
 import { useState } from 'react';
 import {
@@ -8,6 +8,7 @@ import {
     Button,
 
   } from "@material-ui/core";
+
 
 
 const useStyles = makeStyles((theme) => ({
@@ -23,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
       },
   }))
 
-function Updatecategory({ category, openEditPopup, reloadForForms }) {
+function Updatecategory({ category, openEditPopup }) {
 
     const classes = useStyles();
 
@@ -40,8 +41,10 @@ function Updatecategory({ category, openEditPopup, reloadForForms }) {
         axios.put(`/category/update-category-name/${values._id}`, values)
         .then((response) => {
            console.log('Updated Successfully');
+          //  setAlertOpen(true);
+          // console.log(response.data.data);
            openEditPopup();
-           reloadForForms();
+          //  reloadForForms();
         })
         .catch((error) => {
             console.log(error);
@@ -50,6 +53,7 @@ function Updatecategory({ category, openEditPopup, reloadForForms }) {
 
     return (
         <div>
+
             <form className={classes.root}>
       <Grid container>
 
@@ -68,8 +72,8 @@ function Updatecategory({ category, openEditPopup, reloadForForms }) {
             >
               Update
             </Button>
-            <Button variant="contained" color="secondary">
-              Reset
+            <Button variant="contained" onClick={openEditPopup} color="secondary">
+              Cancle
             </Button>
           </div>
         </Grid>

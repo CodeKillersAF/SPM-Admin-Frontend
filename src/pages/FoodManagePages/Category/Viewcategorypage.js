@@ -11,8 +11,6 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 
-import { makeStyles } from '@material-ui/core/styles';
-
 import Popup from '../../../components/popup/Popup';
 import AddCategory from '../../../components/FoodManage/AddManage/Addcategory';
 import Updatecategory from '../../../components/FoodManage/EditManage/Updatecategory';
@@ -26,8 +24,6 @@ function Viewcategorypage() {
 
     const [open, setOpen] = React.useState(false);
 
-    const [reload, setReload] = useState(false);
-
     const [categoryid, setCategoryid] = useState('');
 
     const [viewCategory, setViewCategory] = useState([]);
@@ -36,10 +32,6 @@ function Viewcategorypage() {
     const handleClickOpen = (e,categoryId) => {
       setCategoryid(categoryId);
       setOpen(true);
-    }
-
-    const reloadForForms = () => {
-      setReload(!reload);
     }
 
     const openPopupClick = () => {
@@ -54,13 +46,17 @@ function Viewcategorypage() {
       setOpen(false);
     }
 
+    const [reload, setReload] = useState();
+
     const getAllCategories = async () => {
-      setReload(!reload);
+      // setReload(!reload);
         try {
             const details = await axios.get("/category/all-category");
 
             console.log(details.data.data);
             setViewCategory(details.data.data);
+
+            setReload(details.data.data);
             
         } catch (error) {
             console.log(error);
@@ -71,15 +67,13 @@ function Viewcategorypage() {
         getAllCategories();
     }, [reload]);
 
-
-
     const deleteCategory = () => {
         try {
           setOpen(false);
             axios.delete(`/category/delete-category/${categoryid}`)
               .then((response) => {
                 console.log('Deleted Successfully');
-                setReload(!reload);
+                // setReload(!reload);
               })
               .catch((error) => {
                 console.log(error);
@@ -157,7 +151,7 @@ function Viewcategorypage() {
     const openEditPopup = () => {
       setOpenEditForm(false);
     }
-
+    
     // update category name
     const handleEditCategorySelect = (category) => {
         setOpenEditForm(true);
@@ -196,13 +190,13 @@ function Viewcategorypage() {
         <ViewDetailsBody columns={columns} rows={viewCategory}
           onClickCreate={onClickCreate}
         />
-        {/* <Popup openPopup={true} title="Add new table" form={<AddFood />} /> */}
+
         <Popup
         openPopup={openPopup}
         title="Add new Category"
         form={<AddCategory title="Add Food" 
             openPopupClick={openPopupClick}
-            reloadForForms={reloadForForms} 
+           
         />}
       />
       <Popup
@@ -210,7 +204,8 @@ function Viewcategorypage() {
         title="Update Category Name"
         form={<Updatecategory category={categorySelected} title="Update Food"
            openEditPopup={openEditPopup}
-           reloadForForms={reloadForForms} />}
+         
+          />}
       />
       </div>
 

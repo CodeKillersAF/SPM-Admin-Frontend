@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import axios from 'axios';
 import { useState } from 'react';
 import {
@@ -23,9 +23,24 @@ const useStyles = makeStyles((theme) => ({
       },
   }))
 
-function Updatefood({ food, openEditPopup, reloadForForms }) {
+function Updatefood({ food, openEditPopup, id }) {
 
     const classes = useStyles();
+
+    console.log('Id came : ' + id.id);
+    const [Cname, setCName] = useState('');
+
+    const categoryNameSet = () => { 
+        axios.get(`/category/get-category/${id.id}`)
+          .then((response) => {
+            // console.log(response.data.data);
+            setCName(response.data.data.categoryName);
+          })
+    }
+
+    useEffect(() => {
+      categoryNameSet();
+    }, []);
 
     const [values, setValues] = useState(food);
 
@@ -36,11 +51,12 @@ function Updatefood({ food, openEditPopup, reloadForForms }) {
             .then((response) => {
                 console.log('Updated successfully');
                 openEditPopup();
-                reloadForForms();
+                // reloadForForms();
 
             })
             .catch((error) => {
                 console.log(error);
+                // alert(error);
             })
     }
 
@@ -75,7 +91,7 @@ function Updatefood({ food, openEditPopup, reloadForForms }) {
           </Grid>
           <Grid item xs={6}>
           <TextField variant="outlined" name="Category" label="Category"
-                   value={values.category} onChange={inputHandleChange} name="category" />
+                   value={Cname} onChange={inputHandleChange} name="category" disabled />
   
             <TextField
               id="outlined-textarea"
@@ -101,8 +117,8 @@ function Updatefood({ food, openEditPopup, reloadForForms }) {
               >
                 Update
               </Button>
-              <Button variant="contained" color="secondary">
-                Reset
+              <Button variant="contained" onClick={openEditPopup} color="secondary">
+                Cancle
               </Button>
             </div>
           </Grid>

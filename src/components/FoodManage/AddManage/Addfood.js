@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
   }))
 
 
-function Addfood({ openPopupClick, reloadForForms }) {
+function Addfood({ openPopupClick }) {
 
 
     const [open, setOpen] = React.useState(false);
@@ -87,7 +87,7 @@ function Addfood({ openPopupClick, reloadForForms }) {
 
                 const getId = response.data.data._id;
 
-                console.log(getId);
+                // console.log(getId);
 
                 let newFoods = {
                     foodItems: [getId],
@@ -98,7 +98,7 @@ function Addfood({ openPopupClick, reloadForForms }) {
                         console.log(response.data.data);
                         console.log('Updated Successfully');
                         openPopupClick();
-                        reloadForForms();
+                        // reloadForForms();
                     })
                     .catch((error) => {
                         console.log(error);
@@ -106,6 +106,7 @@ function Addfood({ openPopupClick, reloadForForms }) {
             })
             .catch((error) => {
                 console.log(error);
+                alert('please fill all fields');
             });
         }
         else {
@@ -115,21 +116,23 @@ function Addfood({ openPopupClick, reloadForForms }) {
 
     function onFileSelect(e) {
         setFile(e.target.files[0]);
+        uploadfile(e.target.files[0]);
     }
 
-    async function uploadfile(e) {
-        e.preventDefault();
+    async function uploadfile(image) {
+        // e.preventDefault();
         setOpen(!open);
 
-        if(!file.name.match(/\.(jpg|jpeg|png)$/)) {
-            console.log('Select valid image');
+        if(!image.name.match(/\.(jpg|jpeg|png)$/)) {
+            // console.log('Select valid image');
+            alert('Selecte an valid image type');
             setOpen(false);
         }
         else {
             let bucketName = "foodImages";
-            let uploadTask = storage.ref(`${bucketName}/${file.name}`).put(file);
+            let uploadTask = storage.ref(`${bucketName}/${image.name}`).put(image);
 
-            console.log("File Name : " + file.name);
+            console.log("File Name : " + image.name);
        
             await uploadTask.on(
                 "state_changed",
@@ -140,7 +143,7 @@ function Addfood({ openPopupClick, reloadForForms }) {
                     console.log(err);
                 },
                 () => {
-                    storage.ref("foodImages").child(file.name).getDownloadURL()
+                    storage.ref("foodImages").child(image.name).getDownloadURL()
                         .then((firebaseURl) => {
                             setUrl(firebaseURl);
                             console.log(firebaseURl);
@@ -173,11 +176,11 @@ function Addfood({ openPopupClick, reloadForForms }) {
               height="200px"
               src={url}
             />
-            <Publish
+            {/* <Publish
               style={{ position: "absolute", top: "100px", left: "320px" }}
               fontSize="large"
               onClick={uploadfile}
-            />
+            /> */}
           </div>
 
           <TextField variant="outlined" name="name" label="Name"
@@ -230,8 +233,8 @@ function Addfood({ openPopupClick, reloadForForms }) {
             >
               Create
             </Button>
-            <Button variant="contained" color="secondary">
-              Reset
+            <Button variant="contained" onClick={openPopupClick} color="secondary">
+              Cancle
             </Button>
           </div>
         </Grid>
