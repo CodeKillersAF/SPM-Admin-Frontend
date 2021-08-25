@@ -26,7 +26,11 @@ export default function ViewTable() {
   const [editFormOpen, setEditFormOpen] = useState(false);
   const [table, setTable] = useState(initialState);
   const [openPopup, setOpenPopup] = useState(false);
-  const [tableCategories, setTableCategories] = useState([])
+  const [tableCategories, setTableCategories] = useState([]);
+  const [updatedTable, setupdatedTable] = useState({});
+  const [newTable, setnewTable] = useState({});
+  const [deletedTable, setdeletedTable] = useState({});
+  const [editTable, seteditTable] = useState({});
 
   const onClickCreate = (e) => {
     setOpenPopup(true);
@@ -37,7 +41,21 @@ export default function ViewTable() {
     axios
       .post("http://localhost:8000/api/table/createTable/", values)
       .then((res) => {
+        console.log(res.data._id);
         setOpenPopup(false);
+        setnewTable(values);
+        let movie = {
+          movies: res.data._id,
+        };
+
+        axios
+          .put(
+            "http://localhost:8000/api/tableCategory/updateMovie/" + res.data.category,
+            movie
+          )
+          .then((res) => {
+            console.log(res.data);
+          });
       });
   };
 
@@ -47,12 +65,13 @@ export default function ViewTable() {
       .put("http://localhost:8000/api/table/updateTable/" + values._id, values)
       .then((res) => {
         setEditFormOpen(false);
+        setupdatedTable(values);
       });
   };
 
   const onClickEdit = (table) => {
     setEditFormOpen(true);
-    setTable(table);
+    seteditTable(table);
   };
 
   const handleClose = () => {
@@ -67,27 +86,26 @@ export default function ViewTable() {
     axios
       .delete("http://localhost:8000/api/table/removeTable/" + tableID)
       .then((res) => {
-        console.log("deleted");
         setOpen(false);
+        setdeletedTable(tableID);
       });
   };
 
   useEffect(() => {
+    const getTableDetails = () => {
+      axios.get("http://localhost:8000/api/table/allTable").then((res) => {
+        setTables(res.data);
+      });
+    };
+    const getAllTableCategory = async () => {
+      axios.get("http://localhost:8000/api/tableCategory").then((res) => {
+        setTableCategories(res.data);
+      });
+    };
     getTableDetails();
     getAllTableCategory();
-  }, [setOpen,setEditFormOpen,setOpenPopup]);
+  }, [updatedTable, newTable, deletedTable]);
 
-  const getTableDetails = () => {
-    axios.get("http://localhost:8000/api/table/allTable").then((res) => {
-      setTables(res.data);
-      console.log(res.data);
-    });
-  };
-
-  const getAllTableCategory = async () => {
-    axios.get("http://localhost:8000/api/tableCategory").then((res) => {
-      setTableCategories(res.data);
-    });}
   const columns = [
     { field: "_id", headerName: "ID", width: 160 },
     {
@@ -177,7 +195,14 @@ export default function ViewTable() {
       <Popup
         openPopup={openPopup}
         title="Add new table"
-        form={<TableForm buttonTitle="Add" table={table} onSubmit={addTable} tableCategories={tableCategories}  />}
+        form={
+          <TableForm
+            buttonTitle="Add"
+            table={table}
+            onSubmit={addTable}
+            tableCategories={tableCategories}
+          />
+        }
       />
       <DialogBoxConfirm
         open={open}
@@ -190,7 +215,12 @@ export default function ViewTable() {
           openPopup={true}
           title="Add new table"
           form={
-            <TableForm table={table} tableCategories={tableCategories} buttonTitle="Update" onSubmit={onUpdate} />
+            <TableForm
+              table={editTable}
+              tableCategories={tableCategories}
+              buttonTitle="Update"
+              onSubmit={onUpdate}
+            />
           }
         />
       )}
