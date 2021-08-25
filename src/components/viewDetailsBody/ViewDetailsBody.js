@@ -18,6 +18,8 @@ export default function ViewDetailsBody({columns,rows,onClickCreate}) {
           checkboxSelection
           disableSelectionOnClick
           getRowId={(row) => row._id}
+          autoHeight={true}
+          autoPageSize={true}
         />
       </div>
     </div>

@@ -13,9 +13,9 @@ const initialState = {
   name: "",
   description: "",
   image: "",
-  width: 0,
-  height: 0,
-  chairs: 0,
+  width: null,
+  height: null,
+  chairs: null,
   category: "",
 };
 
@@ -26,6 +26,11 @@ export default function ViewTable() {
   const [editFormOpen, setEditFormOpen] = useState(false);
   const [table, setTable] = useState(initialState);
   const [openPopup, setOpenPopup] = useState(false);
+  const [tableCategories, setTableCategories] = useState([]);
+  const [updatedTable, setupdatedTable] = useState({});
+  const [newTable, setnewTable] = useState({});
+  const [deletedTable, setdeletedTable] = useState({});
+  const [editTable, seteditTable] = useState({});
 
   const onClickCreate = (e) => {
     setOpenPopup(true);
@@ -36,7 +41,21 @@ export default function ViewTable() {
     axios
       .post("http://localhost:8000/api/table/createTable/", values)
       .then((res) => {
+        console.log(res.data._id);
         setOpenPopup(false);
+        setnewTable(values);
+        let movie = {
+          movies: res.data._id,
+        };
+
+        axios
+          .put(
+            "http://localhost:8000/api/tableCategory/updateMovie/" + res.data.category,
+            movie
+          )
+          .then((res) => {
+            console.log(res.data);
+          });
       });
   };
 
@@ -46,13 +65,13 @@ export default function ViewTable() {
       .put("http://localhost:8000/api/table/updateTable/" + values._id, values)
       .then((res) => {
         setEditFormOpen(false);
+        setupdatedTable(values);
       });
   };
 
   const onClickEdit = (table) => {
     setEditFormOpen(true);
-    console.log(table);
-    setTable(table);
+    seteditTable(table);
   };
 
   const handleClose = () => {
@@ -64,24 +83,28 @@ export default function ViewTable() {
   };
 
   const onClickDelete = () => {
-    console.log(tableID);
     axios
       .delete("http://localhost:8000/api/table/removeTable/" + tableID)
       .then((res) => {
-        console.log("deleted");
         setOpen(false);
+        setdeletedTable(tableID);
       });
   };
 
   useEffect(() => {
+    const getTableDetails = () => {
+      axios.get("http://localhost:8000/api/table/allTable").then((res) => {
+        setTables(res.data);
+      });
+    };
+    const getAllTableCategory = async () => {
+      axios.get("http://localhost:8000/api/tableCategory").then((res) => {
+        setTableCategories(res.data);
+      });
+    };
     getTableDetails();
-  }, [setOpen,setEditFormOpen,setOpenPopup]);
-
-  const getTableDetails = () => {
-    axios.get("http://localhost:8000/api/table/allTable").then((res) => {
-      setTables(res.data);
-    });
-  };
+    getAllTableCategory();
+  }, [updatedTable, newTable, deletedTable]);
 
   const columns = [
     { field: "_id", headerName: "ID", width: 160 },
@@ -115,7 +138,7 @@ export default function ViewTable() {
     {
       field: "chairs",
       headerName: "Chairs",
-      width: 150,
+      width: 130,
       editable: true,
     },
     {
@@ -133,7 +156,7 @@ export default function ViewTable() {
     {
       field: "description",
       headerName: "Description",
-      width: 160,
+      width: 200,
       editable: true,
     },
     {
@@ -172,7 +195,14 @@ export default function ViewTable() {
       <Popup
         openPopup={openPopup}
         title="Add new table"
-        form={<TableForm buttonTitle="Add" table={table} onSubmit={addTable} />}
+        form={
+          <TableForm
+            buttonTitle="Add"
+            table={table}
+            onSubmit={addTable}
+            tableCategories={tableCategories}
+          />
+        }
       />
       <DialogBoxConfirm
         open={open}
@@ -185,7 +215,12 @@ export default function ViewTable() {
           openPopup={true}
           title="Add new table"
           form={
-            <TableForm table={table} buttonTitle="Update" onSubmit={onUpdate} />
+            <TableForm
+              table={editTable}
+              tableCategories={tableCategories}
+              buttonTitle="Update"
+              onSubmit={onUpdate}
+            />
           }
         />
       )}
