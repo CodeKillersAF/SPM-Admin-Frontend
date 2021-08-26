@@ -3,6 +3,7 @@ import axios from 'axios';
 import ViewDetailsBody from "../../../components/viewDetailsBody/ViewDetailsBody";
 import DeleteIcon from "@material-ui/icons/Delete";
 import { Edit } from "@material-ui/icons";
+import DoubleArrowIcon from '@material-ui/icons/DoubleArrow';
 import Button from "@material-ui/core/Button";
 import { useHistory } from 'react-router-dom';
 import Dialog from "@material-ui/core/Dialog";
@@ -23,13 +24,23 @@ function Viewcategorypage() {
 
     const [addedSuccess, setaddedSuccess] = useState(false);
 
-    const handleAlertCreate = () => {
+    const handleAlertUpdate = () => {
       setaddedSuccess(true);
     }
 
     const handleEditClose = () => {
       setaddedSuccess(false);
     };
+
+    const [addedCreateSuccess, setaddedCreateSuccess] = useState(false);
+
+    const handleAlertCreate = () => {
+      setaddedCreateSuccess(true);
+    }
+
+    const handleCreateClose = () => {
+      setaddedCreateSuccess(false);
+    }
 
     const [openPopup, setOpenPopup] = useState(false);
 
@@ -57,17 +68,12 @@ function Viewcategorypage() {
       setOpen(false);
     }
 
-    const [reload, setReload] = useState();
-
     const getAllCategories = async () => {
       // setReload(!reload);
         try {
             const details = await axios.get("/category/all-category");
-
-            console.log(details.data.data);
+            // console.log(details.data.data);
             setViewCategory(details.data.data);
-
-            setReload(details.data.data);
             
         } catch (error) {
             console.log(error);
@@ -76,7 +82,7 @@ function Viewcategorypage() {
 
     useEffect(() => {
         getAllCategories();
-    }, [reload]);
+    }, [viewCategory]);
 
     const deleteCategory = () => {
         try {
@@ -84,7 +90,6 @@ function Viewcategorypage() {
             axios.delete(`/category/delete-category/${categoryid}`)
               .then((response) => {
                 console.log('Deleted Successfully');
-                // setReload(!reload);
               })
               .catch((error) => {
                 console.log(error);
@@ -128,8 +133,8 @@ function Viewcategorypage() {
           },
         },
         {
-          field: "Views",
-          headerName: "Views",
+          field: "Food-Items",
+          headerName: "Food Items",
           width: 200,
           editable: true,
           renderCell: (params) => {
@@ -137,8 +142,8 @@ function Viewcategorypage() {
               <>
                 <Button
                   variant="contained"
-                  color="primary"
-                  startIcon={<Edit />}
+                  color="secondary"
+                  startIcon={<DoubleArrowIcon />}
                   style={{ marginLeft: "20px", marginRight: "30px" }}
                   onClick={() => passSelectCategoryId(params.row._id)}
                 >
@@ -167,7 +172,7 @@ function Viewcategorypage() {
     const handleEditCategorySelect = (category) => {
         setOpenEditForm(true);
         setCategorySelected(category);
-        console.log(category);
+        // console.log(category);
     }
 
     return (
@@ -215,8 +220,14 @@ function Viewcategorypage() {
         title="Update Category Name"
         form={<Updatecategory category={categorySelected} title="Update Food"
            openEditPopup={openEditPopup}
-           handleAlertCreate={handleAlertCreate}
+           handleAlertUpdate={handleAlertUpdate}
           />}
+      />
+
+    <SnackbarFeddback
+      open={addedCreateSuccess}
+      message="Category list successfully added!"
+      onClose={handleCreateClose}
       />
 
     <SnackbarFeddback

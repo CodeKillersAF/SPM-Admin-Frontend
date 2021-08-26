@@ -8,7 +8,7 @@ import {
     Button,
 
   } from "@material-ui/core";
-
+import SnackbarFeddback from '../../snackbarFeedback/SnackbarFeedback';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -24,11 +24,41 @@ const useStyles = makeStyles((theme) => ({
       },
   }))
 
-function Updatecategory({ category, openEditPopup, handleAlertCreate }) {
+function Updatecategory({ category, openEditPopup, handleAlertUpdate }) {
 
     const classes = useStyles();
 
     const [values, setValues] = useState(category);
+
+    const [addedSuccess, setaddedSuccess] = useState(false);
+
+    const handleEditClose = () => {
+      setaddedSuccess(false);
+    };
+
+    // useEffect(() => {
+    //   console.log(category.foodItems);
+    // }, []);
+
+    const getOwnFoodCategory = () => {
+      axios.get(`/category/own-category/${values._id}`)
+        .then((response) => {
+          console.log(response.data.foodItems);
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+    }
+
+    useEffect(() => {
+      getOwnFoodCategory();
+    }, [])
+
+
+    // const getFoodItems = () => {
+    //   axios.get(`/food/get-food/${}`)
+
+    // }
 
     const inputHandleChange = (e) => {
         const { name, value } = e.target;
@@ -44,7 +74,7 @@ function Updatecategory({ category, openEditPopup, handleAlertCreate }) {
           //  setAlertOpen(true);
           // console.log(response.data.data);
            openEditPopup();
-           handleAlertCreate();
+           handleAlertUpdate();
           //  reloadForForms();
         })
         .catch((error) => {
@@ -80,6 +110,13 @@ function Updatecategory({ category, openEditPopup, handleAlertCreate }) {
         </Grid>
       </Grid>
     </form>
+
+    <SnackbarFeddback
+      open={addedSuccess}
+      message="Category successfully updated!"
+      onClose={handleEditClose}
+      />
+
         </div>
     )
 }

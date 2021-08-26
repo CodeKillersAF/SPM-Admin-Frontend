@@ -37,7 +37,7 @@ function Addcategory({ openPopupClick, handleAlertCreate }) {
 
     const getAllData = async() => {
         const data = await axios.get("/food/all-food");
-        console.log(data.data.data);
+        // console.log(data.data.data);
 
         setFood(data.data.data);
     }
@@ -80,10 +80,8 @@ function Addcategory({ openPopupClick, handleAlertCreate }) {
             .then((response) => {
                 // console.log(response.data);
                 openPopupClick();
-                // reloadForForms();
                 handleAlertCreate();
 
-                // console.log(categoryDetails);
             })
             .catch((error) => {
                 // console.log(error.message);
@@ -99,7 +97,7 @@ function Addcategory({ openPopupClick, handleAlertCreate }) {
       <Grid container>
 
         <Grid item xs={12}>
-        <TextField variant="outlined" name="name" label="Name"
+        <TextField variant="outlined" name="name" label="Name" required="true"
                 value={category} onChange={(e) => setCategory(e.target.value)} />
           <FormControl variant="outlined">
           <Select

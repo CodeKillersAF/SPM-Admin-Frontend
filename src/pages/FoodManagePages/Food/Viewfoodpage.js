@@ -23,13 +23,23 @@ function Viewfoodpage() {
 
     const [addedSuccess, setaddedSuccess] = useState(false);
 
-    const handleAlertCreate = () => {
+    const handleAlertUpdate = () => {
       setaddedSuccess(true);
     }
 
     const handleEditClose = () => {
       setaddedSuccess(false);
     };
+
+    const [addedCreateSuccess, setaddedCreateSuccess] = useState(false);
+
+    const handleAlertCreate = () => {
+      setaddedCreateSuccess(true);
+    }
+
+    const handleCreateClose = () => {
+      setaddedCreateSuccess(false);
+    }
 
     const [foods, setFoods] = useState([]);
     const [openPopup, setOpenPopup] = useState(false);
@@ -164,7 +174,7 @@ function Viewfoodpage() {
             .then((response) => {
                 console.log('Deleted Successfully');
                 // console.log(IdFood);
-                alert('Deleted successfully');
+                // alert('Deleted successfully');
             })
             .catch((error) => {
                 console.log(error);
@@ -208,7 +218,7 @@ function Viewfoodpage() {
         title="Add new food"
         form={<AddFood title="Add Food" openPopupClick={openPopupClick}
         // reloadForForms={reloadForForms}
-      handleAlertCreate={handleAlertCreate}
+        handleAlertCreate={handleAlertCreate}
           />}
       />
 
@@ -218,14 +228,19 @@ function Viewfoodpage() {
         form={<Updatefood food={foodSelected} title="Update Food"
           openEditPopup={openEditPopup}
           id={paramsId}
-          handleAlertCreate={handleAlertCreate}
-          // reloadForForms={reloadForForms}
+          handleAlertUpdate={handleAlertUpdate}
          />}
       />
 
     <SnackbarFeddback
+      open={addedCreateSuccess}
+      message="Food successfully added!"
+      onClose={handleCreateClose}
+      />
+
+    <SnackbarFeddback
       open={addedSuccess}
-      message="Food menu successfully updated!"
+      message="Food successfully updated!"
       onClose={handleEditClose}
       />
       </div>

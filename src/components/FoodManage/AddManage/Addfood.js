@@ -14,7 +14,7 @@ import {
     MenuItem,
   } from "@material-ui/core";
   
-  import Publish from "@material-ui/icons/Publish";
+import './addfood.css';
 
 const useStyles = makeStyles((theme) => ({
     backdrop: {
@@ -169,12 +169,11 @@ function Addfood({ openPopupClick, handleAlertCreate }) {
         <Grid item xs={6}>
           <div
             style={{ position: "relative", width: "200px", height: "200px" }}
-          >
-            <input type="file" id="formFile" onChange={onFileSelect} /> 
+          > 
             <img
               style={{ marginLeft: "100px", borderRadius: "10px" }}
               width="200px"
-              height="200px"
+              height="180px"
               src={url}
             />
             {/* <Publish
@@ -182,6 +181,9 @@ function Addfood({ openPopupClick, handleAlertCreate }) {
               fontSize="large"
               onClick={uploadfile}
             /> */}
+          </div>
+          <div className="fileInputBrowse">
+            <input type="file" id="formFile" onChange={onFileSelect} />
           </div>
 
           <TextField variant="outlined" name="name" label="Name"

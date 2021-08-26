@@ -23,11 +23,11 @@ const useStyles = makeStyles((theme) => ({
       },
   }))
 
-function Updatefood({ food, openEditPopup, id, handleAlertCreate }) {
+function Updatefood({ food, openEditPopup, id, handleAlertUpdate }) {
 
     const classes = useStyles();
 
-    console.log('Id came : ' + id.id);
+    // console.log('Id came : ' + id.id);
     const [Cname, setCName] = useState('');
 
     const categoryNameSet = () => { 
@@ -52,7 +52,7 @@ function Updatefood({ food, openEditPopup, id, handleAlertCreate }) {
                 console.log('Updated successfully');
                 openEditPopup();
                 // reloadForForms();
-                handleAlertCreate();
+                handleAlertUpdate();
             })
             .catch((error) => {
                 console.log(error);
