@@ -36,27 +36,31 @@ export default function TableCategoryForm({
   const classes = useStyles();
 
   async function uploadFile(image) {
-    let bucketName = "tableCategoryImages";
-    let uploadTask = storage.ref(`${bucketName}/${image.name}`).put(image);
-    await uploadTask.on(
-      "state_changed",
-      (snapshot) => {
-        console.log(snapshot);
-      },
-      (err) => {
-        console.log(err);
-      },
-      () => {
-        storage
-          .ref("tableCategoryImages")
-          .child(image.name)
-          .getDownloadURL()
-          .then((firebaseURl) => {
-            console.log(firebaseURl);
-            setValues({ ...values, image: firebaseURl });
-          });
-      }
-    );
+    if (!image.name.match(/\.(jpg|jpeg|png|webp)$/)) {
+      alert("Select an valid image type");
+    } else {
+      let bucketName = "tableCategoryImages";
+      let uploadTask = storage.ref(`${bucketName}/${image.name}`).put(image);
+      await uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          console.log(snapshot);
+        },
+        (err) => {
+          console.log(err);
+        },
+        () => {
+          storage
+            .ref("tableCategoryImages")
+            .child(image.name)
+            .getDownloadURL()
+            .then((firebaseURl) => {
+              console.log(firebaseURl);
+              setValues({ ...values, image: firebaseURl });
+            });
+        }
+      );
+    }
   }
   function onImageSelect(e) {
     setfile(e.target.files[0]);
@@ -93,6 +97,7 @@ export default function TableCategoryForm({
             label="Name"
             value={values.name}
             onChange={handleInputChnage}
+            required={true}
           />
           <TextField
             id="outlined-textarea"
@@ -105,6 +110,7 @@ export default function TableCategoryForm({
             name="description"
             value={values.description}
             onChange={handleInputChnage}
+            required={true}
           />
           <div
             style={{ display: "flex", alignItems: "center", marginTop: "10px" }}

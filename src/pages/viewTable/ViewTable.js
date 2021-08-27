@@ -8,6 +8,7 @@ import { Edit } from "@material-ui/icons";
 import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
 import DialogBoxConfirm from "../../components/dialogBoxConfirm/DialogBoxConfirm";
+import SnackbarFeddback from "../../components/snackbarFeedback/SnackbarFeedback";
 
 const initialState = {
   name: "",
@@ -31,6 +32,31 @@ export default function ViewTable() {
   const [newTable, setnewTable] = useState({});
   const [deletedTable, setdeletedTable] = useState({});
   const [editTable, seteditTable] = useState({});
+  const [addedSuccess, setaddedSuccess] = useState(false);
+  const [editSuccess, seteditSuccess] = useState(false);
+  const [deleteSuccess, setdeleteSuccess] = useState(false);
+
+  const handleAddClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setaddedSuccess(false);
+  };
+  const handleEditClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    seteditSuccess(false);
+  };
+  const handleDeleteClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setdeleteSuccess(false);
+  };
 
   const onClickCreate = (e) => {
     setOpenPopup(true);
@@ -41,20 +67,20 @@ export default function ViewTable() {
     axios
       .post("http://localhost:8000/api/table/createTable/", values)
       .then((res) => {
-        console.log(res.data._id);
         setOpenPopup(false);
         setnewTable(values);
-        let movie = {
-          movies: res.data._id,
+        let tables = {
+          table: res.data._id,
         };
 
         axios
           .put(
-            "http://localhost:8000/api/tableCategory/updateMovie/" + res.data.category,
-            movie
+            "http://localhost:8000/api/tableCategory/updateTables/" +
+              res.data.category,
+            tables
           )
           .then((res) => {
-            console.log(res.data);
+            setaddedSuccess(true);
           });
       });
   };
@@ -66,6 +92,10 @@ export default function ViewTable() {
       .then((res) => {
         setEditFormOpen(false);
         setupdatedTable(values);
+        seteditSuccess(true);
+      })
+      .catch((err) => {
+        console.log(err);
       });
   };
 
@@ -88,6 +118,21 @@ export default function ViewTable() {
       .then((res) => {
         setOpen(false);
         setdeletedTable(tableID);
+
+        let tables = {
+          table: res.data.data._id,
+        };
+
+        axios
+          .put(
+            "http://localhost:8000/api/tableCategory/removeTables/" +
+              res.data.data.category,
+            tables
+          )
+          .then((res) => {
+            setdeleteSuccess(true);
+            console.log(res.data);
+          });
       });
   };
 
@@ -187,11 +232,13 @@ export default function ViewTable() {
 
   return (
     <div className="viewTable">
-      <ViewDetailsBody
-        columns={columns}
-        rows={tables}
-        onClickCreate={onClickCreate}
-      />
+      
+        <ViewDetailsBody
+          columns={columns}
+          rows={tables}
+          onClickCreate={onClickCreate}
+        />
+    
       <Popup
         openPopup={openPopup}
         title="Add new table"
@@ -209,6 +256,7 @@ export default function ViewTable() {
         handleClose={handleClose}
         handleClickOpen={handleClickOpen}
         onClickDelete={onClickDelete}
+        message={"This will delete table permanently!"}
       />
       {editFormOpen && (
         <Popup
@@ -224,6 +272,22 @@ export default function ViewTable() {
           }
         />
       )}
+
+      <SnackbarFeddback
+        open={addedSuccess}
+        message="Table successfully added!"
+        onClose={handleAddClose}
+      />
+      <SnackbarFeddback
+        open={editSuccess}
+        message="Table successfully updated!"
+        onClose={handleEditClose}
+      />
+      <SnackbarFeddback
+        open={deleteSuccess}
+        message="Table successfully deleted!"
+        onClose={handleDeleteClose}
+      />
     </div>
   );
 }
