@@ -36,7 +36,6 @@ export default function ViewTable() {
   const [editSuccess, seteditSuccess] = useState(false);
   const [deleteSuccess, setdeleteSuccess] = useState(false);
 
-
   const handleAddClose = (event, reason) => {
     if (reason === "clickaway") {
       return;
@@ -68,18 +67,17 @@ export default function ViewTable() {
     axios
       .post("http://localhost:8000/api/table/createTable/", values)
       .then((res) => {
-        console.log(res.data._id);
         setOpenPopup(false);
         setnewTable(values);
-        let movie = {
-          movies: res.data._id,
+        let tables = {
+          table: res.data._id,
         };
 
         axios
           .put(
-            "http://localhost:8000/api/tableCategory/updateMovie/" +
+            "http://localhost:8000/api/tableCategory/updateTables/" +
               res.data.category,
-            movie
+            tables
           )
           .then((res) => {
             setaddedSuccess(true);
@@ -95,6 +93,9 @@ export default function ViewTable() {
         setEditFormOpen(false);
         setupdatedTable(values);
         seteditSuccess(true);
+      })
+      .catch((err) => {
+        console.log(err);
       });
   };
 
@@ -117,7 +118,21 @@ export default function ViewTable() {
       .then((res) => {
         setOpen(false);
         setdeletedTable(tableID);
-        setdeleteSuccess(true);
+
+        let tables = {
+          table: res.data.data._id,
+        };
+
+        axios
+          .put(
+            "http://localhost:8000/api/tableCategory/removeTables/" +
+              res.data.data.category,
+            tables
+          )
+          .then((res) => {
+            setdeleteSuccess(true);
+            console.log(res.data);
+          });
       });
   };
 
@@ -217,11 +232,13 @@ export default function ViewTable() {
 
   return (
     <div className="viewTable">
-      <ViewDetailsBody
-        columns={columns}
-        rows={tables}
-        onClickCreate={onClickCreate}
-      />
+      
+        <ViewDetailsBody
+          columns={columns}
+          rows={tables}
+          onClickCreate={onClickCreate}
+        />
+    
       <Popup
         openPopup={openPopup}
         title="Add new table"
@@ -239,6 +256,7 @@ export default function ViewTable() {
         handleClose={handleClose}
         handleClickOpen={handleClickOpen}
         onClickDelete={onClickDelete}
+        message={"This will delete table permanently!"}
       />
       {editFormOpen && (
         <Popup
@@ -266,9 +284,9 @@ export default function ViewTable() {
         onClose={handleEditClose}
       />
       <SnackbarFeddback
-      open={deleteSuccess}
-      message="Table successfully deleted!"
-      onClose={handleDeleteClose}
+        open={deleteSuccess}
+        message="Table successfully deleted!"
+        onClose={handleDeleteClose}
       />
     </div>
   );
