@@ -10,6 +10,7 @@ import IconButton from "@material-ui/core/IconButton";
 import SupplierForm from "../../components/supplierFom/SupplierForm";
 import DialogBoxSupply from "../../components/dialogBoxSupply/DialogBoxSupply";
 import SnackbarFeddback from "../../components/snackbarFeedback/SnackbarFeedback";
+import VisibilityIcon from '@material-ui/icons/Visibility';
 
 export default function ViewSupplier() {
 
@@ -128,7 +129,32 @@ export default function ViewSupplier() {
                 );
             },
         },
+        {
+            field: "view",
+            headerName: "View",
+            width: 200,
+            editable: true,
+            renderCell: (params) => {
+                return (
+                    <>
+                        <Button
+                            // variant="contained"
+                            color="primary"
+                            startIcon={<VisibilityIcon />}
+                            style={{ marginLeft: "20px", marginRight: "30px" }}
+                            onClick={() => gotoItem(params.row._id)}
+                        >
+                            View
+                        </Button>
+                    </>
+                );
+            },
+        },
     ];
+
+    const gotoItem = (id) => {
+        history.push(`/singlesupplyItem/${id}`)
+    }
 
     return (
         <div className="viewTable">
@@ -141,7 +167,7 @@ export default function ViewSupplier() {
             />
             <Popup
                 openPopup={openForm}
-                title="Update Supply Item"
+                title="Edit Supplier"
                 form={
                     <SupplierForm supply={selectSupplyItem} buttonTitle="Update" openEditPopup={openEditPopup} />
                 }

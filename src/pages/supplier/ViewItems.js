@@ -1,3 +1,4 @@
+
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import Popup from "../../components/popup/Popup";
@@ -6,13 +7,13 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import { Edit } from "@material-ui/icons";
 import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import SupplyItemForm from "../../components/supplyItemForm/SupplyItemForm";
 import SnackbarFeddback from "../../components/snackbarFeedback/SnackbarFeedback";
 import DialogBoxSupply from "../../components/dialogBoxSupply/DialogBoxSupply";
 
 
-export default function ViewSupplyItem() {
+export default function ViewItems() {
 
     const [supplyItem, setsupplyItem] = useState([]);
     const [open, setOpen] = React.useState(false);
@@ -24,6 +25,10 @@ export default function ViewSupplyItem() {
     // For alert box
     const [addedSuccess, setaddedSuccess] = useState(false);
 
+    // For single view
+    const params = useParams();
+    console.log(params.id);
+
     const openEditPopup = () => {
         setopenForm(false);
     }
@@ -33,9 +38,9 @@ export default function ViewSupplyItem() {
     }, [setOpen, reload]);
 
     const getSupplyDetails = () => {
-        axios.get("http://localhost:8000/api/admin/supply-item").then((res) => {
-            setsupplyItem(res.data.data);
-            console.log(res.data.data);
+        axios.get(`http://localhost:8000/api/admin/supplier/${params.id}`).then((res) => {
+            setsupplyItem(res.data.supplyItems);
+            console.log(res.data.supplyItems);
         });
     };
 
@@ -138,7 +143,7 @@ export default function ViewSupplyItem() {
             />
             <Popup
                 openPopup={openForm}
-                title="Edit Item"
+                title="Update Supply Item"
                 form={
                     <SupplyItemForm supply={selectSupplyItem} buttonTitle="Update" openEditPopup={openEditPopup} />
                 }

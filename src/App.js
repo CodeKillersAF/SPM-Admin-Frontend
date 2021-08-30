@@ -10,6 +10,7 @@ import AddSupplier from './pages/supplier/AddSupplier';
 import ViewTable from './pages/viewTable/ViewTable';
 import ViewTableCategory from './pages/viewTableCategory/ViewTableCategory';
 import ViewSupplyItem from './pages/supplyItem/ViewSupplyItem';
+import ViewItems from './pages/supplier/ViewItems';
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
               <Route path="/supplyItem" component={ViewSupplyItem} />
               <Route path="/addsupplyItem" component={AddSupplyItem} />
               <Route path="/addsupplier" component={AddSupplier} />
+              <Route path="/singlesupplyItem/:id" component={ViewItems}></Route>
               <Route path="/table" component={ViewTable}/>
               <Route path="/tableCategory" component={ViewTableCategory}/>
             </Layout>

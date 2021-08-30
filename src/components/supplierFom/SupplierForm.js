@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Grid, TextField, makeStyles, Button, IconButton, } from "@material-ui/core";
 import axios from "axios";
 import Select from 'react-select';
-
+import './supplierForm.css'
 
 const useStyles = makeStyles((theme) => ({
     root: {

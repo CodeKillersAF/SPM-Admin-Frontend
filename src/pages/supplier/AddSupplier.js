@@ -150,7 +150,7 @@ export default function AddSupplier() {
                     <div className="addTableItem">
                         <label htmlFor="item" className="form-label">Item</label>
                         <Select
-                            className="basic-single"
+                            // className="basic-single"
                             options={allSupplyItemArray}
                             onChange={selectedSupplyItem}
                             isMulti

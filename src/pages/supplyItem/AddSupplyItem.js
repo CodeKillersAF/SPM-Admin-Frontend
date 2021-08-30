@@ -14,7 +14,7 @@ export default function AddSupplyItem() {
     const [addedSuccess, setaddedSuccess] = useState(false);
 
     function delay() {
-        setTimeout(onClickBack, 2000);
+        setTimeout(onClickBack, 1000);
     }
     const onClickBack = () => {
         history.push("/supplyItem")
@@ -79,7 +79,7 @@ export default function AddSupplyItem() {
                             id="unit_price"
                             name="unit_price"
                             pattern='[0-9]+(\\.[0-9][0-9]?)?'
-                            placeholder="Unit price"
+                            placeholder="Unit price per quantity"
                             value={unit_price}
                             onChange={(e) => setunit_price(e.target.value)}
                             required
@@ -104,7 +104,8 @@ export default function AddSupplyItem() {
                             rows="5"
                             placeholder="Description of supply item "
                             value={desc}
-                            onChange={(e) => setdesc(e.target.value)}>
+                            onChange={(e) => setdesc(e.target.value)}
+                            required>
                         </textarea>
                     </div>
                     <br />
