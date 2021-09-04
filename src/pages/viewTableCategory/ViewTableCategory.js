@@ -10,7 +10,6 @@ import IconButton from "@material-ui/core/IconButton";
 import DialogBoxConfirm from "../../components/dialogBoxConfirm/DialogBoxConfirm";
 import SnackbarFeddback from "../../components/snackbarFeedback/SnackbarFeedback";
 
-
 const initialState = {
   name: "",
   description: "",
@@ -27,6 +26,8 @@ export default function ViewTableCategory() {
   const [deletedCategory, setdeletedCategory] = useState({});
   const [editCategory, seteditCategory] = useState(initialState);
   const [addedSuccess, setaddedSuccess] = useState(false);
+  const [editSuccess, seteditSuccess] = useState(false);
+  const [deleteSuccess, setdeleteSuccess] = useState(false);
 
   const onUpdate = (e, values) => {
     e.preventDefault();
@@ -35,6 +36,7 @@ export default function ViewTableCategory() {
       .then((res) => {
         setEditFormOpen(false);
         setupdatedCategory(values);
+        seteditSuccess(true);
       });
   };
 
@@ -47,12 +49,27 @@ export default function ViewTableCategory() {
   const handleClose = () => {
     setOpen(false);
   };
-  const handleEditClose = (event, reason) => {
+
+  const handleAddClose = (event, reason) => {
     if (reason === "clickaway") {
       return;
     }
 
     setaddedSuccess(false);
+  };
+  const handleEditClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    seteditSuccess(false);
+  };
+  const handleDeleteClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setdeleteSuccess(false);
   };
   const handleClickOpen = (tableCategoryID) => {
     setTableCategoryID(tableCategoryID);
@@ -67,6 +84,7 @@ export default function ViewTableCategory() {
         console.log("deleted");
         setOpen(false);
         setdeletedCategory(tableCategoryID);
+        setdeleteSuccess(true);
       });
   };
 
@@ -159,11 +177,13 @@ export default function ViewTableCategory() {
         rows={tableCategories}
         onClickCreate={onClickCreate}
       />
+
       <DialogBoxConfirm
         open={open}
         handleClose={handleClose}
         handleClickOpen={handleClickOpen}
         onClickDelete={onClickDelete}
+        message={"This will delete category permanently!"}
       />
       <Popup
         openPopup={openPopup}
@@ -190,11 +210,20 @@ export default function ViewTableCategory() {
         />
       )}
       <SnackbarFeddback
-      open={addedSuccess}
-      message="Category successfully added!"
-      onClose={handleEditClose}
+        open={addedSuccess}
+        message="Category successfully added!"
+        onClose={handleAddClose}
       />
-     
+      <SnackbarFeddback
+        open={editSuccess}
+        message="Category successfully updated!"
+        onClose={handleEditClose}
+      />
+      <SnackbarFeddback
+        open={deleteSuccess}
+        message="Category successfully deleted!"
+        onClose={handleDeleteClose}
+      />
     </div>
   );
 }
