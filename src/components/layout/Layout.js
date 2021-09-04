@@ -63,7 +63,14 @@ export default function Layout({ children }) {
               </Link>
             </li>
             <li>
-              <a href="">
+              <a href="/supplier">
+                {" "}
+                <span class="las la-clipboard-list"></span>
+                <span>Suppliers</span>
+              </a>
+            </li>
+            <li>
+              <a href="/supplyItem">
                 {" "}
                 <span className="las la-clipboard-list"></span>
                 <span>Tasks</span>
