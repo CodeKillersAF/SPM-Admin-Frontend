@@ -173,8 +173,22 @@ function Viewfoodpage() {
         await axios.delete(`/food/delete-food/${IdFood}`)
             .then((response) => {
                 console.log('Deleted Successfully');
-                // console.log(IdFood);
-                // alert('Deleted successfully');
+                // console.log(response.data.data);
+                
+                let reqId = response.data.data.category;
+                // let foodId = response.data.data.category;
+
+                let foodid = {
+                  foodItem: response.data.data._id,
+                }
+
+                axios.put(`/category/update-array/${reqId}`, foodid)
+                  .then((res) => {
+                    console.log('Id deleted');
+                  })
+                  .catch((err) => {
+                    console.log(err);
+                  })
             })
             .catch((error) => {
                 console.log(error);
