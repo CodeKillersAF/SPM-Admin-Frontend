@@ -11,6 +11,8 @@ import Rate from './pages/FoodManagePages/Rate/Rate';
 import ViewTable from './pages/viewTable/ViewTable';
 import ViewTableCategory from './pages/viewTableCategory/ViewTableCategory';
 
+import Test from './pages/test/Test';
+
 import Report from './pages/FoodManagePages/Report/Report';
 
 function App() {
@@ -31,6 +33,7 @@ function App() {
               <Route path="/tableCategory" component={ViewTableCategory}/>
 
               <Route path="/report" component={Report} />
+              <Route path="/test" component={Test} />
             </Layout>
           </Switch>
         </section>
