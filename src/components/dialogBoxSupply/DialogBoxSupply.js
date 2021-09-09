@@ -6,7 +6,7 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 
-export default function DialogBoxConfirm({open,handleClose,onClickDelete,message}) {
+export default function DialogBoxSupply({open,handleClose,onClickDelete}) {
   return (
     <Dialog
       open={open}
@@ -17,7 +17,7 @@ export default function DialogBoxConfirm({open,handleClose,onClickDelete,message
       <DialogTitle id="alert-dialog-title">{"Are you sure?"}</DialogTitle>
       <DialogContent>
         <DialogContentText id="alert-dialog-description">
-          {message}
+          This will delete this item permanently
         </DialogContentText>
       </DialogContent>
       <DialogActions>
