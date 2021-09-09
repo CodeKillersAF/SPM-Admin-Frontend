@@ -1,0 +1,24 @@
+.rateTable {
+    font-family: Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 90%;
+    margin-left: 20px;
+  }
+  
+  .rateTable td, .rateTable th {
+    border: 1px solid #ddd;
+    padding: 8px;
+    font-size: 10px;
+  }
+  
+  .rateTable tr:nth-child(even){background-color: #f2f2f2;}
+  
+  .rateTable tr:hover {background-color: #ddd;}
+  
+  .rateTable th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #04AA6D;
+    color: white;
+  }
