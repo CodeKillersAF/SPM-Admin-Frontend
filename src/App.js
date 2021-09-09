@@ -6,6 +6,7 @@ import Home from './pages/home/Home';
 import AdminLoginPage from './pages/AdminLoginPage/Adminloginpage';
 import ViewTable from './pages/viewTable/ViewTable';
 import ViewTableCategory from './pages/viewTableCategory/ViewTableCategory';
+import Orders from './pages/orders/Orders';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
               <Route exact path="/home" component={Home} />
               <Route path="/table" component={ViewTable}/>
               <Route path="/tableCategory" component={ViewTableCategory}/>
+              <Route path="/online-orders" component={Orders} />
             </Layout>
           </Switch>
         </section>
