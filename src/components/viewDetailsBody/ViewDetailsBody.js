@@ -6,7 +6,7 @@ export default function ViewDetailsBody({columns,rows,onClickCreate}) {
   return (
     <div>
       <div className="viewTable-header">
-        {/* <button onClick={(e)=>onClickCreate(e)} className="btn btn-primary">Create</button> */}
+        <button onClick={(e)=>onClickCreate(e)} className="btn btn-primary">Create</button>
       </div>
 
       <div style={{ height: "600px", width: "100%" }}>

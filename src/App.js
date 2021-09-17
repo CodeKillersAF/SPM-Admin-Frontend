@@ -16,6 +16,7 @@ import ViewSupplyItem from './pages/supplyItem/ViewSupplyItem';
 import ViewItems from './pages/supplier/ViewItems';
 import Test from './pages/test/Test';
 import Report from './pages/FoodManagePages/Report/Report';
+import Promotion from './pages/Promotion/Promotion';
 
 
 function App() {
@@ -42,6 +43,7 @@ function App() {
               <Route path="/online-orders" component={Orders} />
               <Route path="/report" component={Report} />
               <Route path="/test" component={Test} />
+              <Route path="/promotion" component={Promotion}/>
 
             </Layout>
           </Switch>
