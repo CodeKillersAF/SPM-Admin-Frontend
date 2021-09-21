@@ -17,6 +17,7 @@ import ViewItems from './pages/supplier/ViewItems';
 import Test from './pages/test/Test';
 import Report from './pages/FoodManagePages/Report/Report';
 import Promotion from './pages/Promotion/Promotion';
+import SupplyRecord from './pages/supplyRecord/SupplyRecord';
 
 
 function App() {
@@ -44,6 +45,7 @@ function App() {
               <Route path="/report" component={Report} />
               <Route path="/test" component={Test} />
               <Route path="/promotion" component={Promotion}/>
+              <Route path="/supplyRecord" component={SupplyRecord}/>
 
             </Layout>
           </Switch>
