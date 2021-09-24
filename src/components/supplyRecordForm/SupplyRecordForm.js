@@ -5,6 +5,13 @@ import Backdrop from '@material-ui/core/Backdrop';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { Grid, TextField, makeStyles, FormControl, InputLabel, Select as MuiSelect, Button, MenuItem } from "@material-ui/core";
 import './SupplyRecord.css';
+import 'date-fns';
+import DateFnsUtils from '@date-io/date-fns';
+import {
+  MuiPickersUtilsProvider,
+  KeyboardTimePicker,
+  KeyboardDatePicker,
+} from '@material-ui/pickers';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -23,16 +30,21 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SupplyRecordForm({ openPopupClick, handleAlertCreate }) {
 
+    const [selectedDate, setSelectedDate] = React.useState(new Date('2014-08-18T21:11:54'));
+
+    const handleDateChange = (date) => {
+      setSelectedDate(date);
+    };
 
     const [open, setOpen] = React.useState(false);
     const classes = useStyles();
 
-    const [supplier_name, setsupplier_name] = useState('');
-    const [supply_item, setsupply_item] = useState('');
+    const [supplier_name, setsupplier_name] = useState([]);
+    const [supply_item, setsupply_item] = useState([]);
+
     const [date, setdate] = useState('');
-    const [qty, setqty] = useState('');
-    const [unit_price, setunit_price] = useState('');
-    const [total_price, settotal_price] = useState('');
+    const [qty, setqty] = useState();
+    const [bill_amount, setBill_amount] = useState();
 
     // file states
     const [file, setFile] = useState(null);
@@ -41,13 +53,13 @@ export default function SupplyRecordForm({ openPopupClick, handleAlertCreate }) 
 
 
     const getAllSupplier = async () => {
-        const data = await axios.get("/admin/supplier")
+        const data = await axios.get("/supplier")
         console.log(data.data.data);
         setsupplier_name(data.data.data);
     }
 
     const getAllSupplyItem = async () => {
-        const data = await axios.get("/admin/supply-item")
+        const data = await axios.get("/supply-item")
         console.log(data.data.data);
         setsupply_item(data.data.data);
     }
@@ -57,60 +69,62 @@ export default function SupplyRecordForm({ openPopupClick, handleAlertCreate }) 
         getAllSupplyItem();
     }, []);
 
-    const [supplier_nameValue, setsupplier_nameValue] = useState('');
-    const [supply_itemValue, setsupply_itemValue] = useState('');
+    const [supplierValue, setSupplierValue] = useState('');
 
-    const selectedSupplier_name = (e) => {
-        setsupplier_nameValue(e.target.value);
+    const selectedSupplier = (e) => {
+        setSupplierValue(e.target.value);
+    //    console.log(e.target.value);
     }
 
-    const selectedSupply_item = (e) => {
-        setsupplier_nameValue(e.target.value);
+    const [itemValue, setItemValue] = useState('');
+
+    const [total, setTotal] = useState();
+    const [price, setprice] = useState();
+
+    const selectedItem = (e) => {
+        setItemValue(e.target.value);
+        // console.log(e.target.value);
+        axios.get(`/supply-item/${e.target.value}`)
+            .then((res) => {
+                console.log(res.data.data);
+                setprice(res.data.data.unit_price);
+                
+                const unit = res.data.data.unit_price;
+                const tot = qty*unit;
+                setTotal(tot);
+            })
+            .catch((error) => {
+                console.log(error);
+            })
     }
+
 
     async function addSupplyRecord(e) {
         e.preventDefault();
 
         if (fileUploaded) {
             let supplyRecord = {
-                supplier_name: supplier_name,
-                supply_item: supply_item,
+                supplier_name: supplierValue,
+                supply_item: itemValue,
                 date: date,
                 qty: qty,
-                unit_price: unit_price,
-                total_price: total_price,
+                unit_price: price,
+                total_price: total,
                 url: url
             }
 
             console.log(supplyRecord);
 
-            await axios.post("/supply-record", supplyRecord)
-                .then((response) => {
-                    console.log(response.data.data);
-                    setfileUploaded(false);
+            // await axios.post("/supply-record", supplyRecord)
+            //     .then((response) => {
+            //         console.log(response.data.data);
+            //         setfileUploaded(false);
 
-                    const getId = response.data.data._id;
-
-                    let newFoods = {
-                        foodItems: [getId],
-                    }
-
-                    // axios.put(`/category/update-category/${categoryValue}`, newFoods)
-                    //     .then((response) => {
-                    //         console.log(response.data.data);
-                    //         console.log('Updated Successfully');
-                    //         openPopupClick();
-                    //         // reloadForForms();
-                    //         handleAlertCreate();
-                    //     })
-                    //     .catch((error) => {
-                    //         console.log(error);
-                    //     })
-                })
-                .catch((error) => {
-                    console.log(error);
-                    alert('please fill all fields');
-                });
+            //     })
+            //     .catch((error) => {
+            //         console.log(error);
+            //         alert('please fill all fields');
+            //     });
         }
         else {
             alert('Please Upload image');
@@ -167,6 +181,81 @@ export default function SupplyRecordForm({ openPopupClick, handleAlertCreate }) 
             <form className={classes.root}>
                 <Grid container>
                     <Grid item xs={6}>
+                        <TextField variant="outlined" name="qty" label="Quantity"
+                            value={qty} onChange={(e) => setqty(e.target.value)} 
+                            />
+
+                            <FormControl variant="outlined">
+
+                            <InputLabel>Supply Item</InputLabel>
+                            <MuiSelect
+                                name="name"
+                                label="Supply Item"
+                                value={itemValue}
+                                onChange={selectedItem} 
+                                >
+
+                                <MenuItem value="">None</MenuItem>
+                                {supply_item.map((item) => (
+                                    <MenuItem key={item.id} value={item._id}>
+                                        {item.item_name}
+                                    </MenuItem>))}
+                            </MuiSelect>
+
+                            </FormControl>
+
+                        <TextField variant="outlined" name="qty" label="Bill Amount"
+                            value={bill_amount} onChange={(e) => setBill_amount(e.target.value)} 
+                            />
+
+                        <TextField variant="outlined" name="total_price" label="Total Amount"
+                            value={total || ''} 
+                            contentEditable={false}
+                            />
+
+                        <TextField variant="outlined" name="unit_price" label="Unit Price"
+                            value={price || ''} 
+                            contentEditable={false}
+                        />
+
+                    </Grid>
+                    <Grid item xs={6}>
+                        <FormControl variant="outlined">
+
+                            <InputLabel>Supply Name</InputLabel>
+                            <MuiSelect
+                                name="name"
+                                label="Supply Item"
+                                value={supplierValue}
+                                onChange={selectedSupplier} 
+                            >
+
+                                <MenuItem value="">None</MenuItem>
+                                {supplier_name.map((item) => (
+                                    <MenuItem key={item.id} value={item._id}>
+                                        {item.supplier_name}
+                                    </MenuItem>))}
+                            </MuiSelect>
+
+                        </FormControl>
+
+                        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                            <Grid container justifyContent="space-around">
+                                <KeyboardDatePicker
+                                margin="normal"
+                                id="date-picker-dialog"
+                                label="Date picker dialog"
+                                format="MM/dd/yyyy"
+                                value={selectedDate}
+                                onChange={handleDateChange}
+                                KeyboardButtonProps={{
+                                    'aria-label': 'change date',
+                                }}
+                                />
+                            </Grid>
+                        </MuiPickersUtilsProvider>
+
+
                         <div style={{ position: "relative", width: "200px", height: "200px" }} >
                             <img
                                 style={{ marginLeft: "100px", borderRadius: "10px" }}
@@ -178,56 +267,12 @@ export default function SupplyRecordForm({ openPopupClick, handleAlertCreate }) 
                             <input type="file" id="formFile" onChange={onFileSelect} />
                         </div>
 
-                        <TextField variant="outlined" name="qty" label="Quantity"
-                            value={qty} onChange={(e) => setqty(e.target.value)} />
 
-                        <TextField variant="outlined" name="total_price" label="Bill Amount"
-                            value={total_price} onChange={(e) => settotal_price(e.target.value)} />
-
-                        <TextField variant="outlined" name="unit_price" label="Unit Price"
-                            value={unit_price} onChange={(e) => setunit_price(e.target.value)} />
-
-                    </Grid>
-                    <Grid item xs={6}>
-                        <FormControl variant="outlined">
-
-                            <InputLabel>Supply Item</InputLabel>
-                            <MuiSelect
-                                name="name"
-                                label="Supply Item"
-                                value={supply_itemValue}
-                                onChange={selectedSupply_item} >
-
-                                <MenuItem value="">None</MenuItem>
-                                {/* {supply_item.map((item) => (
-                                    <MenuItem key={item.id} value={item._id}>
-                                        {item.supply_item}
-                                    </MenuItem>))} */}
-                            </MuiSelect>
-
-                            <InputLabel>Supplier</InputLabel>
-                            <MuiSelect
-                                name="name"
-                                label="Supplier Name"
-                                value={supplier_nameValue}
-                                onChange={selectedSupplier_name} >
-
-                                <MenuItem value="">None</MenuItem>
-                                {/* {supplier_name.map((supplier) => (
-                                    <MenuItem key={supplier.id} value={supplier._id}>
-                                        {supplier.supplier_name}
-                                    </MenuItem>))} */}
-                            </MuiSelect>
-
-                        </FormControl>
-
-
-
-                        <div style={{ display: "flex", alignItems: "center", marginTop: "10px" }}>
+                        <div style={{ display: "flex", alignItems: "center", marginTop: "50px" }}>
                             <Button
                                 variant="contained"
                                 color="primary"
-                                style={{ marginRight: "20px", marginLeft: "20px" }}
+                                style={{ marginRight: "20px", marginLeft: "100px" }}
                                 onClick={addSupplyRecord}
                             >
                                 Create
@@ -235,6 +280,7 @@ export default function SupplyRecordForm({ openPopupClick, handleAlertCreate }) 
                             <Button variant="contained" onClick={openPopupClick} color="secondary">
                                 Cancel
                             </Button>
+
                         </div>
                     </Grid>
                 </Grid>

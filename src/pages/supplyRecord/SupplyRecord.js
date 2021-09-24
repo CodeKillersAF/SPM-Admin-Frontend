@@ -22,7 +22,7 @@ export default function SupplyRecord() {
 
     useEffect(() => {
         getAllSupplyRecords();
-    });
+    }, []);
 
 
     const openPopupClick = () => {
@@ -118,7 +118,7 @@ export default function SupplyRecord() {
                 />
                 <Popup
                     openPopup={openPopup}
-                    title="Add new Promotion"
+                    title="Add new Supplier Record"
                     form={<SupplyRecordForm title="Add Promotion"
                         openPopupClick={openPopupClick}
                     // handleAlertCreate={handleAlertCreate}
