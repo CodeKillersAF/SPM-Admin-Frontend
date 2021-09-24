@@ -137,6 +137,9 @@ function Rate() {
       <PDFExport ref={pdfExportComponent} paperSize="A4">
             
             <img src={logo} alt="image" width="80px" height="80px" />
+              <div className="reportTitle">Your Popularity Report</div>
+              <div className="reportAddress">No.3, Baththaramulla Road,</div>
+              <div className="reportAddress">Colombo</div> <br/>
               <table className="rateTable">
                 <tr>
                   <th>Customer Name</th>
@@ -148,7 +151,13 @@ function Rate() {
                 <tr>
                   <td>{al.customerName}</td>
                   <td>{al.aboutFood}</td>
-                  <td>{al.starRate}</td>
+                  {/* <td>{al.starRate}</td> */}
+                  <div className={classes.root}>
+                    <td>
+                        <Rating name="size-large" defaultValue={al.starRate} size="medium" readOnly />
+                    </td>
+                  </div>
+                  
                 </tr>
                 ))}
 
