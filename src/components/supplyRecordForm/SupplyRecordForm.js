@@ -172,42 +172,41 @@ export default function SupplyRecordForm({ openPopupClick, handleAlertCreate }) 
             <form className={classes.root}>
                 <Grid container>
                     <Grid item xs={6}>
+                    <FormControl variant="outlined">
+                        <InputLabel>Supply Item</InputLabel>
+                        <MuiSelect
+                            name="name"
+                            label="Supply Item"
+                            value={itemValue}
+                            onChange={selectedItem} 
+                            >
+
+                            <MenuItem value="">None</MenuItem>
+                            {supply_item.map((item) => (
+                                <MenuItem key={item._id} value={item._id}>
+                                    {item.item_name}
+                                </MenuItem>))}
+                        </MuiSelect>
+                        </FormControl>
+
                         <TextField variant="outlined" name="qty" label="Quantity"
                             value={qty} onChange={(e) => setqty(e.target.value)} 
                             />
-
-                            <FormControl variant="outlined">
-
-                            <InputLabel>Supply Item</InputLabel>
-                            <MuiSelect
-                                name="name"
-                                label="Supply Item"
-                                value={itemValue}
-                                onChange={selectedItem} 
-                                >
-
-                                <MenuItem value="">None</MenuItem>
-                                {supply_item.map((item) => (
-                                    <MenuItem key={item._id} value={item._id}>
-                                        {item.item_name}
-                                    </MenuItem>))}
-                            </MuiSelect>
-
-                            </FormControl>
-
-                        <TextField variant="outlined" name="qty" label="Bill Amount"
-                            value={bill_amount} onChange={(e) => setBill_amount(e.target.value)} 
-                            />
+                        
+                        <TextField variant="outlined" name="unit_price" label="Unit Price"
+                            value={price || ''} 
+                            contentEditable={false}
+                        />
 
                         <TextField variant="outlined" name="total_price" label="Total Amount"
                             value={total || ''} 
                             contentEditable={false}
                             />
 
-                        <TextField variant="outlined" name="unit_price" label="Unit Price"
-                            value={price || ''} 
-                            contentEditable={false}
-                        />
+                        <TextField variant="outlined" name="qty" label="Bill Amount"
+                            value={bill_amount} onChange={(e) => setBill_amount(e.target.value)} 
+                            />
+
 
                     </Grid>
                     <Grid item xs={6}>
@@ -236,18 +235,20 @@ export default function SupplyRecordForm({ openPopupClick, handleAlertCreate }) 
                             onChange={(e) => setDate(e.target.value)} 
                         />
 
-                        <div style={{ position: "relative", width: "200px", height: "200px" }} >
+                        <div style={{ display: "flex", width: "250px", height: "200px", marginTop: "20px" }} >
                             <img
-                                style={{ marginLeft: "120px", borderRadius: "10px" }}
-                                width="180px"
+                                style={{ marginLeft: "18px", position: "fixed"}}
+                                width="250px"
                                 height="150px"
                                 src={url} />
-                        </div>
+                       
                         <div className="fileInputBrowse">
                             <input type="file" id="formFile" onChange={onFileSelect} />
                         </div>
 
-                        <div style={{ display: "flex", alignItems: "center", marginTop: "5px" }}>
+                        </div>
+
+                        <div style={{ display: "flex", alignItems: "center" }}>
                             <Button
                                 variant="contained"
                                 color="primary"
