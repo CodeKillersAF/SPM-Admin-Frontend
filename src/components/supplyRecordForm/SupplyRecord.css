@@ -5,3 +5,11 @@
     color: #FFFFFF;
     border-radius: 10px;
 }
+
+.dateInput{
+    width: 90%;
+    height: 11%;
+    margin-top: 3%;
+    margin-left: 4%;
+    margin-bottom: 5%;
+}

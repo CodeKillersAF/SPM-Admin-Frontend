@@ -6,13 +6,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import { Grid, TextField, makeStyles, FormControl, InputLabel, Select as MuiSelect, Button, MenuItem } from "@material-ui/core";
 import './SupplyRecord.css';
 import 'date-fns';
-import DateFnsUtils from '@date-io/date-fns';
-import {
-  MuiPickersUtilsProvider,
-  KeyboardTimePicker,
-  KeyboardDatePicker,
-} from '@material-ui/pickers';
-
+import { useHistory } from 'react-router';
 
 const useStyles = makeStyles((theme) => ({
     backdrop: {
@@ -30,19 +24,13 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SupplyRecordForm({ openPopupClick, handleAlertCreate }) {
 
-    const [selectedDate, setSelectedDate] = React.useState(new Date('2014-08-18T21:11:54'));
-
-    const handleDateChange = (date) => {
-      setSelectedDate(date);
-    };
-
     const [open, setOpen] = React.useState(false);
     const classes = useStyles();
 
     const [supplier_name, setsupplier_name] = useState([]);
     const [supply_item, setsupply_item] = useState([]);
 
-    const [date, setdate] = useState('');
+    const [date, setDate] = useState('');
     const [qty, setqty] = useState();
     const [bill_amount, setBill_amount] = useState();
 
@@ -73,10 +61,10 @@ export default function SupplyRecordForm({ openPopupClick, handleAlertCreate }) 
 
     const selectedSupplier = (e) => {
         setSupplierValue(e.target.value);
-    //    console.log(e.target.value);
     }
 
     const [itemValue, setItemValue] = useState('');
+    const [itemName, setItemName] = useState('');
 
     const [total, setTotal] = useState();
     const [price, setprice] = useState();
@@ -88,6 +76,7 @@ export default function SupplyRecordForm({ openPopupClick, handleAlertCreate }) 
             .then((res) => {
                 console.log(res.data.data);
                 setprice(res.data.data.unit_price);
+                setItemName(res.data.data.item_name);
                 
                 const unit = res.data.data.unit_price;
                 const tot = qty*unit;
@@ -105,7 +94,7 @@ export default function SupplyRecordForm({ openPopupClick, handleAlertCreate }) 
         if (fileUploaded) {
             let supplyRecord = {
                 supplier_name: supplierValue,
-                supply_item: itemValue,
+                supply_item: itemName,
                 date: date,
                 qty: qty,
                 unit_price: price,
@@ -113,18 +102,20 @@ export default function SupplyRecordForm({ openPopupClick, handleAlertCreate }) 
                 url: url
             }
 
-            console.log(supplyRecord);
+            // console.log(supplyRecord);
 
-            // await axios.post("/supply-record", supplyRecord)
-            //     .then((response) => {
-            //         console.log(response.data.data);
-            //         setfileUploaded(false);
-
-            //     })
-            //     .catch((error) => {
-            //         console.log(error);
-            //         alert('please fill all fields');
-            //     });
+            await axios.post("/supply-record", supplyRecord)
+                .then((response) => {
+                    console.log(response.data.data);
+                    console.log("data added suessfully");
+                    setfileUploaded(false);
+                    openPopupClick();
+                    handleAlertCreate();
+                })
+                .catch((error) => {
+                    console.log(error);
+                    alert('please fill all fields');
+                });
         }
         else {
             alert('Please Upload image');
@@ -197,7 +188,7 @@ export default function SupplyRecordForm({ openPopupClick, handleAlertCreate }) 
 
                                 <MenuItem value="">None</MenuItem>
                                 {supply_item.map((item) => (
-                                    <MenuItem key={item.id} value={item._id}>
+                                    <MenuItem key={item._id} value={item._id}>
                                         {item.item_name}
                                     </MenuItem>))}
                             </MuiSelect>
@@ -232,43 +223,31 @@ export default function SupplyRecordForm({ openPopupClick, handleAlertCreate }) 
 
                                 <MenuItem value="">None</MenuItem>
                                 {supplier_name.map((item) => (
-                                    <MenuItem key={item.id} value={item._id}>
+                                    <MenuItem key={item._id} value={item.supplier_name}>
                                         {item.supplier_name}
                                     </MenuItem>))}
                             </MuiSelect>
 
                         </FormControl>
 
-                        <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                            <Grid container justifyContent="space-around">
-                                <KeyboardDatePicker
-                                margin="normal"
-                                id="date-picker-dialog"
-                                label="Date picker dialog"
-                                format="MM/dd/yyyy"
-                                value={selectedDate}
-                                onChange={handleDateChange}
-                                KeyboardButtonProps={{
-                                    'aria-label': 'change date',
-                                }}
-                                />
-                            </Grid>
-                        </MuiPickersUtilsProvider>
-
+                        <input type="date" 
+                            className="dateInput"
+                            value={date} 
+                            onChange={(e) => setDate(e.target.value)} 
+                        />
 
                         <div style={{ position: "relative", width: "200px", height: "200px" }} >
                             <img
-                                style={{ marginLeft: "100px", borderRadius: "10px" }}
-                                width="200px"
-                                height="180px"
+                                style={{ marginLeft: "120px", borderRadius: "10px" }}
+                                width="180px"
+                                height="150px"
                                 src={url} />
                         </div>
                         <div className="fileInputBrowse">
                             <input type="file" id="formFile" onChange={onFileSelect} />
                         </div>
 
-
-                        <div style={{ display: "flex", alignItems: "center", marginTop: "50px" }}>
+                        <div style={{ display: "flex", alignItems: "center", marginTop: "5px" }}>
                             <Button
                                 variant="contained"
                                 color="primary"

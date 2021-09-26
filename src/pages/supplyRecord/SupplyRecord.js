@@ -1,28 +1,42 @@
 import React, { useEffect, useState } from "react";
 import axios from 'axios';
 import ViewDetailsBody from "../../components/viewDetailsBody/ViewDetailsBody";
-import DeleteIcon from "@material-ui/icons/Delete";
-import { Edit } from "@material-ui/icons";
-import Button from "@material-ui/core/Button";
+// import DeleteIcon from "@material-ui/icons/Delete";
+// import { Edit } from "@material-ui/icons";
+// import Button from "@material-ui/core/Button";
 import Popup from "../../components/popup/Popup";
 import SupplyRecordForm from "../../components/supplyRecordForm/SupplyRecordForm";
+import SnackbarFeddback from '../../components/snackbarFeedback/SnackbarFeedback';
+
 
 
 export default function SupplyRecord() {
 
     const [offer, setoffer] = useState([]);
     const [openPopup, setOpenPopup] = useState(false);
+    const [reload, setReload] = useState();
+
+    const [addedCreateSuccess, setaddedCreateSuccess] = useState(false);
+
+    const handleAlertCreate = () => {
+        setaddedCreateSuccess(true);
+      }
+  
+      const handleCreateClose = () => {
+        setaddedCreateSuccess(false);
+      }
 
     const getAllSupplyRecords = () => {
-        axios.get("http://localhost:8000/api/admin/supply-record").then((res) => {
+        axios.get("/supply-record").then((res) => {
             setoffer(res.data.data);
-            console.log(res.data.data);
+            setReload(res.data.data);
+            // console.log(res.data.data);
         });
     };
 
     useEffect(() => {
         getAllSupplyRecords();
-    }, []);
+    }, [reload]);
 
 
     const openPopupClick = () => {
@@ -81,32 +95,7 @@ export default function SupplyRecord() {
             width: 150,
             editable: false,
         },
-        {
-            field: "action",
-            headerName: "Action",
-            width: 200,
-            editable: true,
-            renderCell: (params) => {
-                return (
-                    <>
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            startIcon={<Edit />}
-                            style={{ marginLeft: "20px", marginRight: "30px" }}
-                        // onClick={() => handleEditOpen(params.row)}
-                        >
-                            Edit
-
-                        </Button>
-                        <DeleteIcon
-                            // onClick={() => handleClickOpen(params.row._id)}
-                            // onClick={getOneCate}
-                            color="secondary" />
-                    </>
-                );
-            },
-        },
+        
     ];
 
     return (
@@ -121,8 +110,14 @@ export default function SupplyRecord() {
                     title="Add new Supplier Record"
                     form={<SupplyRecordForm title="Add Promotion"
                         openPopupClick={openPopupClick}
-                    // handleAlertCreate={handleAlertCreate}
+                        handleAlertCreate={handleAlertCreate}
                     />}
+                />
+
+                <SnackbarFeddback
+                    open={addedCreateSuccess}
+                    message="Record successfully added!"
+                    onClose={handleCreateClose}
                 />
             </div>
 
