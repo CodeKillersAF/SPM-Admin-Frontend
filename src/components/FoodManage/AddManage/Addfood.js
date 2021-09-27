@@ -107,7 +107,7 @@ function Addfood({ openPopupClick, handleAlertCreate }) {
             })
             .catch((error) => {
                 console.log(error);
-                alert('please fill all fields');
+                // alert('please fill all fields');
             });
         }
         else {
@@ -164,7 +164,7 @@ function Addfood({ openPopupClick, handleAlertCreate }) {
                     {" "}Uploading....
             </Backdrop>
 
-    <form className={classes.root}>
+    <form className={classes.root} onSubmit={addFoodsToCategory}>
       <Grid container>
         <Grid item xs={6}>
           <div
@@ -176,20 +176,15 @@ function Addfood({ openPopupClick, handleAlertCreate }) {
               height="180px"
               src={url}
             />
-            {/* <Publish
-              style={{ position: "absolute", top: "100px", left: "320px" }}
-              fontSize="large"
-              onClick={uploadfile}
-            /> */}
           </div>
-          <div className="fileInputBrowse">
+          <div className="fileInputBrowseFood">
             <input type="file" id="formFile" onChange={onFileSelect} />
           </div>
 
-          <TextField variant="outlined" name="name" label="Name"
+          <TextField variant="outlined" name="name" label="Name" required={true}
                 value={foodname} onChange={(e) => setFoodname(e.target.value)} />
 
-          <TextField variant="outlined" name="price" label="Price" 
+          <TextField type="Number" variant="outlined" name="price" label="Price" required={true}
                 value={foodprice} onChange={(e) => setFoodprice(e.target.value)} />
 
         </Grid>
@@ -201,6 +196,7 @@ function Addfood({ openPopupClick, handleAlertCreate }) {
               label="Category"
               value={categoryValue}
               onChange={selectedCategory}
+              required={true}
             >
               <MenuItem value="">None</MenuItem>
               {foodcategory.map((category) => (
@@ -223,6 +219,7 @@ function Addfood({ openPopupClick, handleAlertCreate }) {
             value={aboutfood} 
             onChange={(e) => setAboutfood(e.target.value)}
             name="description"
+            required={true}
           />
           
           <div
@@ -232,7 +229,8 @@ function Addfood({ openPopupClick, handleAlertCreate }) {
               variant="contained"
               color="primary"
               style={{ marginRight: "20px", marginLeft: "20px" }}
-              onClick={addFoodsToCategory}
+              type="submit"
+              // onClick={addFoodsToCategory}
             >
               Create
             </Button>

@@ -169,7 +169,7 @@ export default function SupplyRecordForm({ openPopupClick, handleAlertCreate }) 
                 {" "}Uploading....
             </Backdrop>
 
-            <form className={classes.root}>
+            <form className={classes.root} onSubmit={addSupplyRecord}>
                 <Grid container>
                     <Grid item xs={6}>
                     <FormControl variant="outlined">
@@ -179,6 +179,7 @@ export default function SupplyRecordForm({ openPopupClick, handleAlertCreate }) 
                             label="Supply Item"
                             value={itemValue}
                             onChange={selectedItem} 
+                            required={true}
                             >
 
                             <MenuItem value="">None</MenuItem>
@@ -189,11 +190,11 @@ export default function SupplyRecordForm({ openPopupClick, handleAlertCreate }) 
                         </MuiSelect>
                         </FormControl>
 
-                        <TextField variant="outlined" name="qty" label="Quantity"
+                        <TextField type="Number" variant="outlined" name="qty" label="Quantity" required={true}
                             value={qty} onChange={(e) => setqty(e.target.value)} 
                             />
                         
-                        <TextField variant="outlined" name="unit_price" label="Unit Price"
+                        <TextField variant="outlined" name="unit_price" label="Unit Price" required={true}
                             value={price || ''} 
                             contentEditable={false}
                         />
@@ -203,7 +204,7 @@ export default function SupplyRecordForm({ openPopupClick, handleAlertCreate }) 
                             contentEditable={false}
                             />
 
-                        <TextField variant="outlined" name="qty" label="Bill Amount"
+                        <TextField type="Number" variant="outlined" name="qty" label="Bill Amount" required={true}
                             value={bill_amount} onChange={(e) => setBill_amount(e.target.value)} 
                             />
 
@@ -218,6 +219,7 @@ export default function SupplyRecordForm({ openPopupClick, handleAlertCreate }) 
                                 label="Supply Item"
                                 value={supplierValue}
                                 onChange={selectedSupplier} 
+                                required={true}
                             >
 
                                 <MenuItem value="">None</MenuItem>
@@ -253,7 +255,8 @@ export default function SupplyRecordForm({ openPopupClick, handleAlertCreate }) 
                                 variant="contained"
                                 color="primary"
                                 style={{ marginRight: "20px", marginLeft: "100px" }}
-                                onClick={addSupplyRecord}
+                                type="submit"
+                                // onClick={addSupplyRecord}
                             >
                                 Create
                             </Button>

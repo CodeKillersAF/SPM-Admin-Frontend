@@ -121,14 +121,16 @@ function Rate() {
     return (
         <div className="viewTable">
 
-        <button onClick={exportPDFWithComponent}> Generate Report </button>
+    <div className="rateandPdf">
+        <button className="generateRate" onClick={exportPDFWithComponent}> Generate Report </button>
 
-          <select>
+          <select className="selectFoodRate">
               <option value="select">Select Food</option>
             {allFood.map((food) => (
             <option value={food._id} onClick={() => getFoodById(food._id)}>{food.foodName}</option>
             ))}
           </select>  
+      </div>
 
           <ViewDetailsBody columns={columns} 
             rows={viewAllRate}
@@ -136,7 +138,9 @@ function Rate() {
 
       <PDFExport ref={pdfExportComponent} paperSize="A4">
             
-            <img src={logo} alt="image" width="80px" height="80px" />
+            <div className="imgReport">
+              <img src={logo} alt="image" width="80px" height="80px" />
+            </div>
               <div className="reportTitle">Your Popularity Report</div>
               <div className="reportAddress">No.3, Baththaramulla Road,</div>
               <div className="reportAddress">Colombo</div> <br/>
@@ -151,13 +155,7 @@ function Rate() {
                 <tr>
                   <td>{al.customerName}</td>
                   <td>{al.aboutFood}</td>
-                  {/* <td>{al.starRate}</td> */}
-                  <div className={classes.root}>
-                    <td>
-                        <Rating name="size-large" defaultValue={al.starRate} size="medium" readOnly />
-                    </td>
-                  </div>
-                  
+                  <td>{al.starRate} / 5</td>
                 </tr>
                 ))}
 

@@ -84,8 +84,7 @@ function Addcategory({ openPopupClick, handleAlertCreate }) {
 
             })
             .catch((error) => {
-                // console.log(error.message);
-                alert('Please fill category name');
+                console.log(error.message);
             })
     }
 
@@ -93,7 +92,7 @@ function Addcategory({ openPopupClick, handleAlertCreate }) {
 
     <div>
 
-        <form className={classes.root}>
+        <form className={classes.root} onSubmit={addCategoryClick}>
       <Grid container>
 
         <Grid item xs={12}>
@@ -114,7 +113,8 @@ function Addcategory({ openPopupClick, handleAlertCreate }) {
               variant="contained"
               color="primary"
               style={{ marginRight: "20px", marginLeft: "20px" }}
-              onClick={addCategoryClick}
+              type="submit"
+              // onClick={addCategoryClick}
             >
               Create
             </Button>

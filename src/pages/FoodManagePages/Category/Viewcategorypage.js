@@ -142,7 +142,7 @@ function Viewcategorypage() {
               <>
                 <Button
                   variant="contained"
-                  color="secondary"
+                  color="Light"
                   startIcon={<DoubleArrowIcon />}
                   style={{ marginLeft: "20px", marginRight: "30px" }}
                   onClick={() => passSelectCategoryId(params.row._id)}

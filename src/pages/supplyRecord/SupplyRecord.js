@@ -8,9 +8,30 @@ import Popup from "../../components/popup/Popup";
 import SupplyRecordForm from "../../components/supplyRecordForm/SupplyRecordForm";
 import SnackbarFeddback from '../../components/snackbarFeedback/SnackbarFeedback';
 
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
+import logo from '../../Image/logo.jpg';
+
+import { PDFExport, savePDF } from "@progress/kendo-react-pdf";
+import './supplyrecord.css';
 
 
 export default function SupplyRecord() {
+
+    const pdfExportComponent = React.useRef(null);
+
+    const exportPDFWithMethod = () => {
+      let element = document.querySelector(".k-grid") || document.body;
+      savePDF(element, {
+        paperSize: "A4",
+      });
+    };
+
+    const exportPDFWithComponent = () => {
+      if (pdfExportComponent.current) {
+        pdfExportComponent.current.save();
+      }
+    };
 
     const [offer, setoffer] = useState([]);
     const [openPopup, setOpenPopup] = useState(false);
@@ -101,6 +122,10 @@ export default function SupplyRecord() {
     return (
         <div>
 
+            <div className="rateandPdf">
+                <button className="generateRate" onClick={exportPDFWithComponent}> Generate Report </button>
+            </div>
+
             <div className="viewTable">
                 <ViewDetailsBody columns={columns} rows={offer}
                     onClickCreate={onClickCreate}
@@ -119,6 +144,40 @@ export default function SupplyRecord() {
                     message="Record successfully added!"
                     onClose={handleCreateClose}
                 />
+
+
+ {/* report part */}
+ <PDFExport ref={pdfExportComponent} paperSize="A4">
+            
+            <div className="imgReport">
+                <img src={logo} alt="image" width="80px" height="80px" />
+            </div>
+
+              <div className="reportTitle">Your Popularity Report</div>
+              <div className="reportAddress">No.3, Baththaramulla Road,</div>
+              <div className="reportAddress">Colombo</div> <br/>
+              <table className="rateTable">
+                <tr>
+                  <th>Supply Item</th>
+                  <th>Unit Price</th>
+                  <th>Qty</th>
+                  <th>Total</th>
+                  <th>Supplier Name</th>
+                </tr>
+
+                {offer.map((al) => (
+                <tr>
+                    <td>{al.supply_item}</td>
+                    <td>{al.unit_price}</td>
+                    <td>{al.qty}</td>
+                    <td>{al.total_price}</td>
+                    <td>{al.supplier_name}</td>
+                </tr>
+                ))}
+
+              </table>
+      </PDFExport>
+
             </div>
 
         </div>
