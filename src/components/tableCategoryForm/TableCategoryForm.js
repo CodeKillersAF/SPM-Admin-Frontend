@@ -105,8 +105,8 @@ export default function TableCategoryForm({
             placeholder="Description"
             multiline
             variant="outlined"
-            maxRows={8}
-            minRows={8}
+            maxRows={5}
+            minRows={5}
             name="description"
             value={values.description}
             onChange={handleInputChnage}
@@ -118,7 +118,7 @@ export default function TableCategoryForm({
             <Button
               variant="contained"
               color="primary"
-              style={{ marginRight: "20px", marginLeft: "330px" }}
+              style={{ marginRight: "20px", marginLeft: "300px" }}
               type="submit"
             >
               {buttonTitle}
