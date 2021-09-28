@@ -111,7 +111,7 @@ function Addfood({ openPopupClick, handleAlertCreate }) {
             });
         }
         else {
-            alert ('Please Upload image');
+            alert ('Please Upload Image');
         }
     }
 

@@ -103,6 +103,21 @@ function Viewcategorypage() {
     const columns = [
         // { field: "_id", headerName: "ID", width: 160 },
         {
+          field: "url",
+          headerName: "Image",
+          width: 150,
+          editable: true,
+          renderCell: (params) => {
+            return (
+              <img
+                src={params.row.url}
+                alt="image"
+                style={{ width: "80px", height: "40px" }}
+              />
+            );
+          },
+        },
+        {
           field: "categoryName",
           headerName: "Category Name",
           width: 150,
