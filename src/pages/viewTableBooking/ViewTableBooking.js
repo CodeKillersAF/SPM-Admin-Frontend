@@ -1,35 +1,90 @@
-import React, { useEffect } from "react";
+import React, { useEffect ,useState } from "react";
 import { Edit, Delete } from "@material-ui/icons";
 import { Button, IconButton } from "@material-ui/core";
 import ViewDetailsBody from "../../components/viewDetailsBody/ViewDetailsBody";
 import axios from "axios";
+import BookingTableForm from "../../components/bookingTableForm/BookingTableForm";
+import Popup from "../../components/popup/Popup";
+import DialogBoxConfirm from "../../components/dialogBoxConfirm/DialogBoxConfirm";
 
 export default function ViewTableBooking() {
-    const [tableBooking, setTableBooking] = React.useState([]);
+  const [booking, setBooking] = useState({
+    tableId: "",
+    tableName: "",
+    date: new Date(),
+    time: new Date().getHours() + ":" + new Date().getMinutes(),
+    numberOfPeople: "",
+    customerName: "",
+    email: "",
+    phone: "",
+  });
+  const [tableBooking, setTableBooking] = React.useState([]);
   useEffect(() => {
-      getAllTableBooking();
+    getAllTableBooking();
   }, []);
   const onClickCreate = () => {
-      console.log("hello");
-    };
-
+    console.log("hello");
+  };
 
   const getAllTableBooking = () => {
     try {
-        
-      axios
-        .get("http://localhost:8000/api/tableBook/")
-        .then((res) => {
-            setTableBooking(res.data);
-            console.log(res.data);
-        });
+      axios.get("http://localhost:8000/api/tableBook/").then((res) => {
+        setTableBooking(res.data);
+        console.log(res.data);
+      });
     } catch (error) {
       console.log(error);
     }
   };
-  const handleClickOpen = () => {
-    console.log("Clicked");
+ 
+
+  const [openPopup, setOpenPopup] = useState(false);
+
+  const onClickEdit = (details) => {
+    console.log(details);
+    setBooking(details);
+    setOpenPopup(true);
   };
+
+  const updateTableBooking = (e) => {
+    e.preventDefault();
+    console.log(booking);
+    axios
+      .put(`http://localhost:8000/api/tableBook/${booking._id}`, booking)
+      .then((res) => {
+        getAllTableBooking();
+        setOpenPopup(false);
+        
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  const onBookingChange = (e) => {
+    setBooking({  ...booking, [e.target.name]: e.target.value });
+  };
+
+  const [tableBookingID, setTableBookingID] = useState("");
+  const [ConfirmPopupOpen, setConfirmPopupOpen] = useState(false);
+
+  const handleClickOpen = (bookingID) => {
+    setTableBookingID(bookingID);
+    setConfirmPopupOpen(true);
+  };
+
+  const onClickDelete = () => {
+    axios
+      .delete(`http://localhost:8000/api/tableBook/${tableBookingID}`)
+      .then((res) => {
+        console.log(res);
+        getAllTableBooking();
+        setConfirmPopupOpen(false);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
 
   const columns = [
     { field: "_id", headerName: "ID", minWidth: 300 },
@@ -46,31 +101,31 @@ export default function ViewTableBooking() {
     {
       field: "orderedTime",
       headerName: "Booked Time",
-      minWidth: 400,
+      minWidth: 200,
       editable: true,
     },
     {
       field: "email",
       headerName: "Email",
-      minWidth: 400,
+      minWidth: 200,
       editable: true,
     },
     {
       field: "phone",
       headerName: "Phone Number",
-      minWidth: 400,
+      minWidth: 200,
       editable: true,
     },
     {
       field: "date",
       headerName: "date",
-      minWidth: 400,
+      minWidth: 200,
       editable: true,
     },
     {
       field: "time",
       headerName: "Time",
-      minWidth: 400,
+      minWidth: 200,
       editable: true,
     },
 
@@ -87,13 +142,13 @@ export default function ViewTableBooking() {
               color="primary"
               startIcon={<Edit />}
               style={{ marginLeft: "20px", marginRight: "30px" }}
-              //   onClick={() => onClickEdit(params.row)}
+              onClick={() => onClickEdit(params.row)}
             >
               Edit
             </Button>
-            {/* <IconButton onClick={() => handleClickOpen(params.row._id)}>
+            <IconButton onClick={() => handleClickOpen(params.row._id)}>
               <Delete color="secondary" />
-            </IconButton> */}
+            </IconButton>
           </>
         );
       },
@@ -102,9 +157,29 @@ export default function ViewTableBooking() {
   return (
     <div>
       <ViewDetailsBody
-      columns={columns}
-      rows={tableBooking}
-      onClickCreate={onClickCreate}
+        columns={columns}
+        rows={tableBooking}
+        onClickCreate={onClickCreate}
+      />
+      <Popup
+        openPopup={openPopup}
+        title="Edit Table Booking"
+        form={
+          <BookingTableForm
+            buttonTitle="Update"
+            booking={booking}
+            onSubmit={updateTableBooking}
+            onChange={onBookingChange}
+            onClose={() => setOpenPopup(false)}
+          />
+        }
+      />
+      <DialogBoxConfirm
+        open={ConfirmPopupOpen}
+        handleClose={() => setConfirmPopupOpen(false)}
+        handleClickOpen={handleClickOpen}
+        onClickDelete={onClickDelete}
+        message={"This will delete category permanently!"}
       />
     </div>
   );
