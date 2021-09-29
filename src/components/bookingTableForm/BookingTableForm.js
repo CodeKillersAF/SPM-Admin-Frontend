@@ -5,7 +5,16 @@ import {
   KeyboardTimePicker,
   KeyboardDatePicker,
 } from "@material-ui/pickers";
-import { Grid, TextField, makeStyles ,Button} from "@material-ui/core";
+import {
+  Grid,
+  TextField,
+  makeStyles,
+  Button,
+  FormControl,
+  InputLabel,
+  Select as MuiSelect,
+  MenuItem,
+} from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -20,20 +29,36 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function BookingTableForm({onClose, booking,onChange,onSubmit}) {
-const classes = useStyles();
+export default function BookingTableForm({
+  onClose,
+  booking,
+  onChange,
+  onSubmit,
+  tables
+}) {
+  const classes = useStyles();
   return (
     <div>
       <form className={classes.root} onSubmit={onSubmit}>
         <Grid container>
           <Grid item xs={6}>
-            <TextField
-              variant="outlined"
-              name="tableName"
-              label="table"
-              value={booking.tableName}
-              onChange={onChange}
-            />
+            <FormControl variant="outlined">
+              <InputLabel>Table</InputLabel>
+              <MuiSelect
+                name="tableId"
+                label="Table"
+                value={booking.tableId}
+                onChange={onChange}
+                required={true}
+              >
+                <MenuItem value="">None</MenuItem>
+                {tables.map((item) => (
+                  <MenuItem key={item._id} value={item._id}>
+                    {item.name}
+                  </MenuItem>
+                ))}
+              </MuiSelect>
+            </FormControl>
             <TextField
               variant="outlined"
               label="Name"
@@ -102,11 +127,7 @@ const classes = useStyles();
               >
                 Update
               </Button>
-              <Button
-                variant="contained"
-                color="secondary"
-                onClick={onClose}
-              >
+              <Button variant="contained" color="secondary" onClick={onClose}>
                 Cancel
               </Button>
             </div>

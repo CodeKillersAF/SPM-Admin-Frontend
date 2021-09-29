@@ -21,6 +21,7 @@ export default function ViewTableBooking() {
   const [tableBooking, setTableBooking] = React.useState([]);
   useEffect(() => {
     getAllTableBooking();
+    getAllTable();
   }, []);
   const onClickCreate = () => {
     console.log("hello");
@@ -30,7 +31,17 @@ export default function ViewTableBooking() {
     try {
       axios.get("http://localhost:8000/api/tableBook/").then((res) => {
         setTableBooking(res.data);
-        console.log(res.data);
+        
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const [tables, setTables] = useState();
+  const getAllTable = () => {
+    try {
+      axios.get("http://localhost:8000/api/table/allTable").then((res) => {
+        setTables(res.data);
       });
     } catch (error) {
       console.log(error);
@@ -87,7 +98,7 @@ export default function ViewTableBooking() {
 
 
   const columns = [
-    { field: "_id", headerName: "ID", minWidth: 300 },
+    { field: "_id", headerName: "ID", minWidth: 150 },
     {
       field: "tableId",
       headerName: "Table ID",
@@ -171,6 +182,8 @@ export default function ViewTableBooking() {
             onSubmit={updateTableBooking}
             onChange={onBookingChange}
             onClose={() => setOpenPopup(false)}
+            tables={tables}
+          
           />
         }
       />
