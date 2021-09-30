@@ -47,17 +47,20 @@ export default function SupplyRecord() {
         setaddedCreateSuccess(false);
       }
 
+
     const getAllSupplyRecords = () => {
         axios.get("/supply-record").then((res) => {
             setoffer(res.data.data);
-            setReload(res.data.data);
+            setFilterOffers(res.data.data);
+            // setReload(res.data.data);
             // console.log(res.data.data);
+            
         });
     };
 
     useEffect(() => {
         getAllSupplyRecords();
-    }, [reload]);
+    }, []);
 
 
     const openPopupClick = () => {
@@ -119,6 +122,30 @@ export default function SupplyRecord() {
         
     ];
 
+    const [search, setSearch] = useState('');
+    const [filterOffers, setFilterOffers] = useState([]);
+
+    const onSearchChange = (e) => {
+        setSearch(e.target.value);
+        // console.log(e.target.value);
+        const filterValue = offer.filter((offers) => {
+            if(e.target.value ==''){
+                return offers;
+            }
+            else if(offers.supply_item.toLowerCase().includes(e.target.value.toLowerCase())){
+            return offers;
+                
+            }
+            else{
+                console.log("No Found")
+            }
+        
+                
+          });
+
+          setFilterOffers(filterValue);
+    }
+
     return (
         <div>
 
@@ -126,8 +153,13 @@ export default function SupplyRecord() {
                 <button className="generateRate" onClick={exportPDFWithComponent}> Generate Report </button>
             </div>
 
+            <input type="text" placeholder="Search..."
+                value={search}
+                onChange={onSearchChange}
+            />
+
             <div className="viewTable">
-                <ViewDetailsBody columns={columns} rows={offer}
+                <ViewDetailsBody columns={columns} rows={filterOffers}
                     onClickCreate={onClickCreate}
                 />
                 <Popup
@@ -146,7 +178,6 @@ export default function SupplyRecord() {
                 />
 
 
- {/* report part */}
  <PDFExport ref={pdfExportComponent} paperSize="A4">
             
             <div className="imgReport">

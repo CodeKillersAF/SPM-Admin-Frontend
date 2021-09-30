@@ -111,6 +111,14 @@ export default function SupplyRecordForm({ openPopupClick, handleAlertCreate }) 
                     setfileUploaded(false);
                     openPopupClick();
                     handleAlertCreate();
+
+                    axios.post("/supply-record/email")
+                        .then((res) => {
+                            console.log('Email sent');
+                        })
+                        .catch((err) => {
+                            console.log(err);
+                        })
                 })
                 .catch((error) => {
                     console.log(error);

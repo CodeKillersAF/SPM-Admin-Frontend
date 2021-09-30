@@ -11,6 +11,7 @@ import logo from '../../../Image/logo.jpg';
 
 import { PDFExport, savePDF } from "@progress/kendo-react-pdf";
 import './rate.css';
+import PdfRate from './PdfRate';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -125,7 +126,7 @@ function Rate() {
         <button className="generateRate" onClick={exportPDFWithComponent}> Generate Report </button>
 
           <select className="selectFoodRate">
-              <option value="select">Select Food</option>
+              <option value="select" onClick={() => viewRates()}>Select Food</option>
             {allFood.map((food) => (
             <option value={food._id} onClick={() => getFoodById(food._id)}>{food.foodName}</option>
             ))}
@@ -136,31 +137,7 @@ function Rate() {
             rows={viewAllRate}
         />
 
-      <PDFExport ref={pdfExportComponent} paperSize="A4">
-            
-            <div className="imgReport">
-              <img src={logo} alt="image" width="80px" height="80px" />
-            </div>
-              <div className="reportTitle">Your Popularity Report</div>
-              <div className="reportAddress">No.3, Baththaramulla Road,</div>
-              <div className="reportAddress">Colombo</div> <br/>
-              <table className="rateTable">
-                <tr>
-                  <th>Customer Name</th>
-                  <th>About Food</th>
-                  <th>Star Rate</th>
-                </tr>
-
-                {viewAllRate.map((al) => (
-                <tr>
-                  <td>{al.customerName}</td>
-                  <td>{al.aboutFood}</td>
-                  <td>{al.starRate} / 5</td>
-                </tr>
-                ))}
-
-              </table>
-      </PDFExport>
+          <PdfRate rateVal={viewAllRate} pdfExportComponent={pdfExportComponent} />
 
         </div>
     )
