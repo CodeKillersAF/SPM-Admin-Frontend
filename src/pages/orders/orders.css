@@ -1,0 +1,71 @@
+.rateTable {
+    font-family: Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 90%;
+    margin-left: 20px;
+  }
+
+  .imgReport{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .rateTable td, .rateTable th {
+    border: 1px solid #ddd;
+    padding: 20px;
+    font-size: 8px;
+  }
+  
+  .rateTable tr:nth-child(even){background-color: #f2f2f2;}
+  
+  .rateTable tr:hover {background-color: #ddd;}
+  
+  .rateTable th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #04AA6D;
+    color: white;
+  }
+  
+  .reportHead{
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .reportTitle{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+  }
+
+  .reportTitle p{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 8px;
+  }
+
+.rateandPdf{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+  .generateRate{
+      padding: 10px 50px;
+      border-color: #00B0FF;
+      color: #00B0FF;
+      font-weight: bold;
+      border-radius: 10px;
+  }
+
+  .selectFoodRate{
+    padding: 10px 50px;
+    border-color: #00B0FF;
+    color: #00B0FF;
+    font-weight: bold;
+    border-radius: 10px;
+  }

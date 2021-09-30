@@ -13,6 +13,12 @@ import ButtonGroup from '@material-ui/core/ButtonGroup';
 import { makeStyles } from '@material-ui/core/styles';
 import ViewOrder from '../../components/viewOrder/viewOrder';
 import Popup from '../../components/popup/Popup';
+import './orders.css'
+
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
+import { PDFExport, savePDF } from "@progress/kendo-react-pdf";
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -28,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 export default function Orders() {
-
+  const pdfExportComponent = React.useRef(null);
     const classes = useStyles();
     const [displayTrigger, setDisplayTrigger] = useState(1);
     const [deliveryOrders, setDeliveryOrders] = useState([]);
@@ -39,6 +45,12 @@ export default function Orders() {
 
   const [openPopup, setOpenPopup] = useState(false);  
 
+  
+  const exportPDFWithComponentDelivery = () => {
+    if (pdfExportComponent.current) {
+      pdfExportComponent.current.save();
+    }
+  };
 
   const openPopupClick = (e) => {
     e.preventDefault();
@@ -261,6 +273,7 @@ export default function Orders() {
 
     return (
         <div>
+    <button className="generateRate" onClick={exportPDFWithComponentDelivery}> Generate Reports </button>
     <div className={classes.root}>
       <ButtonGroup variant="contained" color="primary" aria-label="contained primary button group">
         <Button onClick = {displayTakeAway}>Take Away Orders</Button>
@@ -273,6 +286,54 @@ export default function Orders() {
             rows={delivery}
             // onClickCreate={}
         />
+     <PDFExport ref={pdfExportComponent} paperSize="A4">
+            
+            <div className="imgReport">
+              {/* <img src={logo} alt="image" width="80px" height="80px" /> */}
+            </div>
+              <div className="reportTitle">Your Popularity Report</div>
+              <div className="reportAddress">No.3, Baththaramulla Road,</div>
+              <div className="reportAddress">Colombo</div> <br/>
+              <table className="rateTable">
+                <tr>
+                  <th>First Name</th>
+                  <th>Last Name</th>
+                  <th>Price</th>
+                  <th>quantity</th>
+                  <th>items</th>
+                </tr>
+                {deliveryOrders.map((al) => (
+                <tr>
+                  {/* <td>{al._id}</td> */}
+                  <td>{al.first_name}</td>
+                  <td>{al.last_name}</td>
+                  <td>{al.total_price}</td>
+                  <td>{al.quantity.map((a) => (
+                    <p>{a}</p>
+                  ))}</td>
+                  <td>{al.order_items_names.map((a) => (
+                    <p>{a}</p>
+                  ))}</td>
+                </tr>
+                ))}
+                <h5 style={{display:"flex", alignItems:"center", justifyContent:"center"}}>Takeaway orders</h5>
+              {takeAwayOrders.map((al) => (
+                <tr>
+                  {/* <td>{al._id}</td> */}
+                  <td>{al.first_name}</td>
+                  <td>{al.last_name}</td>
+                  <td>{al.total_price}</td>
+                  <td>{al.quantity.map((a) => (
+                    <p>{a}</p>
+                  ))}</td>
+                  <td>{al.order_items_names.map((a) => (
+                    <p>{a}</p>
+                  ))}</td>
+                </tr>
+                ))}
+
+              </table>
+      </PDFExport>
     <Popup
       openPopup={openPopup}
       title="Order Details"
@@ -281,6 +342,7 @@ export default function Orders() {
       order = {selectedOrder}
     />}
     />
+
     </div>
 
     )
