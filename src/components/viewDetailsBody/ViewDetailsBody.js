@@ -10,6 +10,7 @@ export default function ViewDetailsBody({columns,rows,onClickCreate}) {
       </div>
 
       <div style={{ height: "600px", width: "100%" }}>
+      {rows.length>0 && (
         <DataGrid
           rows={rows}
           columns={columns}
@@ -21,6 +22,7 @@ export default function ViewDetailsBody({columns,rows,onClickCreate}) {
           autoHeight={true}
           autoPageSize={true}
         />
+      )}
       </div>
     </div>
   );

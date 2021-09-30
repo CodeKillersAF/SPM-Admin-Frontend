@@ -35,29 +35,32 @@ export default function TableForm({
   const [open, setOpen] = React.useState(false);
 
   async function uploadFile(image) {
-    setOpen(!open);
-    let bucketName = "tableImages";
-    let uploadTask = storage.ref(`${bucketName}/${image.name}`).put(image);
-    await uploadTask.on(
-      "state_changed",
-      (snapshot) => {
-        console.log(snapshot);
-      },
-      (err) => {
-        console.log(err);
-      },
-      () => {
-        storage
-          .ref("tableImages")
-          .child(image.name)
-          .getDownloadURL()
-          .then((firebaseURl) => {
-            console.log(firebaseURl);
-            setValues({ ...values, image: firebaseURl });
-            setOpen(false);
-          });
-      }
-    );
+    if (!image.name.match(/\.(jpg|jpeg|png|webp)$/)) {
+      alert("Select an valid image type");
+      setOpen(false);
+    } else {
+      let bucketName = "tableImages";
+      let uploadTask = storage.ref(`${bucketName}/${image.name}`).put(image);
+      await uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          console.log(snapshot);
+        },
+        (err) => {
+          console.log(err);
+        },
+        () => {
+          storage
+            .ref("tableImages")
+            .child(image.name)
+            .getDownloadURL()
+            .then((firebaseURl) => {
+              setValues({ ...values, image: firebaseURl });
+              setOpen(false);
+            });
+        }
+      );
+    }
   }
 
   const [values, setValues] = useState(table);
@@ -82,7 +85,7 @@ export default function TableForm({
               <div className="preview-image">
                 <img
                   width="200px"
-                  style={{borderRadius:"10px"}}
+                  style={{ borderRadius: "10px" }}
                   height="180px"
                   src={
                     values.image
@@ -91,7 +94,7 @@ export default function TableForm({
                   }
                 />
               </div>
-              <label for="file-1">Upload Image</label>
+              <label htmlFor="file-1">Upload Image</label>
               <input
                 type="file"
                 className="addnewKeynoteuploadButton"
@@ -105,6 +108,7 @@ export default function TableForm({
               label="Name"
               value={values.name}
               onChange={handleInputChnage}
+              required={true}
             />
             <TextField
               variant="outlined"
@@ -112,6 +116,7 @@ export default function TableForm({
               label="Width"
               value={values.width}
               onChange={handleInputChnage}
+              required={true}
             />
             <TextField
               variant="outlined"
@@ -119,6 +124,7 @@ export default function TableForm({
               label="Height"
               value={values.height}
               onChange={handleInputChnage}
+              required={true}
             />
           </Grid>
           <Grid item xs={6}>
@@ -129,6 +135,7 @@ export default function TableForm({
                 label="Category"
                 value={values.category}
                 onChange={handleInputChnage}
+                required={true}
               >
                 <MenuItem value="">None</MenuItem>
                 {tableCategories.map((item) => (
@@ -144,6 +151,7 @@ export default function TableForm({
               label="Chairs"
               value={values.chairs}
               onChange={handleInputChnage}
+              required={true}
             />
             <TextField
               id="outlined-textarea"
@@ -156,6 +164,7 @@ export default function TableForm({
               value={values.description}
               name="description"
               onChange={handleInputChnage}
+              required={true}
             />
             <div
               style={{
