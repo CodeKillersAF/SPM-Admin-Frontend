@@ -24,6 +24,7 @@ export default function TableCategoryForm({
   tableCategory,
   onSubmit,
   buttonTitle,
+  formClose
 }) {
   const [values, setValues] = useState(tableCategory);
   const [file, setfile] = useState(null);
@@ -123,8 +124,8 @@ export default function TableCategoryForm({
             >
               {buttonTitle}
             </Button>
-            <Button variant="contained" color="secondary">
-              Reset
+            <Button onClick={formClose} variant="contained" color="secondary">
+              Cancel
             </Button>
           </div>
         </Grid>

@@ -152,11 +152,11 @@ export default function ViewTable() {
   }, [updatedTable, newTable, deletedTable]);
 
   const columns = [
-    { field: "_id", headerName: "ID", width: 160 },
+    { field: "_id", headerName: "ID", width: 100 },
     {
       field: "image",
       headerName: "Image",
-      width: 150,
+      width: 120,
       editable: true,
       renderCell: (params) => {
         return (
@@ -171,37 +171,37 @@ export default function ViewTable() {
     {
       field: "name",
       headerName: "Name",
-      width: 150,
+      width: 120,
       editable: true,
     },
     {
       field: "category",
       headerName: "Category",
-      width: 150,
+      width: 140,
       editable: true,
     },
     {
       field: "chairs",
       headerName: "Chairs",
-      width: 130,
+      width: 120,
       editable: true,
     },
     {
       field: "height",
       headerName: "Height",
-      width: 130,
+      width: 120,
       editable: true,
     },
     {
       field: "width",
       headerName: "Width",
-      width: 130,
+      width: 115,
       editable: true,
     },
     {
       field: "description",
       headerName: "Description",
-      width: 200,
+      width: 150,
       editable: true,
     },
     {
@@ -232,13 +232,12 @@ export default function ViewTable() {
 
   return (
     <div className="viewTable">
-      
-        <ViewDetailsBody
-          columns={columns}
-          rows={tables}
-          onClickCreate={onClickCreate}
-        />
-    
+      <ViewDetailsBody
+        columns={columns}
+        rows={tables}
+        onClickCreate={onClickCreate}
+      />
+
       <Popup
         openPopup={openPopup}
         title="Add new table"
@@ -258,20 +257,20 @@ export default function ViewTable() {
         onClickDelete={onClickDelete}
         message={"This will delete table permanently!"}
       />
-      {editFormOpen && (
-        <Popup
-          openPopup={true}
-          title="Add new table"
-          form={
-            <TableForm
-              table={editTable}
-              tableCategories={tableCategories}
-              buttonTitle="Update"
-              onSubmit={onUpdate}
-            />
-          }
-        />
-      )}
+
+      <Popup
+        openPopup={editFormOpen}
+        title="Add new table"
+        form={
+          <TableForm
+            table={editTable}
+            tableCategories={tableCategories}
+            buttonTitle="Update"
+            onSubmit={onUpdate}
+            formClose={() => setEditFormOpen(false)}
+          />
+        }
+      />
 
       <SnackbarFeddback
         open={addedSuccess}

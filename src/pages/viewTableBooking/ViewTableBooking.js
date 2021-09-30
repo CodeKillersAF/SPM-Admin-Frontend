@@ -1,4 +1,4 @@
-import React, { useEffect ,useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Edit, Delete } from "@material-ui/icons";
 import { Button, IconButton } from "@material-ui/core";
 import ViewDetailsBody from "../../components/viewDetailsBody/ViewDetailsBody";
@@ -6,6 +6,7 @@ import axios from "axios";
 import BookingTableForm from "../../components/bookingTableForm/BookingTableForm";
 import Popup from "../../components/popup/Popup";
 import DialogBoxConfirm from "../../components/dialogBoxConfirm/DialogBoxConfirm";
+import ButtonGroup from "@material-ui/core/ButtonGroup";
 
 export default function ViewTableBooking() {
   const [booking, setBooking] = useState({
@@ -31,7 +32,7 @@ export default function ViewTableBooking() {
     try {
       axios.get("http://localhost:8000/api/tableBook/").then((res) => {
         setTableBooking(res.data);
-        
+        setFilteredBooking(res.data);
       });
     } catch (error) {
       console.log(error);
@@ -47,7 +48,6 @@ export default function ViewTableBooking() {
       console.log(error);
     }
   };
- 
 
   const [openPopup, setOpenPopup] = useState(false);
 
@@ -65,14 +65,13 @@ export default function ViewTableBooking() {
       .then((res) => {
         getAllTableBooking();
         setOpenPopup(false);
-        
       })
       .catch((err) => {
         console.log(err);
       });
   };
   const onBookingChange = (e) => {
-    setBooking({  ...booking, [e.target.name]: e.target.value });
+    setBooking({ ...booking, [e.target.name]: e.target.value });
   };
 
   const [tableBookingID, setTableBookingID] = useState("");
@@ -96,6 +95,51 @@ export default function ViewTableBooking() {
       });
   };
 
+  const [filteredBooking, setFilteredBooking] = useState([]);
+
+  const filterPendingBooking = () => {
+    const pendingBooking = tableBooking.filter((booking) => {
+      return booking.status === false && booking.isOver === false;
+    });
+
+    setFilteredBooking(pendingBooking);
+  };
+  const filterAcceptedBooking = () => {
+    const pendingBooking = tableBooking.filter((booking) => {
+      return booking.status === true && booking.isOver === false;
+    });
+
+    setFilteredBooking(pendingBooking);
+  };
+  const filterCompletedBooking = () => {
+    const pendingBooking = tableBooking.filter((booking) => {
+      return booking.status === true && booking.isOver === true;
+    });
+
+    setFilteredBooking(pendingBooking);
+  };
+  const onClickComplete = (id) => {
+    axios
+      .put(`http://localhost:8000/api/tableBook/${id}`, { isOver: true })
+      .then((res) => {
+        console.log(res);
+        getAllTableBooking();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  const onClickAccept = (id) => {
+    axios
+      .put(`http://localhost:8000/api/tableBook/${id}`, { status: true })
+      .then((res) => {
+        console.log(res);
+        getAllTableBooking();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   const columns = [
     { field: "_id", headerName: "ID", minWidth: 150 },
@@ -139,6 +183,45 @@ export default function ViewTableBooking() {
       minWidth: 200,
       editable: true,
     },
+    {
+      field: "status",
+      headerName: "Change State",
+      minWidth: 300,
+      resizeble: true,
+      renderCell: (params) => {
+        return (
+          <>
+            {params.row.status && params.row.isOver ? (
+              <div>Completed</div>
+            ) : params.row.status ? (
+              <>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  startIcon={<Edit />}
+                  style={{ marginLeft: "20px", marginRight: "30px" }}
+                  onClick={() => onClickComplete(params.row._id)}
+                >
+                  Complete
+                </Button>
+              </>
+            ) : (
+              <>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  startIcon={<Edit />}
+                  style={{ marginLeft: "20px", marginRight: "30px" }}
+                  onClick={() => onClickAccept(params.row._id)}
+                >
+                  Accept
+                </Button>
+              </>
+            )}
+          </>
+        );
+      },
+    },
 
     {
       field: "action",
@@ -167,9 +250,27 @@ export default function ViewTableBooking() {
   ];
   return (
     <div>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          marginBottom: "20px",
+        }}
+      >
+        <ButtonGroup
+          variant="contained"
+          color="primary"
+          aria-label="contained primary button group"
+        >
+          <Button onClick={getAllTableBooking}>ALL</Button>
+          <Button onClick={filterPendingBooking}>Pending</Button>
+          <Button onClick={filterAcceptedBooking}>Accepted</Button>
+          <Button onClick={filterCompletedBooking}>Completed</Button>
+        </ButtonGroup>
+      </div>
       <ViewDetailsBody
         columns={columns}
-        rows={tableBooking}
+        rows={filteredBooking}
         onClickCreate={onClickCreate}
       />
       <Popup
@@ -183,7 +284,6 @@ export default function ViewTableBooking() {
             onChange={onBookingChange}
             onClose={() => setOpenPopup(false)}
             tables={tables}
-          
           />
         }
       />
