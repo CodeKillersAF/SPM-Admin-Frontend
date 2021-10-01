@@ -1,13 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import ViewDetailsBody from "../../../components/viewDetailsBody/ViewDetailsBody";
 import axios from 'axios';
-
 import Rating from '@material-ui/lab/Rating';
 import { makeStyles } from '@material-ui/core/styles';
-
-import jsPDF from 'jspdf';
 import 'jspdf-autotable';
-import logo from '../../../Image/logo.jpg';
+
 
 import { PDFExport, savePDF } from "@progress/kendo-react-pdf";
 import './rate.css';
@@ -34,6 +31,8 @@ function Rate() {
       });
     };
 
+    const [numS, setnumS] = useState(0);
+
     const exportPDFWithComponent = () => {
       if (pdfExportComponent.current) {
         pdfExportComponent.current.save();
@@ -48,13 +47,13 @@ function Rate() {
         {
           field: "customerName",
           headerName: "Customer Name",
-          width: 150,
+          width: 300,
           editable: true,
         },
         {
             field: "aboutFood",
             headerName: "About Food",
-            width: 150,
+            width: 400,
             editable: true,
           },
           {
@@ -120,7 +119,7 @@ function Rate() {
        */
 
     return (
-        <div className="viewTable">
+        <div style={{ position: 'fixed', width: '80%' }} className="viewTable">
 
     <div className="rateandPdf">
         <button className="generateRate" onClick={exportPDFWithComponent}> Generate Report </button>
@@ -136,8 +135,9 @@ function Rate() {
           <ViewDetailsBody columns={columns} 
             rows={viewAllRate}
         />
+        
 
-          <PdfRate rateVal={viewAllRate} pdfExportComponent={pdfExportComponent} />
+            <PdfRate rateVal={viewAllRate} pdfExportComponent={pdfExportComponent} />
 
         </div>
     )

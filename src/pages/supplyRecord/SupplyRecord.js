@@ -147,16 +147,19 @@ export default function SupplyRecord() {
     }
 
     return (
-        <div>
+        <div style={{ position:'fixed', width: '90%' }}>
 
-            <div className="rateandPdf">
-                <button className="generateRate" onClick={exportPDFWithComponent}> Generate Report </button>
+            <div className="rateandPdfRecord">
+                <button className="generateRateRecord" onClick={exportPDFWithComponent}> Generate Report </button>
+
+                <input type="text" placeholder="Search..."
+                    className="searchRecord"
+                    value={search}
+                    onChange={onSearchChange}
+                />
+
             </div>
 
-            <input type="text" placeholder="Search..."
-                value={search}
-                onChange={onSearchChange}
-            />
 
             <div className="viewTable">
                 <ViewDetailsBody columns={columns} rows={filterOffers}

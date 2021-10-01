@@ -105,7 +105,7 @@ function Viewcategorypage() {
         {
           field: "url",
           headerName: "Image",
-          width: 150,
+          width: 200,
           editable: true,
           renderCell: (params) => {
             return (
@@ -120,13 +120,13 @@ function Viewcategorypage() {
         {
           field: "categoryName",
           headerName: "Category Name",
-          width: 150,
+          width: 250,
           editable: true,
         },
         {
           field: "action",
           headerName: "Action",
-          width: 200,
+          width: 300,
           editable: true,
           renderCell: (params) => {
             return (

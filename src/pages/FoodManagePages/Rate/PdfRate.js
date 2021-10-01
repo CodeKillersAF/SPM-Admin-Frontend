@@ -1,10 +1,7 @@
-import React from 'react';
-import jsPDF from 'jspdf';
-import 'jspdf-autotable';
-import logo from '../../../Image/logo.jpg';
-
+import React, { useState, useEffect } from 'react';
 import { PDFExport, savePDF } from "@progress/kendo-react-pdf";
 import './rate.css';
+import logo from '../../../Image/logo.jpg';
 
 export default function PdfRate({ rateVal, pdfExportComponent }) {
 
@@ -35,6 +32,7 @@ export default function PdfRate({ rateVal, pdfExportComponent }) {
 
               </table>
       </PDFExport>
+
         </div>
     )
 }

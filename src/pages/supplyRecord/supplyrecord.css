@@ -36,3 +36,35 @@
     justify-content: center;
     font-size: 8px;
   }
+
+  .rateandPdfRecord{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    margin-right: 300px;
+  }
+  
+    .generateRateRecord{
+        padding: 10px 50px;
+        border-color: #00B0FF;
+        color: #00B0FF;
+        font-weight: bold;
+        border-radius: 10px;
+    }
+  
+    .selectFoodRate{
+      padding: 10px 50px;
+      border-color: #00B0FF;
+      color: #00B0FF;
+      font-weight: bold;
+      border-radius: 10px;
+    }
+
+    .searchRecord{
+      width: 300px;
+      padding: 10px 20px;
+      border-radius: 10px;
+      border-color: black;
+      border-style: solid;
+      border-width: 2;
+    }
