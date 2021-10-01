@@ -38,6 +38,13 @@ export default function Layout({ children }) {
                 <span>Category</span>
               </Link>
             </li>
+            <li>
+              <Link to="/rate">
+                {" "}
+                <span className="las la-clipboard-list"></span>
+                <span>Rate</span>
+              </Link>
+            </li>
 
             <li>
               <a href="">
