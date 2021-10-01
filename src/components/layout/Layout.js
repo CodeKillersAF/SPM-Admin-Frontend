@@ -24,18 +24,18 @@ export default function Layout({ children }) {
             </li>
 
             <li>
-              <a>
+            <Link to="/online-orders">
                 {" "}
                 <span className="las la-users"></span>
                 <span>Orders</span>
-              </a>
+              </Link>
             </li>
 
             <li>
               <Link to="/foodCategory/view-category">
                 {" "}
                 <span className="las la-clipboard-list"></span>
-                <span>Category</span>
+                <span>Food Category</span>
               </Link>
             </li>
             <li>
@@ -45,46 +45,49 @@ export default function Layout({ children }) {
                 <span>Rate</span>
               </Link>
             </li>
-
-            <li>
-              <a href="">
-                {" "}
-                <span className="las la-shopping-bag"></span>
-                <span>Orders</span>
-              </a>
-            </li>
             <li>
               <Link to="/table">
-                <a href="">
                   {" "}
                   <span className="las la-receipt"></span>
                   <span>Tables</span>
-                </a>
               </Link>
             </li>
             <li>
               <Link to="/tableCategory">
-                <a>
                   {" "}
                   <span className="las la-user-circle"></span>
                   <span>Table Categories</span>
-                </a>
               </Link>
             </li>
             <li>
-              <a href="/supplier">
+              <Link to="/tableBooking">
+                  {" "}
+                  <span className="las la-user-circle"></span>
+                  <span>Table Bookings</span>
+              </Link>
+            </li>
+            <li>
+            <Link to="/supplier">
                 {" "}
                 <span class="las la-clipboard-list"></span>
                 <span>Suppliers</span>
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="/supplyItem">
+            <Link to="/supplyItem">
                 {" "}
                 <span className="las la-clipboard-list"></span>
-                <span>Tasks</span>
-              </a>
+                <span>Supply Item</span>
+             </Link>
             </li>
+            <li>
+            <Link to="/supplyRecord">
+                {" "}
+                <span className="las la-clipboard-list"></span>
+                <span>Supplier Record</span>
+             </Link>
+            </li>
+            
           </ul>
         </div>
       </div>

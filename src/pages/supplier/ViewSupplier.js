@@ -158,7 +158,7 @@ export default function ViewSupplier() {
 
     return (
         <div className="viewTable">
-            <ViewDetailsBody columns={columns} rows={supplier} onClickCreate={onClickCreate} />
+            <ViewDetailsBody columns={columns} rows={supplier} onClickCreate={onClickCreate} button={true}/>
             <DialogBoxSupply
                 open={open}
                 handleClose={handleClose}

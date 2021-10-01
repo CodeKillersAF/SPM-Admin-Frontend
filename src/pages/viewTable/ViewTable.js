@@ -248,7 +248,7 @@ export default function ViewTable() {
             table={table}
             onSubmit={addTable}
             tableCategories={tableCategories}
-            // formClose={() => setEditFormOpen(false)}
+            formClose={() => setOpenPopup(false)}
           />
         }
       />

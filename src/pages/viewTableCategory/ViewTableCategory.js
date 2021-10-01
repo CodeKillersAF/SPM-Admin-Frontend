@@ -194,6 +194,7 @@ export default function ViewTableCategory() {
             buttonTitle="Add"
             tableCategory={tableCategory}
             onSubmit={addTableCategory}
+            formClose={() => setOpenPopup(false)}
           />
         }
       />
