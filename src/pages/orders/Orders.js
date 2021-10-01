@@ -49,7 +49,7 @@ export default function Orders() {
       if (e.target.value == "") {
         return order;
       } else if (
-        delivery.first_name.toLowerCase().includes(e.target.value.toLowerCase())
+        order.first_name.toLowerCase().includes(e.target.value.toLowerCase())
       ) {
         return order;
       } else {
@@ -94,6 +94,7 @@ export default function Orders() {
       .then((response) => {
         console.log("delivery", response.data.data);
         setDeliveryOrders(response.data.data);
+        setFilterOrders(response.data.data);
       })
       .catch((error) => {
         console.log(error);
@@ -107,6 +108,7 @@ export default function Orders() {
         console.log("take away", response.data.data);
         setTakeAwayOrders(response.data.data);
         setDelivery(response.data.data);
+        setFilterOrders(response.data.data);
       })
       .catch((error) => {
         console.log(error);
@@ -116,6 +118,7 @@ export default function Orders() {
   const displayTakeAway = () => {
     // setDisplayTrigger(0)
     setDelivery(takeAwayOrders);
+    setFilterOrders(takeAwayOrders);
     setDisplayTrigger(2);
     console.log(displayTrigger);
   };
@@ -124,6 +127,7 @@ export default function Orders() {
     // setDisplayTrigger(0);
     setDelivery(deliveryOrders);
     setDisplayTrigger(1);
+    setFilterOrders(deliveryOrders);
     console.log(displayTrigger);
   };
 
@@ -327,7 +331,7 @@ export default function Orders() {
         rows={filterOrders}
         // onClickCreate={}
       />
-      <div style={{ display: "none" }}>
+      <div style={{ position:"fixed", width:"80%" }}>
         <PDFExport ref={pdfExportComponent} paperSize="A4">
           <div className="imgReport">
             {/* <img src={logo} alt="image" width="80px" height="80px" /> */}
