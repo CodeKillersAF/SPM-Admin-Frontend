@@ -1,16 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import ViewDetailsBody from "../../../components/viewDetailsBody/ViewDetailsBody";
 import axios from 'axios';
-
 import Rating from '@material-ui/lab/Rating';
 import { makeStyles } from '@material-ui/core/styles';
-
-import jsPDF from 'jspdf';
 import 'jspdf-autotable';
-import logo from '../../../Image/logo.jpg';
+
 
 import { PDFExport, savePDF } from "@progress/kendo-react-pdf";
 import './rate.css';
+import PdfRate from './PdfRate';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -33,6 +31,8 @@ function Rate() {
       });
     };
 
+    const [numS, setnumS] = useState(0);
+
     const exportPDFWithComponent = () => {
       if (pdfExportComponent.current) {
         pdfExportComponent.current.save();
@@ -47,13 +47,13 @@ function Rate() {
         {
           field: "customerName",
           headerName: "Customer Name",
-          width: 150,
+          width: 300,
           editable: true,
         },
         {
             field: "aboutFood",
             headerName: "About Food",
-            width: 150,
+            width: 400,
             editable: true,
           },
           {
@@ -119,41 +119,25 @@ function Rate() {
        */
 
     return (
-        <div className="viewTable">
+        <div style={{ position: 'fixed', width: '80%' }} className="viewTable">
 
-        <button onClick={exportPDFWithComponent}> Generate Report </button>
+    <div className="rateandPdf">
+        <button className="generateRate" onClick={exportPDFWithComponent}> Generate Report </button>
 
-          <select>
-              <option value="select">Select Food</option>
+          <select className="selectFoodRate">
+              <option value="select" onClick={() => viewRates()}>Select Food</option>
             {allFood.map((food) => (
             <option value={food._id} onClick={() => getFoodById(food._id)}>{food.foodName}</option>
             ))}
           </select>  
+      </div>
 
           <ViewDetailsBody columns={columns} 
             rows={viewAllRate}
         />
+        
 
-      <PDFExport ref={pdfExportComponent} paperSize="A4">
-            
-            <img src={logo} alt="image" width="80px" height="80px" />
-              <table className="rateTable">
-                <tr>
-                  <th>Customer Name</th>
-                  <th>About Food</th>
-                  <th>Star Rate</th>
-                </tr>
-
-                {viewAllRate.map((al) => (
-                <tr>
-                  <td>{al.customerName}</td>
-                  <td>{al.aboutFood}</td>
-                  <td>{al.starRate}</td>
-                </tr>
-                ))}
-
-              </table>
-      </PDFExport>
+            <PdfRate rateVal={viewAllRate} pdfExportComponent={pdfExportComponent} />
 
         </div>
     )

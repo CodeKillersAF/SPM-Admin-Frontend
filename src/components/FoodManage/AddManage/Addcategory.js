@@ -1,16 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 import Select from 'react-select';
+import { storage } from '../../../firebase';
+import Backdrop from '@material-ui/core/Backdrop';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import {
     Grid,
     TextField,
     makeStyles,
     FormControl,
-    InputLabel,
-    Select as MuiSelect,
     Button,
-    MenuItem,
   } from "@material-ui/core";
   
 
@@ -30,6 +29,11 @@ const useStyles = makeStyles((theme) => ({
 function Addcategory({ openPopupClick, handleAlertCreate }) {
 
     const classes = useStyles();
+    const [open, setOpen] = React.useState(false);
+
+    const [file, setFile] = useState(null);
+    const [url, setUrl] = useState('');
+    const [fileUploaded, setfileUploaded] = useState(false);
 
     const [category, setCategory] = useState('');
 
@@ -69,8 +73,10 @@ function Addcategory({ openPopupClick, handleAlertCreate }) {
     async function addCategoryClick (e) {
         e.preventDefault();
 
+        if(fileUploaded) {
         let categoryDetails = {
             categoryName: category,
+            url: url,
             foodItems: foodArray,
         }
 
@@ -84,19 +90,85 @@ function Addcategory({ openPopupClick, handleAlertCreate }) {
 
             })
             .catch((error) => {
-                // console.log(error.message);
-                alert('Please fill category name');
+                console.log(error.message);
             })
+
+        }
+        else{
+          alert('Please Upload Image');
+        }
     }
+
+    function onFileSelect(e) {
+      setFile(e.target.files[0]);
+      uploadfile(e.target.files[0]);
+  }
+
+  async function uploadfile(image) {
+      // e.preventDefault();
+      setOpen(!open);
+
+      if(!image.name.match(/\.(jpg|jpeg|png)$/)) {
+          // console.log('Select valid image');
+          alert('Selecte an valid image type');
+          setOpen(false);
+      }
+      else {
+          let bucketName = "categoryImages";
+          let uploadTask = storage.ref(`${bucketName}/${image.name}`).put(image);
+
+          console.log("File Name : " + image.name);
+     
+          await uploadTask.on(
+              "state_changed",
+              (snapshot) => {
+                  console.log(snapshot);
+              },
+              (err) => {
+                  console.log(err);
+              },
+              () => {
+                  storage.ref("categoryImages").child(image.name).getDownloadURL()
+                      .then((firebaseURl) => {
+                          setUrl(firebaseURl);
+                          console.log(firebaseURl);
+                          setfileUploaded(true);
+                          setOpen(false);
+                      });
+              }
+          )
+      }
+  }
+
 
     return (
 
     <div>
 
-        <form className={classes.root}>
-      <Grid container>
+       <Backdrop className={classes.backdrop} open={open}>
+               <CircularProgress color="inherit" />
+               {" "}Uploading....
+       </Backdrop>
+
+      <form className={classes.root} onSubmit={addCategoryClick}>
+          <Grid container>
 
         <Grid item xs={12}>
+
+            <div
+                style={{ position: "relative", width: "200px", height: "200px" }}
+              > 
+                <img
+                  style={{ marginLeft: "100px", borderRadius: "10px" }}
+                  width="200px"
+                  height="180px"
+                  src={url}
+                />
+              </div>
+              <div className="fileInputBrowseFood">
+                <input type="file" id="formFile" onChange={onFileSelect} />
+              </div>
+
         <TextField variant="outlined" name="name" label="Name" required="true"
                 value={category} onChange={(e) => setCategory(e.target.value)} />
           <FormControl variant="outlined">
@@ -114,7 +186,8 @@ function Addcategory({ openPopupClick, handleAlertCreate }) {
               variant="contained"
               color="primary"
               style={{ marginRight: "20px", marginLeft: "20px" }}
-              onClick={addCategoryClick}
+              type="submit"
+              // onClick={addCategoryClick}
             >
               Create
             </Button>

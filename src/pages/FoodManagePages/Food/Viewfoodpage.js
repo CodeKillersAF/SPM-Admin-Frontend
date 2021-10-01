@@ -76,13 +76,13 @@ function Viewfoodpage() {
       {
         field: "foodName",
         headerName: "Food Name",
-        width: 150,
+        width: 180,
         editable: true,
       },
       {
         field: "foodDescription",
         headerName: "Food Description",
-        width: 150,
+        width: 250,
         editable: true,
       },
       {
@@ -94,7 +94,7 @@ function Viewfoodpage() {
       {
         field: "action",
         headerName: "Action",
-        width: 200,
+        width: 250,
         editable: true,
         renderCell: (params) => {
           return (
