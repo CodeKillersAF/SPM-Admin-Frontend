@@ -7,8 +7,26 @@ import BookingTableForm from "../../components/bookingTableForm/BookingTableForm
 import Popup from "../../components/popup/Popup";
 import DialogBoxConfirm from "../../components/dialogBoxConfirm/DialogBoxConfirm";
 import ButtonGroup from "@material-ui/core/ButtonGroup";
+import "jspdf-autotable";
+import { PDFExport, savePDF } from "@progress/kendo-react-pdf";
+import TableBookingPDF from "../../components/tableBookingPDF/TableBookingPDF";
 
 export default function ViewTableBooking() {
+  const pdfExportComponent = React.useRef(null);
+
+  const exportPDFWithMethod = () => {
+    let element = document.querySelector(".k-grid") || document.body;
+    savePDF(element, {
+      paperSize: "A4",
+    });
+  };
+
+  const exportPDFWithComponent = () => {
+    if (pdfExportComponent.current) {
+      pdfExportComponent.current.save();
+    }
+  };
+
   const [booking, setBooking] = useState({
     tableId: "",
     tableName: "",
@@ -250,6 +268,7 @@ export default function ViewTableBooking() {
   ];
   return (
     <div>
+      <button className="generateRate" onClick={exportPDFWithComponent}> Generate Report </button>
       <div
         style={{
           display: "flex",
@@ -294,6 +313,8 @@ export default function ViewTableBooking() {
         onClickDelete={onClickDelete}
         message={"This will delete category permanently!"}
       />
+       <TableBookingPDF tableBooking={tableBooking} pdfExportComponent={pdfExportComponent} />
+
     </div>
   );
 }
