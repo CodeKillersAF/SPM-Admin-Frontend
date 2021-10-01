@@ -18,6 +18,7 @@ import Test from './pages/test/Test';
 import Promotion from './pages/Promotion/Promotion';
 import SupplyRecord from './pages/supplyRecord/SupplyRecord';
 
+import ViewTableBooking from './pages/viewTableBooking/ViewTableBooking';
 
 function App() {
   return (
@@ -45,6 +46,7 @@ function App() {
               <Route path="/promotion" component={Promotion}/>
               <Route path="/supplyRecord" component={SupplyRecord}/>
 
+              <Route pathe="/tableBooking" component={ViewTableBooking}/>
             </Layout>
           </Switch>
         </section>
