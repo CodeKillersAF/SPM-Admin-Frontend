@@ -1,0 +1,18 @@
+.fileInputBrowse input{
+    display: flex;
+    background-color: #00B0FF;
+    margin-left: 285px;
+    padding: 5px 5px;
+    color: #FFFFFF;
+    width: 150px;
+    border-radius: 10px;
+    margin-top: 50px;
+}
+
+.dateInput{
+    width: 90%;
+    height: 11%;
+    margin-top: 3%;
+    margin-left: 4%;
+    margin-bottom: 5%;
+}

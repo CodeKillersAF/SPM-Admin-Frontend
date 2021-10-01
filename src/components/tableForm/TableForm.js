@@ -30,6 +30,7 @@ export default function TableForm({
   buttonTitle,
   onSubmit,
   tableCategories,
+  formClose
 }) {
   const [file, setfile] = useState(null);
   const [open, setOpen] = React.useState(false);
@@ -181,8 +182,8 @@ export default function TableForm({
               >
                 {buttonTitle}
               </Button>
-              <Button variant="contained" color="secondary" type="reset">
-                Reset
+              <Button onClick={formClose} variant="contained" color="secondary" type="reset">
+                Cancel
               </Button>
             </div>
           </Grid>

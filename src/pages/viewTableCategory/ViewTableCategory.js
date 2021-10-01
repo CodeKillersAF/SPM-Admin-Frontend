@@ -116,11 +116,11 @@ export default function ViewTableCategory() {
   };
 
   const columns = [
-    { field: "_id", headerName: "ID", minWidth: 300 },
+    { field: "_id", headerName: "ID", minWidth: 150 },
     {
       field: "image",
       headerName: "Image",
-      minWidth: 200,
+      minWidth: 150,
       editable: true,
       renderCell: (params) => {
         return (
@@ -135,13 +135,13 @@ export default function ViewTableCategory() {
     {
       field: "name",
       headerName: "Name",
-      minWidth: 200,
+      minWidth: 150,
       editable: true,
     },
     {
       field: "description",
       headerName: "Description",
-      minWidth: 400,
+      minWidth: 200,
       editable: true,
     },
 
@@ -176,6 +176,7 @@ export default function ViewTableCategory() {
         columns={columns}
         rows={tableCategories}
         onClickCreate={onClickCreate}
+        button={true}
       />
 
       <DialogBoxConfirm
@@ -193,22 +194,24 @@ export default function ViewTableCategory() {
             buttonTitle="Add"
             tableCategory={tableCategory}
             onSubmit={addTableCategory}
+            formClose={() => setOpenPopup(false)}
           />
         }
       />
-      {editFormOpen && (
+     
         <Popup
-          openPopup={true}
+          openPopup={editFormOpen}
           title="Add new category table"
           form={
             <TableCategoryForm
               tableCategory={editCategory}
               buttonTitle="Update"
               onSubmit={onUpdate}
+              formClose={() => setEditFormOpen(false)}
             />
           }
         />
-      )}
+    
       <SnackbarFeddback
         open={addedSuccess}
         message="Category successfully added!"

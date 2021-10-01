@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { storage } from '../../../firebase';
+import { storage } from '../../firebase';
 import Backdrop from '@material-ui/core/Backdrop';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import {
@@ -14,7 +14,7 @@ import {
     MenuItem,
   } from "@material-ui/core";
   
-import './addfood.css';
+import './AddPromotion.css';
 
 const useStyles = makeStyles((theme) => ({
     backdrop: {
@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
   }))
 
 
-function Addfood({ openPopupClick, handleAlertCreate }) {
+function AddPromotion({ openPopupClick, handleAlertCreate }) {
 
 
     const [open, setOpen] = React.useState(false);
@@ -107,11 +107,11 @@ function Addfood({ openPopupClick, handleAlertCreate }) {
             })
             .catch((error) => {
                 console.log(error);
-                // alert('please fill all fields');
+                alert('please fill all fields');
             });
         }
         else {
-            alert ('Please Upload Image');
+            alert ('Please Upload image');
         }
     }
 
@@ -164,7 +164,7 @@ function Addfood({ openPopupClick, handleAlertCreate }) {
                     {" "}Uploading....
             </Backdrop>
 
-    <form className={classes.root} onSubmit={addFoodsToCategory}>
+    <form className={classes.root}>
       <Grid container>
         <Grid item xs={6}>
           <div
@@ -176,15 +176,20 @@ function Addfood({ openPopupClick, handleAlertCreate }) {
               height="180px"
               src={url}
             />
+            {/* <Publish
+              style={{ position: "absolute", top: "100px", left: "320px" }}
+              fontSize="large"
+              onClick={uploadfile}
+            /> */}
           </div>
-          <div className="fileInputBrowseFood">
+          <div className="fileInputBrowse">
             <input type="file" id="formFile" onChange={onFileSelect} />
           </div>
 
-          <TextField variant="outlined" name="name" label="Name" required={true}
+          <TextField variant="outlined" name="name" label="Name"
                 value={foodname} onChange={(e) => setFoodname(e.target.value)} />
 
-          <TextField type="Number" variant="outlined" name="price" label="Price" required={true}
+          <TextField variant="outlined" name="price" label="Price" 
                 value={foodprice} onChange={(e) => setFoodprice(e.target.value)} />
 
         </Grid>
@@ -196,7 +201,6 @@ function Addfood({ openPopupClick, handleAlertCreate }) {
               label="Category"
               value={categoryValue}
               onChange={selectedCategory}
-              required={true}
             >
               <MenuItem value="">None</MenuItem>
               {foodcategory.map((category) => (
@@ -219,7 +223,6 @@ function Addfood({ openPopupClick, handleAlertCreate }) {
             value={aboutfood} 
             onChange={(e) => setAboutfood(e.target.value)}
             name="description"
-            required={true}
           />
           
           <div
@@ -229,8 +232,7 @@ function Addfood({ openPopupClick, handleAlertCreate }) {
               variant="contained"
               color="primary"
               style={{ marginRight: "20px", marginLeft: "20px" }}
-              type="submit"
-              // onClick={addFoodsToCategory}
+              onClick={addFoodsToCategory}
             >
               Create
             </Button>
@@ -247,4 +249,4 @@ function Addfood({ openPopupClick, handleAlertCreate }) {
     )
 }
 
-export default Addfood;
+export default AddPromotion;

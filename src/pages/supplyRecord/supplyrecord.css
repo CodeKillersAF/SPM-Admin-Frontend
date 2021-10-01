@@ -4,12 +4,6 @@
     width: 90%;
     margin-left: 20px;
   }
-
-  .imgReport{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
   
   .rateTable td, .rateTable th {
     border: 1px solid #ddd;
@@ -28,11 +22,6 @@
     background-color: #04AA6D;
     color: white;
   }
-  
-  .reportHead{
-    display: flex;
-    justify-content: space-between;
-  }
 
   .reportTitle{
     display: flex;
@@ -41,31 +30,41 @@
     font-weight: bold;
   }
 
-  .reportTitle p{
+  .reportAddress{
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 8px;
   }
 
-.rateandPdf{
-  display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
-}
-
-  .generateRate{
+  .rateandPdfRecord{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    margin-right: 300px;
+  }
+  
+    .generateRateRecord{
+        padding: 10px 50px;
+        border-color: #00B0FF;
+        color: #00B0FF;
+        font-weight: bold;
+        border-radius: 10px;
+    }
+  
+    .selectFoodRate{
       padding: 10px 50px;
       border-color: #00B0FF;
       color: #00B0FF;
       font-weight: bold;
       border-radius: 10px;
-  }
+    }
 
-  .selectFoodRate{
-    padding: 10px 50px;
-    border-color: #00B0FF;
-    color: #00B0FF;
-    font-weight: bold;
-    border-radius: 10px;
-  }
+    .searchRecord{
+      width: 300px;
+      padding: 10px 20px;
+      border-radius: 10px;
+      border-color: black;
+      border-style: solid;
+      border-width: 2;
+    }

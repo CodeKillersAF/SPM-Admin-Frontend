@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 export default function Orders() {
-  const pdfExportComponent = React.useRef(null);
+  // const pdfExportComponent = React.useRef(null);
     const classes = useStyles();
     const [displayTrigger, setDisplayTrigger] = useState(1);
     const [deliveryOrders, setDeliveryOrders] = useState([]);
@@ -46,11 +46,11 @@ export default function Orders() {
   const [openPopup, setOpenPopup] = useState(false);  
 
   
-  const exportPDFWithComponentDelivery = () => {
-    if (pdfExportComponent.current) {
-      pdfExportComponent.current.save();
-    }
-  };
+  // const exportPDFWithComponentDelivery = () => {
+  //   if (pdfExportComponent.current) {
+  //     pdfExportComponent.current.save();
+  //   }
+  // };
 
   const openPopupClick = (e) => {
     e.preventDefault();
@@ -273,7 +273,7 @@ export default function Orders() {
 
     return (
         <div>
-    <button className="generateRate" onClick={exportPDFWithComponentDelivery}> Generate Reports </button>
+    {/* <button className="generateRate" onClick={exportPDFWithComponentDelivery}> Generate Reports </button> */}
     <div className={classes.root}>
       <ButtonGroup variant="contained" color="primary" aria-label="contained primary button group">
         <Button onClick = {displayTakeAway}>Take Away Orders</Button>
@@ -286,10 +286,10 @@ export default function Orders() {
             rows={delivery}
             // onClickCreate={}
         />
-     <PDFExport ref={pdfExportComponent} paperSize="A4">
+     {/* <PDFExport ref={pdfExportComponent} paperSize="A4">
             
             <div className="imgReport">
-              {/* <img src={logo} alt="image" width="80px" height="80px" /> */}
+              <img src={logo} alt="image" width="80px" height="80px" />
             </div>
               <div className="reportTitle">Your Popularity Report</div>
               <div className="reportAddress">No.3, Baththaramulla Road,</div>
@@ -304,7 +304,7 @@ export default function Orders() {
                 </tr>
                 {deliveryOrders.map((al) => (
                 <tr>
-                  {/* <td>{al._id}</td> */}
+                  <td>{al._id}</td>
                   <td>{al.first_name}</td>
                   <td>{al.last_name}</td>
                   <td>{al.total_price}</td>
@@ -319,7 +319,7 @@ export default function Orders() {
                 <h5 style={{display:"flex", alignItems:"center", justifyContent:"center"}}>Takeaway orders</h5>
               {takeAwayOrders.map((al) => (
                 <tr>
-                  {/* <td>{al._id}</td> */}
+                  <td>{al._id}</td>
                   <td>{al.first_name}</td>
                   <td>{al.last_name}</td>
                   <td>{al.total_price}</td>
@@ -333,7 +333,7 @@ export default function Orders() {
                 ))}
 
               </table>
-      </PDFExport>
+      </PDFExport> */}
     <Popup
       openPopup={openPopup}
       title="Order Details"
