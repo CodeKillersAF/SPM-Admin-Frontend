@@ -286,6 +286,7 @@ export default function Orders() {
             rows={delivery}
             // onClickCreate={}
         />
+      <div style={{display:"none"}}>
      <PDFExport ref={pdfExportComponent} paperSize="A4">
             
             <div className="imgReport">
@@ -334,6 +335,7 @@ export default function Orders() {
 
               </table>
       </PDFExport>
+      </div>
     <Popup
       openPopup={openPopup}
       title="Order Details"
