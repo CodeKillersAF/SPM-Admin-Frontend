@@ -267,7 +267,7 @@ export default function ViewTableBooking() {
     },
   ];
   return (
-    <div>
+    <div style={{ position: 'fixed', width: '80%' }}>
       <button className="generateRate" onClick={exportPDFWithComponent}> Generate Report </button>
       <div
         style={{

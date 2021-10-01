@@ -164,6 +164,7 @@ export default function SupplyRecord() {
             <div className="viewTable">
                 <ViewDetailsBody columns={columns} rows={filterOffers}
                     onClickCreate={onClickCreate}
+                    button={true}
                 />
                 <Popup
                     openPopup={openPopup}

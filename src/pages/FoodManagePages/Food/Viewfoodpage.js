@@ -225,6 +225,7 @@ function Viewfoodpage() {
         <div className="viewTable">
         <ViewDetailsBody columns={columns} rows={foods}
           onClickCreate={onClickCreate}
+          button={true}
         />
 
         <Popup

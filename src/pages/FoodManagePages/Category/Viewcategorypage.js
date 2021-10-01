@@ -220,6 +220,7 @@ function Viewcategorypage() {
         <div className="viewTable">
         <ViewDetailsBody columns={columns} rows={viewCategory}
           onClickCreate={onClickCreate}
+          button={true}
         />
 
         <Popup

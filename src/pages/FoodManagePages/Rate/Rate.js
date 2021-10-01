@@ -119,7 +119,7 @@ function Rate() {
        */
 
     return (
-        <div style={{ position: 'fixed', width: '80%' }} >
+        <div>
 
     <div className="rateandPdf">
         <button className="generateRate" onClick={exportPDFWithComponent}> Generate Report </button>

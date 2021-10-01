@@ -46,7 +46,7 @@ function App() {
               <Route path="/promotion" component={Promotion}/>
               <Route path="/supplyRecord" component={SupplyRecord}/>
 
-              <Route pathe="/tableBooking" component={ViewTableBooking}/>
+              <Route path="/tableBooking" component={ViewTableBooking}/>
             </Layout>
           </Switch>
         </section>
