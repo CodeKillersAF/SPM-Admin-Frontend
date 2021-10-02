@@ -16,11 +16,12 @@ export default function Layout({ children }) {
         <div className="sidebar-menu">
           <ul>
             <li>
-              <a href="" className="active">
+              <Link to="/home">
                 {" "}
                 <span className="las la-igloo"></span>
                 <span>Dashboard</span>
-              </a>
+                
+              </Link>
             </li>
 
             <li>

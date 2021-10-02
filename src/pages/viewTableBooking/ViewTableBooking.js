@@ -10,8 +10,12 @@ import ButtonGroup from "@material-ui/core/ButtonGroup";
 import "jspdf-autotable";
 import { PDFExport, savePDF } from "@progress/kendo-react-pdf";
 import TableBookingPDF from "../../components/tableBookingPDF/TableBookingPDF";
+import SnackbarFeddback from "../../components/snackbarFeedback/SnackbarFeedback";
 
 export default function ViewTableBooking() {
+  const [emailSuccess, setEmailSuccess] = useState(false)
+  const [deleteSuccess, setDeleteSuccess] = useState(false);
+  const [addedSuccess, setAddedSuccess] = useState(false);
   const pdfExportComponent = React.useRef(null);
 
   const exportPDFWithMethod = () => {
@@ -51,7 +55,6 @@ export default function ViewTableBooking() {
       axios.get("http://localhost:8000/api/tableBook/").then((res) => {
         setTableBooking(res.data);
         setFilteredBooking(res.data);
-        console.log(res.data);
       });
     } catch (error) {
       console.log(error);
@@ -71,7 +74,6 @@ export default function ViewTableBooking() {
   const [openPopup, setOpenPopup] = useState(false);
 
   const onClickEdit = (details) => {
-    console.log(details);
     setBooking(details);
     setOpenPopup(true);
   };
@@ -84,6 +86,7 @@ export default function ViewTableBooking() {
       .then((res) => {
         getAllTableBooking();
         setOpenPopup(false);
+        setAddedSuccess(true);
       })
       .catch((err) => {
         console.log(err);
@@ -105,9 +108,9 @@ export default function ViewTableBooking() {
     axios
       .delete(`http://localhost:8000/api/tableBook/${tableBookingID}`)
       .then((res) => {
-        console.log(res);
         getAllTableBooking();
         setConfirmPopupOpen(false);
+        setDeleteSuccess(true);
       })
       .catch((err) => {
         console.log(err);
@@ -141,19 +144,32 @@ export default function ViewTableBooking() {
     axios
       .put(`http://localhost:8000/api/tableBook/${id}`, { isOver: true })
       .then((res) => {
-        console.log(res);
         getAllTableBooking();
       })
       .catch((err) => {
         console.log(err);
       });
   };
-  const onClickAccept = (id) => {
+  const onClickAccept = async (id) => {
     axios
       .put(`http://localhost:8000/api/tableBook/${id}`, { status: true })
       .then((res) => {
-        console.log(res);
         getAllTableBooking();
+        //send email to customer
+        setEmailSuccess(true);
+         axios
+          .post(
+            "http://localhost:8000/api/tableBook/sendEmail",res.data
+          )
+          .then((res) => {
+           
+          }
+          )
+          .catch((err) => {
+            console.log(err);
+          }
+          );
+
       })
       .catch((err) => {
         console.log(err);
@@ -268,7 +284,7 @@ export default function ViewTableBooking() {
     },
   ];
   return (
-    <div style={{ position: 'fixed', width: '90%' }}>
+    <div>
       <button className="generateRate" onClick={exportPDFWithComponent}> Generate Report </button>
       <div
         style={{
@@ -306,6 +322,21 @@ export default function ViewTableBooking() {
             tables={tables}
           />
         }
+      />
+      <SnackbarFeddback
+        open={addedSuccess}
+        message="Booking successfully edited!"
+        onClose={()=>setAddedSuccess(false)}
+      />
+      <SnackbarFeddback
+        open={deleteSuccess}
+        message="Booking successfully deleted!"
+        onClose={()=>setAddedSuccess(false)}
+      />
+      <SnackbarFeddback
+        open={emailSuccess}
+        message="Booking successfully accepted!"
+        onClose={()=>setEmailSuccess(false)}
       />
       <DialogBoxConfirm
         open={ConfirmPopupOpen}
