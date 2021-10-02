@@ -30,6 +30,7 @@ export default function TableForm({
   buttonTitle,
   onSubmit,
   tableCategories,
+  formClose
 }) {
   const [file, setfile] = useState(null);
   const [open, setOpen] = React.useState(false);
@@ -117,6 +118,7 @@ export default function TableForm({
               value={values.width}
               onChange={handleInputChnage}
               required={true}
+              type="number"
             />
             <TextField
               variant="outlined"
@@ -125,6 +127,7 @@ export default function TableForm({
               value={values.height}
               onChange={handleInputChnage}
               required={true}
+              type="number"
             />
           </Grid>
           <Grid item xs={6}>
@@ -152,6 +155,7 @@ export default function TableForm({
               value={values.chairs}
               onChange={handleInputChnage}
               required={true}
+              type="number"
             />
             <TextField
               id="outlined-textarea"
@@ -181,8 +185,8 @@ export default function TableForm({
               >
                 {buttonTitle}
               </Button>
-              <Button variant="contained" color="secondary" type="reset">
-                Reset
+              <Button onClick={formClose} variant="contained" color="secondary" type="reset">
+                Cancel
               </Button>
             </div>
           </Grid>

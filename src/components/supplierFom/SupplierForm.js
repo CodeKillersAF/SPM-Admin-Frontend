@@ -36,7 +36,7 @@ export default function SupplierForm({
     const onUpdate = (e) => {
         e.preventDefault();
         axios
-            .put("http://localhost:8000/api/admin/supplier/" + values._id, values)
+            .put("/supplier/" + values._id, values)
             .then((res) => {
                 openEditPopup();
             });

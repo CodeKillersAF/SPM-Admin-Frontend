@@ -32,7 +32,7 @@ export default function ViewTableCategory() {
   const onUpdate = (e, values) => {
     e.preventDefault();
     axios
-      .put("http://localhost:8000/api/tableCategory/" + values._id, values)
+      .put("/tableCategory/" + values._id, values)
       .then((res) => {
         setEditFormOpen(false);
         setupdatedCategory(values);
@@ -79,7 +79,7 @@ export default function ViewTableCategory() {
   const onClickDelete = () => {
     console.log(tableCategoryID);
     axios
-      .delete("http://localhost:8000/api/tableCategory/" + tableCategoryID)
+      .delete("/tableCategory/" + tableCategoryID)
       .then((res) => {
         console.log("deleted");
         setOpen(false);
@@ -100,7 +100,7 @@ export default function ViewTableCategory() {
   const addTableCategory = (e, values) => {
     e.preventDefault();
     axios
-      .post("http://localhost:8000/api/tableCategory/", values)
+      .post("/tableCategory/", values)
       .then((res) => {
         setOpenPopup(false);
         setnewTable(values);
@@ -109,18 +109,18 @@ export default function ViewTableCategory() {
   };
 
   const getAllTableCategory = async () => {
-    axios.get("http://localhost:8000/api/tableCategory").then((res) => {
+    axios.get("/tableCategory").then((res) => {
       console.log(res.data);
       setTableCategories(res.data);
     });
   };
 
   const columns = [
-    { field: "_id", headerName: "ID", minWidth: 300 },
+    { field: "_id", headerName: "ID", minWidth: 150 },
     {
       field: "image",
       headerName: "Image",
-      minWidth: 200,
+      minWidth: 150,
       editable: true,
       renderCell: (params) => {
         return (
@@ -135,13 +135,13 @@ export default function ViewTableCategory() {
     {
       field: "name",
       headerName: "Name",
-      minWidth: 200,
+      minWidth: 150,
       editable: true,
     },
     {
       field: "description",
       headerName: "Description",
-      minWidth: 400,
+      minWidth: 200,
       editable: true,
     },
 
@@ -176,6 +176,7 @@ export default function ViewTableCategory() {
         columns={columns}
         rows={tableCategories}
         onClickCreate={onClickCreate}
+        button={true}
       />
 
       <DialogBoxConfirm
@@ -193,22 +194,24 @@ export default function ViewTableCategory() {
             buttonTitle="Add"
             tableCategory={tableCategory}
             onSubmit={addTableCategory}
+            formClose={() => setOpenPopup(false)}
           />
         }
       />
-      {editFormOpen && (
+     
         <Popup
-          openPopup={true}
+          openPopup={editFormOpen}
           title="Add new category table"
           form={
             <TableCategoryForm
               tableCategory={editCategory}
               buttonTitle="Update"
               onSubmit={onUpdate}
+              formClose={() => setEditFormOpen(false)}
             />
           }
         />
-      )}
+    
       <SnackbarFeddback
         open={addedSuccess}
         message="Category successfully added!"

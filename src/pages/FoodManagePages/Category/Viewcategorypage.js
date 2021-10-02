@@ -103,15 +103,30 @@ function Viewcategorypage() {
     const columns = [
         // { field: "_id", headerName: "ID", width: 160 },
         {
+          field: "url",
+          headerName: "Image",
+          width: 200,
+          editable: true,
+          renderCell: (params) => {
+            return (
+              <img
+                src={params.row.url}
+                alt="image"
+                style={{ width: "80px", height: "40px" }}
+              />
+            );
+          },
+        },
+        {
           field: "categoryName",
           headerName: "Category Name",
-          width: 150,
+          width: 250,
           editable: true,
         },
         {
           field: "action",
           headerName: "Action",
-          width: 200,
+          width: 300,
           editable: true,
           renderCell: (params) => {
             return (
@@ -142,7 +157,7 @@ function Viewcategorypage() {
               <>
                 <Button
                   variant="contained"
-                  color="secondary"
+                  color="Light"
                   startIcon={<DoubleArrowIcon />}
                   style={{ marginLeft: "20px", marginRight: "30px" }}
                   onClick={() => passSelectCategoryId(params.row._id)}
@@ -205,6 +220,7 @@ function Viewcategorypage() {
         <div className="viewTable">
         <ViewDetailsBody columns={columns} rows={viewCategory}
           onClickCreate={onClickCreate}
+          button={true}
         />
 
         <Popup

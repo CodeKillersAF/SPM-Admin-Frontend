@@ -38,7 +38,7 @@ export default function ViewItems() {
     }, [setOpen, reload]);
 
     const getSupplyDetails = () => {
-        axios.get(`http://localhost:8000/api/admin/supplier/${params.id}`).then((res) => {
+        axios.get(`/supplier/${params.id}`).then((res) => {
             setsupplyItem(res.data.supplyItems);
             console.log(res.data.supplyItems);
         });
@@ -75,7 +75,7 @@ export default function ViewItems() {
     const onClickDelete = () => {
         console.log(tableID);
         axios
-            .delete("http://localhost:8000/api/admin/supply-item/" + tableID)
+            .delete("/supply-item/" + tableID)
             .then((res) => {
                 console.log("deleted");
                 setOpen(false);

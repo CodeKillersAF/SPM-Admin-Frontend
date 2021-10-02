@@ -40,7 +40,7 @@ export default function ViewSupplier() {
     }, [setOpen, reload]);
 
     const getSupplier = () => {
-        axios.get("http://localhost:8000/api/admin/supplier").then((res) => {
+        axios.get("/supplier").then((res) => {
             setsupplier(res.data.data);
             console.log(res.data.data);
         });
@@ -62,7 +62,7 @@ export default function ViewSupplier() {
     const onClickDelete = () => {
         console.log(tableID);
         axios
-            .delete("http://localhost:8000/api/admin/supplier/" + tableID)
+            .delete("/supplier/" + tableID)
             .then((res) => {
                 console.log("deleted");
                 setOpen(false);
@@ -158,7 +158,7 @@ export default function ViewSupplier() {
 
     return (
         <div className="viewTable">
-            <ViewDetailsBody columns={columns} rows={supplier} onClickCreate={onClickCreate} />
+            <ViewDetailsBody columns={columns} rows={supplier} onClickCreate={onClickCreate} button={true}/>
             <DialogBoxSupply
                 open={open}
                 handleClose={handleClose}

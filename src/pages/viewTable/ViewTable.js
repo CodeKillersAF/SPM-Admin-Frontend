@@ -35,6 +35,7 @@ export default function ViewTable() {
   const [addedSuccess, setaddedSuccess] = useState(false);
   const [editSuccess, seteditSuccess] = useState(false);
   const [deleteSuccess, setdeleteSuccess] = useState(false);
+  const [error, seterror] = useState("");
 
   const handleAddClose = (event, reason) => {
     if (reason === "clickaway") {
@@ -62,33 +63,44 @@ export default function ViewTable() {
     setOpenPopup(true);
   };
 
+  const [errorSnack, setErrorSnack] = useState(false);
   const addTable = (e, values) => {
     e.preventDefault();
-    axios
-      .post("http://localhost:8000/api/table/createTable/", values)
-      .then((res) => {
-        setOpenPopup(false);
-        setnewTable(values);
-        let tables = {
-          table: res.data._id,
-        };
+    try {
+      axios
+        .post("/table/createTable/", values)
+        .then((res) => {
+          console.log(res.data.message);
+          setOpenPopup(false);
+          setnewTable(values);
+          let tables = {
+            table: res.data._id,
+          };
 
-        axios
-          .put(
-            "http://localhost:8000/api/tableCategory/updateTables/" +
-              res.data.category,
-            tables
-          )
-          .then((res) => {
-            setaddedSuccess(true);
-          });
-      });
+          axios
+            .put(
+              "/tableCategory/updateTables/" +
+                res.data.category,
+              tables
+            )
+            .then((res) => {
+              setaddedSuccess(true);
+            });
+        })
+
+        .catch((error) => {
+          seterror(error.response.data.message);
+          setErrorSnack(true);
+        });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const onUpdate = (e, values) => {
     e.preventDefault();
     axios
-      .put("http://localhost:8000/api/table/updateTable/" + values._id, values)
+      .put("/table/updateTable/" + values._id, values)
       .then((res) => {
         setEditFormOpen(false);
         setupdatedTable(values);
@@ -114,7 +126,7 @@ export default function ViewTable() {
 
   const onClickDelete = () => {
     axios
-      .delete("http://localhost:8000/api/table/removeTable/" + tableID)
+      .delete("/table/removeTable/" + tableID)
       .then((res) => {
         setOpen(false);
         setdeletedTable(tableID);
@@ -125,7 +137,7 @@ export default function ViewTable() {
 
         axios
           .put(
-            "http://localhost:8000/api/tableCategory/removeTables/" +
+            "/tableCategory/removeTables/" +
               res.data.data.category,
             tables
           )
@@ -138,12 +150,12 @@ export default function ViewTable() {
 
   useEffect(() => {
     const getTableDetails = () => {
-      axios.get("http://localhost:8000/api/table/allTable").then((res) => {
+      axios.get("/table/allTable").then((res) => {
         setTables(res.data);
       });
     };
     const getAllTableCategory = async () => {
-      axios.get("http://localhost:8000/api/tableCategory").then((res) => {
+      axios.get("/tableCategory").then((res) => {
         setTableCategories(res.data);
       });
     };
@@ -152,11 +164,11 @@ export default function ViewTable() {
   }, [updatedTable, newTable, deletedTable]);
 
   const columns = [
-    { field: "_id", headerName: "ID", width: 160 },
+    { field: "_id", headerName: "ID", width: 100 },
     {
       field: "image",
       headerName: "Image",
-      width: 150,
+      width: 120,
       editable: true,
       renderCell: (params) => {
         return (
@@ -171,37 +183,37 @@ export default function ViewTable() {
     {
       field: "name",
       headerName: "Name",
-      width: 150,
+      width: 120,
       editable: true,
     },
     {
       field: "category",
       headerName: "Category",
-      width: 150,
+      width: 140,
       editable: true,
     },
     {
       field: "chairs",
       headerName: "Chairs",
-      width: 130,
+      width: 120,
       editable: true,
     },
     {
       field: "height",
       headerName: "Height",
-      width: 130,
+      width: 120,
       editable: true,
     },
     {
       field: "width",
       headerName: "Width",
-      width: 130,
+      width: 115,
       editable: true,
     },
     {
       field: "description",
       headerName: "Description",
-      width: 200,
+      width: 150,
       editable: true,
     },
     {
@@ -232,13 +244,13 @@ export default function ViewTable() {
 
   return (
     <div className="viewTable">
-      
-        <ViewDetailsBody
-          columns={columns}
-          rows={tables}
-          onClickCreate={onClickCreate}
-        />
-    
+      <ViewDetailsBody
+        columns={columns}
+        rows={tables}
+        onClickCreate={onClickCreate}
+        button={true}
+      />
+
       <Popup
         openPopup={openPopup}
         title="Add new table"
@@ -248,6 +260,7 @@ export default function ViewTable() {
             table={table}
             onSubmit={addTable}
             tableCategories={tableCategories}
+            formClose={() => setOpenPopup(false)}
           />
         }
       />
@@ -258,35 +271,44 @@ export default function ViewTable() {
         onClickDelete={onClickDelete}
         message={"This will delete table permanently!"}
       />
-      {editFormOpen && (
-        <Popup
-          openPopup={true}
-          title="Add new table"
-          form={
-            <TableForm
-              table={editTable}
-              tableCategories={tableCategories}
-              buttonTitle="Update"
-              onSubmit={onUpdate}
-            />
-          }
-        />
-      )}
+
+      <Popup
+        openPopup={editFormOpen}
+        title="Add new table"
+        form={
+          <TableForm
+            table={editTable}
+            tableCategories={tableCategories}
+            buttonTitle="Update"
+            onSubmit={onUpdate}
+            formClose={() => setEditFormOpen(false)}
+          />
+        }
+      />
 
       <SnackbarFeddback
         open={addedSuccess}
         message="Table successfully added!"
         onClose={handleAddClose}
+        type="success"
       />
       <SnackbarFeddback
         open={editSuccess}
         message="Table successfully updated!"
         onClose={handleEditClose}
+        type="success"
       />
       <SnackbarFeddback
         open={deleteSuccess}
         message="Table successfully deleted!"
         onClose={handleDeleteClose}
+        type="success"
+      />
+      <SnackbarFeddback
+        open={errorSnack}
+        message={error}
+        onClose={() => setErrorSnack(false)}
+        type="error"
       />
     </div>
   );

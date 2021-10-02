@@ -6,7 +6,7 @@ function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
-export default function SnackbarFeddback({open,onClose,message}) {
+export default function SnackbarFeddback({open,onClose,message,type}) {
   return (
     <div>
       <Snackbar
@@ -14,7 +14,7 @@ export default function SnackbarFeddback({open,onClose,message}) {
         autoHideDuration={6000}
         onClose={onClose}
       >
-        <Alert onClose={onClose} severity="success">
+        <Alert onClose={onClose} severity={type}>
           {message}
         </Alert>
       </Snackbar>

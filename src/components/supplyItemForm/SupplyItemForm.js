@@ -26,7 +26,7 @@ export default function SupplyItemForm({
     const onUpdate = (e) => {
         e.preventDefault();
         axios
-            .put("http://localhost:8000/api/admin/supply-item/" + values._id, values)
+            .put("/supply-item/" + values._id, values)
             .then((res) => {
                 openEditPopup();
             });
