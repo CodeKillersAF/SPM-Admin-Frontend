@@ -52,7 +52,7 @@ export default function ViewTableBooking() {
 
   const getAllTableBooking = () => {
     try {
-      axios.get("http://localhost:8000/api/tableBook/").then((res) => {
+      axios.get("/tableBook/").then((res) => {
         setTableBooking(res.data);
         setFilteredBooking(res.data);
       });
@@ -63,7 +63,7 @@ export default function ViewTableBooking() {
   const [tables, setTables] = useState();
   const getAllTable = () => {
     try {
-      axios.get("http://localhost:8000/api/table/allTable").then((res) => {
+      axios.get("/table/allTable").then((res) => {
         setTables(res.data);
       });
     } catch (error) {
@@ -82,7 +82,7 @@ export default function ViewTableBooking() {
     e.preventDefault();
     console.log(booking);
     axios
-      .put(`http://localhost:8000/api/tableBook/${booking._id}`, booking)
+      .put(`/tableBook/${booking._id}`, booking)
       .then((res) => {
         getAllTableBooking();
         setOpenPopup(false);
@@ -106,7 +106,7 @@ export default function ViewTableBooking() {
 
   const onClickDelete = () => {
     axios
-      .delete(`http://localhost:8000/api/tableBook/${tableBookingID}`)
+      .delete(`/tableBook/${tableBookingID}`)
       .then((res) => {
         getAllTableBooking();
         setConfirmPopupOpen(false);
@@ -142,7 +142,7 @@ export default function ViewTableBooking() {
   };
   const onClickComplete = (id) => {
     axios
-      .put(`http://localhost:8000/api/tableBook/${id}`, { isOver: true })
+      .put(`/tableBook/${id}`, { isOver: true })
       .then((res) => {
         getAllTableBooking();
       })
@@ -152,14 +152,14 @@ export default function ViewTableBooking() {
   };
   const onClickAccept = async (id) => {
     axios
-      .put(`http://localhost:8000/api/tableBook/${id}`, { status: true })
+      .put(`/tableBook/${id}`, { status: true })
       .then((res) => {
         getAllTableBooking();
         //send email to customer
         setEmailSuccess(true);
          axios
           .post(
-            "http://localhost:8000/api/tableBook/sendEmail",res.data
+            "/tableBook/sendEmail",res.data
           )
           .then((res) => {
            

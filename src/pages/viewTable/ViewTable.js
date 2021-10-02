@@ -68,7 +68,7 @@ export default function ViewTable() {
     e.preventDefault();
     try {
       axios
-        .post("http://localhost:8000/api/table/createTable/", values)
+        .post("/table/createTable/", values)
         .then((res) => {
           console.log(res.data.message);
           setOpenPopup(false);
@@ -79,7 +79,7 @@ export default function ViewTable() {
 
           axios
             .put(
-              "http://localhost:8000/api/tableCategory/updateTables/" +
+              "/tableCategory/updateTables/" +
                 res.data.category,
               tables
             )
@@ -100,7 +100,7 @@ export default function ViewTable() {
   const onUpdate = (e, values) => {
     e.preventDefault();
     axios
-      .put("http://localhost:8000/api/table/updateTable/" + values._id, values)
+      .put("/table/updateTable/" + values._id, values)
       .then((res) => {
         setEditFormOpen(false);
         setupdatedTable(values);
@@ -126,7 +126,7 @@ export default function ViewTable() {
 
   const onClickDelete = () => {
     axios
-      .delete("http://localhost:8000/api/table/removeTable/" + tableID)
+      .delete("/table/removeTable/" + tableID)
       .then((res) => {
         setOpen(false);
         setdeletedTable(tableID);
@@ -137,7 +137,7 @@ export default function ViewTable() {
 
         axios
           .put(
-            "http://localhost:8000/api/tableCategory/removeTables/" +
+            "/tableCategory/removeTables/" +
               res.data.data.category,
             tables
           )
@@ -150,12 +150,12 @@ export default function ViewTable() {
 
   useEffect(() => {
     const getTableDetails = () => {
-      axios.get("http://localhost:8000/api/table/allTable").then((res) => {
+      axios.get("/table/allTable").then((res) => {
         setTables(res.data);
       });
     };
     const getAllTableCategory = async () => {
-      axios.get("http://localhost:8000/api/tableCategory").then((res) => {
+      axios.get("/tableCategory").then((res) => {
         setTableCategories(res.data);
       });
     };

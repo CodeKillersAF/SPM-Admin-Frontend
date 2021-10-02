@@ -33,7 +33,6 @@ function App() {
             <Route exact path="/" component={AdminLoginPage} />
 
             <Layout>
-              <Route path="/home" component={Home} />
               <Route
                 path="/foodCategory/view-category"
                 component={ViewCategoryPage}

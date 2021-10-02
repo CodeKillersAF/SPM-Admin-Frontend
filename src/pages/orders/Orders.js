@@ -173,7 +173,7 @@ export default function Orders() {
     if (displayTrigger === 1 && is_completed === true) {
       axios
         .delete(
-          `http://localhost:8000/api/admin/delivery-order/delete-complete/${id}`
+          `/delivery-order/delete-complete/${id}`
         )
         .then((response) => {
           console.log(response.data.data);
@@ -186,7 +186,7 @@ export default function Orders() {
     } else if (displayTrigger === 2 && is_completed === true) {
       axios
         .delete(
-          `http://localhost:8000/api/admin/takeaway-order/delete-complete/${id}`
+          `/takeaway-order/delete-complete/${id}`
         )
         .then((response) => {
           console.log(response.data.data);

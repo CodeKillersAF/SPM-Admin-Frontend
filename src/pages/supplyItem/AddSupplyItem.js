@@ -39,7 +39,7 @@ export default function AddSupplyItem() {
         console.log(suupplyItem);
 
         await axios
-            .post("http://localhost:8000/api/admin/supply-item", suupplyItem)
+            .post("/supply-item", suupplyItem)
             .then((response) => {
                 console.log(response.data);
                 // alert("Supply item added successfully")

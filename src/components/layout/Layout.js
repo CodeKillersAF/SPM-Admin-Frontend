@@ -15,14 +15,6 @@ export default function Layout({ children }) {
         </div>
         <div className="sidebar-menu">
           <ul>
-            <li>
-              <Link to="/home">
-                {" "}
-                <span className="las la-igloo"></span>
-                <span>Dashboard</span>
-                
-              </Link>
-            </li>
 
             <li>
             <Link to="/online-orders">

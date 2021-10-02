@@ -32,7 +32,7 @@ export default function ViewTableCategory() {
   const onUpdate = (e, values) => {
     e.preventDefault();
     axios
-      .put("http://localhost:8000/api/tableCategory/" + values._id, values)
+      .put("/tableCategory/" + values._id, values)
       .then((res) => {
         setEditFormOpen(false);
         setupdatedCategory(values);
@@ -79,7 +79,7 @@ export default function ViewTableCategory() {
   const onClickDelete = () => {
     console.log(tableCategoryID);
     axios
-      .delete("http://localhost:8000/api/tableCategory/" + tableCategoryID)
+      .delete("/tableCategory/" + tableCategoryID)
       .then((res) => {
         console.log("deleted");
         setOpen(false);
@@ -100,7 +100,7 @@ export default function ViewTableCategory() {
   const addTableCategory = (e, values) => {
     e.preventDefault();
     axios
-      .post("http://localhost:8000/api/tableCategory/", values)
+      .post("/tableCategory/", values)
       .then((res) => {
         setOpenPopup(false);
         setnewTable(values);
@@ -109,7 +109,7 @@ export default function ViewTableCategory() {
   };
 
   const getAllTableCategory = async () => {
-    axios.get("http://localhost:8000/api/tableCategory").then((res) => {
+    axios.get("/tableCategory").then((res) => {
       console.log(res.data);
       setTableCategories(res.data);
     });

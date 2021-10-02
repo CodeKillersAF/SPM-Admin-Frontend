@@ -19,7 +19,7 @@ function Adminlogin() {
     await axios.post('/login-admin', admin)
       .then((res) => {
         console.log(res.data);
-        let path = `/home`
+        let path = `/online-orders`
         history.push(path);
         localStorage.setItem('token', res.data.token);
         window.location.reload();

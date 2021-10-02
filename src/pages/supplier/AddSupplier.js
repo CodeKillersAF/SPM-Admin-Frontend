@@ -35,7 +35,7 @@ export default function AddSupplier() {
     };
 
     const getAllSupplyItem = async () => {
-        const data = await axios.get("http://localhost:8000/api/admin/supply-item")
+        const data = await axios.get("/supply-item")
         console.log(data.data.data);
         setsupplyItems(data.data.data);
     }
@@ -72,7 +72,7 @@ export default function AddSupplier() {
         console.log(supplier);
 
         await axios
-            .post("http://localhost:8000/api/admin/supplier", supplier)
+            .post("/supplier", supplier)
             .then((response) => {
                 console.log(response.data);
                 // alert("Supplier detail added successfully");
