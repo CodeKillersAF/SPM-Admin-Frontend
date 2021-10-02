@@ -133,13 +133,11 @@ export default function Orders() {
   };
 
   const completeOrders = (object) => {
-    console.log(object);
+    console.log('object_id', object._id);
 
     var email_payload = {
       to: object.email,
-      order_id: object.id,
       total_price: object.total_price,
-
     };
 
     if (displayTrigger === 1) {
@@ -149,6 +147,7 @@ export default function Orders() {
           console.log("delivery order", response.data.data);
           sendEmail(email_payload);
           alert("Delivery order is completed");
+          getOnlineDeliveryOrders();
         })
         .catch((error) => {
           console.log(error);
@@ -160,6 +159,7 @@ export default function Orders() {
           console.log("takeaway order", response.data.data);
           sendEmail(email_payload);
           alert("Takeaway order is completed");
+          getOnlineTakeAwayOrders();
         })
         .catch((error) => {
           console.log(error);
@@ -178,6 +178,7 @@ export default function Orders() {
         .then((response) => {
           console.log(response.data.data);
           alert("Delivery order is deleted");
+          getOnlineDeliveryOrders();
         })
         .catch((error) => {
           console.log(error);
@@ -190,6 +191,7 @@ export default function Orders() {
         .then((response) => {
           console.log(response.data.data);
           alert("Takeaway order is deleted");
+          getOnlineTakeAwayOrders();
         })
         .catch((error) => {
           console.log(error);
@@ -197,6 +199,7 @@ export default function Orders() {
     } else {
       alert("something went wrong");
     }
+
   };
 
   useEffect(() => {
