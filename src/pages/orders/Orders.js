@@ -4,6 +4,7 @@ import axios from "axios";
 // import TableForm from "../../components/tableForm/TableForm";
 import ViewDetailsBody from "../../components/viewDetailsBody/ViewDetailsBody";
 import DeleteIcon from "@material-ui/icons/Delete";
+import ListAltIcon from '@material-ui/icons/ListAlt';
 import { Edit } from "@material-ui/icons";
 import CheckCircleOutlineIcon from "@material-ui/icons/CheckCircleOutline";
 import Button from "@material-ui/core/Button";
@@ -136,7 +137,9 @@ export default function Orders() {
 
     var email_payload = {
       to: object.email,
+      order_id: object.id,
       total_price: object.total_price,
+
     };
 
     if (displayTrigger === 1) {
@@ -286,8 +289,8 @@ export default function Orders() {
               />
             </IconButton>
             <IconButton>
-              <DeleteIcon
-                color="secondary"
+              <ListAltIcon
+                color="info"
                 onClick={(e) => viewFullOrder(e, params.row)}
               />
             </IconButton>
