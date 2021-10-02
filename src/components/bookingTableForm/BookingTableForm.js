@@ -47,7 +47,7 @@ export default function BookingTableForm({
               <MuiSelect
                 name="tableId"
                 label="Table"
-                value={booking.tableId}
+                value={booking.tableId._id}
                 onChange={onChange}
                 required={true}
               >

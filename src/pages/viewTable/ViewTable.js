@@ -35,6 +35,7 @@ export default function ViewTable() {
   const [addedSuccess, setaddedSuccess] = useState(false);
   const [editSuccess, seteditSuccess] = useState(false);
   const [deleteSuccess, setdeleteSuccess] = useState(false);
+  const [error, seterror] = useState("");
 
   const handleAddClose = (event, reason) => {
     if (reason === "clickaway") {
@@ -62,27 +63,38 @@ export default function ViewTable() {
     setOpenPopup(true);
   };
 
+  const [errorSnack, setErrorSnack] = useState(false);
   const addTable = (e, values) => {
     e.preventDefault();
-    axios
-      .post("http://localhost:8000/api/table/createTable/", values)
-      .then((res) => {
-        setOpenPopup(false);
-        setnewTable(values);
-        let tables = {
-          table: res.data._id,
-        };
+    try {
+      axios
+        .post("http://localhost:8000/api/table/createTable/", values)
+        .then((res) => {
+          console.log(res.data.message);
+          setOpenPopup(false);
+          setnewTable(values);
+          let tables = {
+            table: res.data._id,
+          };
 
-        axios
-          .put(
-            "http://localhost:8000/api/tableCategory/updateTables/" +
-              res.data.category,
-            tables
-          )
-          .then((res) => {
-            setaddedSuccess(true);
-          });
-      });
+          axios
+            .put(
+              "http://localhost:8000/api/tableCategory/updateTables/" +
+                res.data.category,
+              tables
+            )
+            .then((res) => {
+              setaddedSuccess(true);
+            });
+        })
+
+        .catch((error) => {
+          seterror(error.response.data.message);
+          setErrorSnack(true);
+        });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const onUpdate = (e, values) => {
@@ -278,16 +290,25 @@ export default function ViewTable() {
         open={addedSuccess}
         message="Table successfully added!"
         onClose={handleAddClose}
+        type="success"
       />
       <SnackbarFeddback
         open={editSuccess}
         message="Table successfully updated!"
         onClose={handleEditClose}
+        type="success"
       />
       <SnackbarFeddback
         open={deleteSuccess}
         message="Table successfully deleted!"
         onClose={handleDeleteClose}
+        type="success"
+      />
+      <SnackbarFeddback
+        open={errorSnack}
+        message={error}
+        onClose={() => setErrorSnack(false)}
+        type="error"
       />
     </div>
   );

@@ -51,6 +51,7 @@ export default function ViewTableBooking() {
       axios.get("http://localhost:8000/api/tableBook/").then((res) => {
         setTableBooking(res.data);
         setFilteredBooking(res.data);
+        console.log(res.data);
       });
     } catch (error) {
       console.log(error);
@@ -267,7 +268,7 @@ export default function ViewTableBooking() {
     },
   ];
   return (
-    <div style={{ position: 'fixed', width: '80%' }}>
+    <div style={{ position: 'fixed', width: '90%' }}>
       <button className="generateRate" onClick={exportPDFWithComponent}> Generate Report </button>
       <div
         style={{
