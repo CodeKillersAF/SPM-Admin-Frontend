@@ -4,6 +4,7 @@ import axios from "axios";
 // import TableForm from "../../components/tableForm/TableForm";
 import ViewDetailsBody from "../../components/viewDetailsBody/ViewDetailsBody";
 import DeleteIcon from "@material-ui/icons/Delete";
+import ListAltIcon from '@material-ui/icons/ListAlt';
 import { Edit } from "@material-ui/icons";
 import CheckCircleOutlineIcon from "@material-ui/icons/CheckCircleOutline";
 import Button from "@material-ui/core/Button";
@@ -132,7 +133,7 @@ export default function Orders() {
   };
 
   const completeOrders = (object) => {
-    console.log(object);
+    console.log('object_id', object._id);
 
     var email_payload = {
       to: object.email,
@@ -146,6 +147,7 @@ export default function Orders() {
           console.log("delivery order", response.data.data);
           sendEmail(email_payload);
           alert("Delivery order is completed");
+          getOnlineDeliveryOrders();
         })
         .catch((error) => {
           console.log(error);
@@ -157,6 +159,7 @@ export default function Orders() {
           console.log("takeaway order", response.data.data);
           sendEmail(email_payload);
           alert("Takeaway order is completed");
+          getOnlineTakeAwayOrders();
         })
         .catch((error) => {
           console.log(error);
@@ -175,6 +178,7 @@ export default function Orders() {
         .then((response) => {
           console.log(response.data.data);
           alert("Delivery order is deleted");
+          getOnlineDeliveryOrders();
         })
         .catch((error) => {
           console.log(error);
@@ -187,6 +191,7 @@ export default function Orders() {
         .then((response) => {
           console.log(response.data.data);
           alert("Takeaway order is deleted");
+          getOnlineTakeAwayOrders();
         })
         .catch((error) => {
           console.log(error);
@@ -194,6 +199,7 @@ export default function Orders() {
     } else {
       alert("something went wrong");
     }
+
   };
 
   useEffect(() => {
@@ -286,8 +292,8 @@ export default function Orders() {
               />
             </IconButton>
             <IconButton>
-              <DeleteIcon
-                color="secondary"
+              <ListAltIcon
+                color="info"
                 onClick={(e) => viewFullOrder(e, params.row)}
               />
             </IconButton>
